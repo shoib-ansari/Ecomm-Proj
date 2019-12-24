@@ -457,8 +457,6 @@
     }
 
     function filter_cat(e) {
-    
-      alert("hello shoaib")
       cat_id = e.getAttribute("data-cat_id")
       category = e.getAttribute("data-cat")
       $.ajax({
@@ -490,7 +488,6 @@
     }
 
     function add_to_wish(e, prod_id) {
-      alert("wishlist filter")
       product_id = e.getAttribute("data-prod_id")
       $.ajax({
         url: '/cart/add_to_wishlist',

@@ -457,6 +457,7 @@
     }
 
     function filter_cat(e) {
+      alert("category filter")
       cat_id = e.getAttribute("data-cat_id")
       category = e.getAttribute("data-cat")
       $.ajax({
@@ -488,6 +489,7 @@
     }
 
     function add_to_wish(e, prod_id) {
+      alert("wishlist filter")
       product_id = e.getAttribute("data-prod_id")
       $.ajax({
         url: '/cart/add_to_wishlist',
@@ -514,85 +516,85 @@
         }
       })
     }
-//     $(function () {
-//       sort_criteria =  document.getElementById('filter_data').getAttribute('data-sort-criteria')
-//       var size_filter = []
-//       $('.size_box').change(function () {
-//         $.each($("input[name='size_box']:checked"), function () {
-//           size_filter.push($(this).val());
-//         });
-//         cat = document.getElementById('final_cat').getAttribute('final_cat')
-//         $.ajax({
-//           url: '/products/filter',
-//           type: 'get',
-//           data: {
-//             'sort_criteria': sort_criteria,
-//             'cat': cat,
-//             'size[]' : size_filter
-//           },
-//           beforeSend:function(){
-//             $('#loading_area').show();
-//           },
-//           success:function(){
-//             $('#loading_area').hide();
-//           }
-//         })
-//         size_filter.length = 0
-//       })
-//       // -----------------------------------------------------------------
-//       $("#slider-range").slider({
-//         range: true,
-//         min: 0,
-//         max: 3500,
-//         step: 50,
-//         slide: function (event, ui) {
-//           $("#min-price").html(ui.values[0]);
-//           suffix = '';
-//           if (ui.values[1] == $("#max-price").data('max')) {
-//             suffix = '+';
-//           }
-//           $("#max-price").html(ui.values[1] + suffix);
-//         }
-//       })
+    $(function () {
+      sort_criteria =  document.getElementById('filter_data').getAttribute('data-sort-criteria')
+      var size_filter = []
+      $('.size_box').change(function () {
+        $.each($("input[name='size_box']:checked"), function () {
+          size_filter.push($(this).val());
+        });
+        cat = document.getElementById('final_cat').getAttribute('final_cat')
+        $.ajax({
+          url: '/products/filter',
+          type: 'get',
+          data: {
+            'sort_criteria': sort_criteria,
+            'cat': cat,
+            'size[]' : size_filter
+          },
+          beforeSend:function(){
+            $('#loading_area').show();
+          },
+          success:function(){
+            $('#loading_area').hide();
+          }
+        })
+        size_filter.length = 0
+      })
+      // -----------------------------------------------------------------
+      $("#slider-range").slider({
+        range: true,
+        min: 0,
+        max: 3500,
+        step: 50,
+        slide: function (event, ui) {
+          $("#min-price").html(ui.values[0]);
+          suffix = '';
+          if (ui.values[1] == $("#max-price").data('max')) {
+            suffix = '+';
+          }
+          $("#max-price").html(ui.values[1] + suffix);
+        }
+      })
 
-//       // -----------------------------------------------------------------
-//       $('#filterbtn').click(function () {
-//         $('#filters').toggle(300);
-//       })
-//       $('.sort-item').click(function () {
-//         var sort_criteria = ($(this)).data("sort")
-//         $("input[name*='sort_hide']").val(sort_criteria);
-//         products = []
-//         {% for i in products %}
-//         products.push({{ i.id }});
-//       {% endfor %}
-//       $.ajax({
-//         url: '/products/sort',
-//         type: 'get',
-//         data: {
-//           'sort_criteria': sort_criteria,
-//           'products[]': products
-//         },
-//         beforeSend: function () {
-//           $('#loading_area').show();
-//         },
-//         success: function (data) {
-//           $('#loading_area').hide();
-//           $("#productsect").empty();
-//           for (i = 0; i < data.length; i++) {
-//             if (i == 0) {
-//               products = JSON.parse(data[i])
-//             }
-//             else {
-//               wish = JSON.parse(data[i])
-//             }
-//           }
-//           create_products(products, wish);
-//           document.getElementById('filter_data').setAttribute('data-sort-criteria',sort_criteria)
-//         }
-//       })
-//     })
-// })
+      // -----------------------------------------------------------------
+      $('#filterbtn').click(function () {
+        $('#filters').toggle(300);
+      })
+      $('.sort-item').click(function () {
+        var sort_criteria = ($(this)).data("sort")
+        $("input[name*='sort_hide']").val(sort_criteria);
+        products = []
+        {% for i in products %}
+        products.push({{ i.id }});
+      {% endfor %}
+      $.ajax({
+        url: '/products/sort',
+        type: 'get',
+        data: {
+          'sort_criteria': sort_criteria,
+          'products[]': products
+        },
+        beforeSend: function () {
+          $('#loading_area').show();
+        },
+        success: function (data) {
+          $('#loading_area').hide();
+          $("#productsect").empty();
+          for (i = 0; i < data.length; i++) {
+            if (i == 0) {
+              products = JSON.parse(data[i])
+            }
+            else {
+              wish = JSON.parse(data[i])
+            }
+          }
+          create_products(products, wish);
+          document.getElementById('filter_data').setAttribute('data-sort-criteria',sort_criteria)
+        }
+      })
+    })
+})
   </script>
 
 </body>

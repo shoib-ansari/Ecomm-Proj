@@ -6,8 +6,35 @@ from useraccounts.views import getnavitems
 from cart.models import *
 
 # Create your views here.
+def size_filter(request,prodobj,size_list):
+    color_ids = []
+    prod_ids = []
+    size_obj = Size_variation.objects.filter(size__in=size_list)
+    for i in size_obj:
+        if not i.color_id in color_ids:
+            color_ids.append(i.color_id)
+    color_obj = Color_variation.objects.filter(id__in=color_ids)
+    for i in color_obj:
+        if not i.product_id in prod_ids:
+            prod_ids.append(i.product_id)
+    # print("KKKKKKKKkkkkkKKKKkkkKkKKkKKKKkkKKKKKkk",size_list)
 
-# def sort_inner(request,)
+    # print("KKKKKKKKkkkkkKKKKkkkKkKKkKKKKkkKKKKKkk",color_ids)
+    # print("KKKKKKKKkkkkkKKKKkkkKkKKkKKKKkkKKKKKkk",prod_ids)
+    print("AAAASSSSSSIIIIIIOOye....ooyeeeeee",Product.objects.filter(id__in=prod_ids))
+    return prodobj.filter(id__in=prod_ids)
+    
+def get_wishlist(request):
+    if request.user.is_authenticated:
+        return Wishlist.objects.filter(user=request.user)
+    else:
+        return Wishlist.objects.none()
+
+def get_products_of_subcat(request,sub_cat):
+    print("OOOOOOOOOOOOOOOOOOOO",sub_cat)
+    sub_cat_obj = SubCategory.objects.get(name=sub_cat)
+    print("!!!!!!!!!!!!!!!!!!!!!",Product.objects.filter(sub_category=sub_cat_obj))
+    return Product.objects.filter(sub_category=sub_cat_obj)
 
 def getsubcats(request):
     url = str(request.path)
@@ -29,14 +56,11 @@ def getsubcats(request):
                 subcatlist.append(i)
     return HttpResponse(subcatlist)
 
-
 def getfinalcategories(request):
-
     url = str(request.path)
     temp = url.split("/")
     selected_category = int(temp[3])
     final_category = FinalCategory.objects.filter(sub_category=selected_category)
-
     finalcatlist = []
     if final_category:
         for i in final_category:
@@ -52,7 +76,6 @@ def getfinalcategories(request):
     return HttpResponse(finalcatlist)
 
 def getsubcat(request):
-
     subcat = request.GET.get("category")
     cat_id = MainCategory.objects.get(name=subcat)
     subcategories = SubCategory.objects.filter(main_category=cat_id)
@@ -119,36 +142,79 @@ def show_detailed_product(request):
             prod_size_dict[i.id] = templist
     return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,"color_variation":prod_color_set,"sizes":prod_size_dict})
 
-
-def sort(request):
-    sort_criteria = request.GET.get('sort_criteria')
-    products_ids = request.GET.getlist('products[]')
-    prodobj = Product.objects.none()
+def sort_products(request,prodobj,sort_criteria):
     if sort_criteria == 'lth':
-        prodobj = Product.objects.filter(id__in=products_ids).order_by('Current_Price')
+        return prodobj.order_by('Current_Price')
     elif sort_criteria == 'htl':
-        prodobj = Product.objects.filter(id__in=products_ids).order_by('-Current_Price')
+        return prodobj.order_by('-Current_Price')
     else:
         # Rating filter here
         pass
-    wishobj = Wishlist.objects.filter(user=request.user)
+
+def sort(request):
+    sort_criteria = request.GET.get('sort_criteria')
+    products = request.GET.get('products')
+    sizes = request.GET.getlist('size[]')
+    print("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",products)
+    final_cat = request.GET.get('inner_sort')
+    prodobj = Product.objects.none()
+    if final_cat:
+        prodobj = Product.objects.filter(Final_category_id=final_cat)
+    else:
+        prodobj = get_products_of_subcat(request,products)
+    print("-----------------------------------------",prodobj)
+    if sizes:
+        prodobj = size_filter(request,prodobj,sizes)
+    print("_--------------___________-------------")
+    prodobj = sort_products(request,prodobj,sort_criteria)
+    # Get wishlist
+    wishobj = get_wishlist(request)
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)
 
 
 def filter_final_cat(request):
     final_cat_id = request.GET.get('cat_id')
-    prodobj = Product.objects.filter(Final_category=int(final_cat_id))
-    wishobj = Wishlist.objects.filter(user=request.user)
+    sizes = request.GET.getlist('size[]')
+    prodobj = Product.objects.none()
+    if sizes:
+        print("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",sizes)
+        prodobj = size_filter(request,prodobj,sizes)
+    else:
+        prodobj = Product.objects.all()
+    prodobj = prodobj.filter(Final_category=int(final_cat_id))
+    
+    # get wishlist
+    wishobj = get_wishlist(request)
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)
 
 
+
+
+
 def filter(request):
+    # get wishlist
+    wishobj = get_wishlist(request)
     sort_criteria = request.GET.get('sort_criteria')    
-    cat = request.GET.get('cat')
-    sizes = request.GET.getlist('size')
-    print("---------------------------------------------------------------------")
-    print("------------------------------------------------",sort_criteria)
-    print("-------------------------------------------------------",cat)
-    print("----------------------------------------------",sizes)
+    final_cat = request.GET.get('final_cat')
+    sizes = request.GET.getlist('size[]')
+    print("+++++++++++++++++",sizes)
+    products = request.GET.get('products')
+    if final_cat:
+        print("bhai final cat found--------")
+        prodobj = Product.objects.filter(Final_category_id=final_cat)
+        print("OOOOOOOOOOOOOOOOO",prodobj.count())
+    else:
+        prodobj = get_products_of_subcat(request,products)
+    if sort_criteria:
+        prodobj = sort_products(request,prodobj,sort_criteria)
+        print("OOOOOOOOOOOOOOOOO After Sort-----",prodobj.count())
+
+
+    if sizes:
+        prodobj = size_filter(request,prodobj,sizes)
+        print("OOOOOOOOOOOOOOOOO",prodobj.count())
+
+    data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
+    return JsonResponse(data, safe=False)

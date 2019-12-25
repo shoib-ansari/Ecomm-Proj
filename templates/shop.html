@@ -168,7 +168,7 @@
             <div class="row align">
               <div class="col-md-12 mb-5">
                 <div class="float-md-left">
-                  <h2 class="text-black h5">Shop All</h2>
+                  <h2 class="text-black h5">Shop All</h2><span id="sort_mess" data-sort=""></span>
                 </div>
                 <div class="d-flex">
                   <div class="dropdown mr-1 ml-md-auto">
@@ -240,7 +240,7 @@
       </div>
     </div>
     <input type="hidden" name="sort_hide" value="">
-    <input type="hidden" name="prods" value="">
+    <input type="hidden" name="prods" data-inn_sort="" value="{{sub_cat}}">
     <div class="site-section">
       <div class="container">
         <div class="row">
@@ -389,7 +389,7 @@
       </div>
     </footer>
   </div>
-  <input type="hidden" id="filter_data" data-sort-criteria="">
+  <input type="hidden" id="filter_data">
   <div id="loading_area" style="display: none;">
     <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
   </div>
@@ -459,11 +459,17 @@
     function filter_cat(e) {
       cat_id = e.getAttribute("data-cat_id")
       category = e.getAttribute("data-cat")
+      size_filter = []
+        $.each($("input[name='size_box']:checked"), function () {
+          size_filter.push($(this).val());
+        });
+      $("input[name*='prods']").attr('data-inn_sort',cat_id);
       $.ajax({
         url: '/products/filter_final_cat',
         type: 'get',
         data: {
           'cat_id': cat_id,
+          'size[]':size_filter
         },
         beforeSend: function () {
           $('#loading_area').show();
@@ -487,6 +493,7 @@
       })
     }
 
+// -------------- Function to add to Wishlist --------------------------------------
     function add_to_wish(e, prod_id) {
       product_id = e.getAttribute("data-prod_id")
       $.ajax({
@@ -515,26 +522,44 @@
       })
     }
     $(function () {
-      sort_criteria =  document.getElementById('filter_data').getAttribute('data-sort-criteria')
+      // ------------- Function for size and price filter -------------------------------
+      console.log(document.getElementById('filter_data'))
       var size_filter = []
       $('.size_box').change(function () {
         $.each($("input[name='size_box']:checked"), function () {
           size_filter.push($(this).val());
         });
+        var sort_criteria =  document.getElementById('filter_data').getAttribute('sort-criteria')
         cat = document.getElementById('final_cat').getAttribute('final_cat')
+        final_cat = document.getElementById('final_cat').getAttribute('final_cat')
+        products = $("input[name*='prods']").val();
+        // alert(final_cat)
         $.ajax({
           url: '/products/filter',
           type: 'get',
           data: {
             'sort_criteria': sort_criteria,
-            'cat': cat,
-            'size[]' : size_filter
+            'final_cat': final_cat,
+            'size[]' : size_filter,
+            'products': products
           },
           beforeSend:function(){
             $('#loading_area').show();
           },
-          success:function(){
+          success:function(data){
             $('#loading_area').hide();
+            $("#productsect").empty();
+            // alert(data)
+            console.log(data)
+            for (i = 0; i < data.length; i++) {
+            if (i == 0) {
+              products = JSON.parse(data[i])
+            }
+            else {
+              wish = JSON.parse(data[i])
+            }
+          }
+          create_products(products, wish);
           }
         })
         size_filter.length = 0
@@ -562,16 +587,21 @@
       $('.sort-item').click(function () {
         var sort_criteria = ($(this)).data("sort")
         $("input[name*='sort_hide']").val(sort_criteria);
-        products = []
-        {% for i in products %}
-        products.push({{ i.id }});
-      {% endfor %}
+        products = $("input[name*='prods']").val();
+        inn_sort = document.getElementById('final_cat').getAttribute('final_cat')
+        size_filter = []
+        $.each($("input[name='size_box']:checked"), function () {
+          size_filter.push($(this).val());
+        });
+        // alert(size_filter)
       $.ajax({
         url: '/products/sort',
         type: 'get',
         data: {
           'sort_criteria': sort_criteria,
-          'products[]': products
+          'products': products,
+          'inner_sort': inn_sort,
+          'size[]' : size_filter
         },
         beforeSend: function () {
           $('#loading_area').show();
@@ -588,7 +618,7 @@
             }
           }
           create_products(products, wish);
-          document.getElementById('filter_data').setAttribute('data-sort-criteria',sort_criteria)
+          document.getElementById('filter_data').setAttribute('sort-criteria',sort_criteria)
         }
       })
     })

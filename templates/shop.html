@@ -4,34 +4,22 @@
 <html lang="en">
 
 <head>
-  <title>Dealers &mdash; Colorlib e-Commerce Template</title>
+  <title>Dealers &mdash;E commerce</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link href="https://fonts.googleapis.com/css?family=Rubik:400,700" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
-
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
   <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
   <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
-
-
   <link rel="stylesheet" href="{% static 'css/aos.css' %}">
-
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <script>
-
-
-
-
-  </script>
-
 </head>
 
 <body>
-
   <div class="site-wrap">
     <div class="site-navbar bg-white py-2">
       <div class="search-wrap">
@@ -42,7 +30,6 @@
           </form>
         </div>
       </div>
-
       <div class="container">
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
@@ -95,28 +82,27 @@
             {% else %}
             <a href="#" class="icons-btn d-inline-block"><span class="icon-user-o"></span></a>
             {% endif %}
-
             <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
                 class="icon-menu"></span></a>
           </div>
         </div>
       </div>
     </div>
-
     <div class="site-section">
       <div class="container-fluid">
         <div class="row mb-5">
           <div class="col-md-3" id="filters">
             <div class="border p-4 mb-4">
-              <h3 class="mb-3 h6 text-uppercase text-black" style="user-select: none;">Categories in {{sub_cat}}<span id="final_cat" data-cat=""></span></h3>
+              <h3 class="mb-3 h6 text-uppercase text-black" style="user-select: none;">Categories in {{sub_cat}}<span
+                  id="final_cat" data-cat=""></span></h3>
               <ul class="list-unstyled">
                 {% for i in categories %}
-                <li class="mb-1" onclick="filter_cat(this)" class="categories" data-cat_id="{{i.id}}" data-cat="{{i}}"><a
-                    class="d-flex"><span>{{i}}</span> <span class="text-black ml-auto">(2,220)</span></a></li>
+                <li class="mb-1" onclick="filter_cat(this)" class="categories" data-cat_id="{{i.id}}" data-cat="{{i}}">
+                  <a class="d-flex"><span>{{i}}</span> <span class="text-black ml-auto">(2,220)</span></a></li>
                 {% endfor %}
               </ul>
             </div>
-            <form action="#" method="get">
+         
               <div class="border p-4  container-fluid">
                 <div class=" row">
                   <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
@@ -130,14 +116,13 @@
                       </div>
                       <span id="min-price" data-currency="₹" class="slider-price">0</span> <span
                         class="seperator">-</span> <span id="max-price" data-currency="₹" data-max="3500"
-                        class="slider-price">3500+</span>
+                        class="slider-price">3500</span>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <button type="submit" class="btn btn-outline-primary m-auto">Search</button>
+                  <button onclick="filter_prods()" class="btn btn-outline-primary m-auto">Search</button>
                 </div>
-
                 <div class="container-fluid">
                   <div class="mb-4">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
@@ -149,12 +134,11 @@
                     </label>
                     {% endfor %}
                   </div>
-
                   <div class="mb-4">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
                     {% for i in colors %}
                     <div class="d-flex color-item align-items-center">
-                      <input type="checkbox" name="color_box" id="{{i}}" value="{{i}}">
+                      <input type="checkbox" class="color_box" name="color_box" id="{{i}}" value="{{i}}">
                       <label for="{{i}}" style="cursor:pointer;" class=" ml-1 mr-2">{{i}}</label>
                     </div>
                     {% endfor %}
@@ -162,7 +146,6 @@
                   </div>
                 </div>
               </div>
-            </form>
           </div>
           <div class="col-md-9 ">
             <div class="row align">
@@ -188,11 +171,9 @@
                     <button type="button" id="filterbtn"
                       class="btn btn-white btn-sm dropdown-toggle px-4 m-2">Filters</button>
                   </div>
-
                 </div>
               </div>
             </div>
-
             <div class="row mb-5" id="productsect">
               {% for i in products %}
               <!-- Put col-md-3 for 4 products per row  And col-md-4 for 3 products per row -->
@@ -236,7 +217,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <input type="hidden" name="sort_hide" value="">
@@ -251,7 +231,6 @@
         <div class="row">
           <div class="col-md-12 block-3 products-wrap">
             <div class="nonloop-block-3 owl-carousel">
-
               <div class="product">
                 <a href="shop-single.html" class="item">
                   <img src="{% static 'images/product_1.jpg' %}" alt="Image" class="img-fluid">
@@ -262,7 +241,6 @@
                   </div>
                 </a>
               </div>
-
               <div class="product">
                 <a href="shop-single.html" class="item">
                   <span class="tag">Sale</span>
@@ -274,7 +252,6 @@
                   </div>
                 </a>
               </div>
-
               <div class="product">
                 <a href="shop-single.html" class="item">
                   <img src="{% static 'images/product_3.jpg' %}" alt="Image" class="img-fluid">
@@ -285,7 +262,6 @@
                   </div>
                 </a>
               </div>
-
               <div class="product">
                 <a href="shop-single.html" class="item">
                   <img src="{% static 'images/product_1.jpg' %}" alt="Image" class="img-fluid">
@@ -296,7 +272,6 @@
                   </div>
                 </a>
               </div>
-
               <div class="product">
                 <a href="shop-single.html" class="item">
                   <span class="tag">Sale</span>
@@ -394,6 +369,7 @@
     <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
   </div>
 
+
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/jquery-ui.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
@@ -455,21 +431,28 @@
         {% endif %}
       }
     }
-
+    // _______________-------------- CATEGORY FILTER --------------_______________________ //
     function filter_cat(e) {
+      var sort_criteria = document.getElementById('filter_data').getAttribute('sort-criteria')
       cat_id = e.getAttribute("data-cat_id")
       category = e.getAttribute("data-cat")
       size_filter = []
-        $.each($("input[name='size_box']:checked"), function () {
-          size_filter.push($(this).val());
+      color_filter = []
+      $.each($("input[name='size_box']:checked"), function () {
+        size_filter.push($(this).val());
+      });
+      $.each($("input[name='color_box']:checked"), function () {
+          color_filter.push($(this).val());
         });
-      $("input[name*='prods']").attr('data-inn_sort',cat_id);
+      $("input[name*='prods']").attr('data-inn_sort', cat_id);
       $.ajax({
         url: '/products/filter_final_cat',
         type: 'get',
         data: {
+          'sort_criteria': sort_criteria,
           'cat_id': cat_id,
-          'size[]':size_filter
+          'colors[]': color_filter,
+          'size[]': size_filter
         },
         beforeSend: function () {
           $('#loading_area').show();
@@ -487,13 +470,63 @@
           create_products(products, wish);
           $('#loading_area').hide();
           var final_category = document.getElementById('final_cat')
-          final_category.innerHTML = " ("+category+")"
-          final_category.setAttribute('final_cat',cat_id)
+          final_category.innerHTML = " (" + category + ")"
+          final_category.setAttribute('final_cat', cat_id)
         }
       })
     }
 
-// -------------- Function to add to Wishlist --------------------------------------
+function filter_prods(){
+      var size_filter = []
+      var color_filter = []
+      var min_price = $('#min-price').html()
+      var max_price = $('#max-price').html()
+  $.each($("input[name='size_box']:checked"), function () {
+          size_filter.push($(this).val());
+        });
+        $.each($("input[name='color_box']:checked"), function () {
+          color_filter.push($(this).val());
+        });
+        var sort_criteria = document.getElementById('filter_data').getAttribute('sort-criteria')
+        cat = document.getElementById('final_cat').getAttribute('final_cat')
+        final_cat = document.getElementById('final_cat').getAttribute('final_cat')
+        products = $("input[name*='prods']").val();
+        $.ajax({
+          url: '/products/filter',
+          type: 'get',
+          data: {
+            'sort_criteria': sort_criteria,
+            'colors[]': color_filter,
+            'final_cat': final_cat,
+            'size[]': size_filter,
+            'products': products,
+            'min_price':min_price,
+            'max_price':max_price
+          },
+          beforeSend: function () {
+            $('#loading_area').show();
+          },
+          success: function (data) {
+            $('#loading_area').hide();
+            $("#productsect").empty();
+            console.log(data)
+            for (i = 0; i < data.length; i++) {
+              if (i == 0) {
+                products = JSON.parse(data[i])
+              }
+              else {
+                wish = JSON.parse(data[i])
+              }
+            }
+            create_products(products, wish);
+          }
+        })
+        size_filter.length = 0
+        color_filter.length = 0
+      }
+
+
+    // -------------- Function to add to Wishlist --------------------------------------
     function add_to_wish(e, prod_id) {
       product_id = e.getAttribute("data-prod_id")
       $.ajax({
@@ -522,48 +555,9 @@
       })
     }
     $(function () {
-      // ------------- Function for size and price filter -------------------------------
-      console.log(document.getElementById('filter_data'))
-      var size_filter = []
-      $('.size_box').change(function () {
-        $.each($("input[name='size_box']:checked"), function () {
-          size_filter.push($(this).val());
-        });
-        var sort_criteria =  document.getElementById('filter_data').getAttribute('sort-criteria')
-        cat = document.getElementById('final_cat').getAttribute('final_cat')
-        final_cat = document.getElementById('final_cat').getAttribute('final_cat')
-        products = $("input[name*='prods']").val();
-        // alert(final_cat)
-        $.ajax({
-          url: '/products/filter',
-          type: 'get',
-          data: {
-            'sort_criteria': sort_criteria,
-            'final_cat': final_cat,
-            'size[]' : size_filter,
-            'products': products
-          },
-          beforeSend:function(){
-            $('#loading_area').show();
-          },
-          success:function(data){
-            $('#loading_area').hide();
-            $("#productsect").empty();
-            // alert(data)
-            console.log(data)
-            for (i = 0; i < data.length; i++) {
-            if (i == 0) {
-              products = JSON.parse(data[i])
-            }
-            else {
-              wish = JSON.parse(data[i])
-            }
-          }
-          create_products(products, wish);
-          }
-        })
-        size_filter.length = 0
-      })
+      // ------------- Function for Color , size and price filter ('/products/filter') -------------------------------
+      $('.size_box, .color_box').change(function () {filter_prods();})
+       
       // -----------------------------------------------------------------
       $("#slider-range").slider({
         range: true,
@@ -574,7 +568,7 @@
           $("#min-price").html(ui.values[0]);
           suffix = '';
           if (ui.values[1] == $("#max-price").data('max')) {
-            suffix = '+';
+            suffix = '';
           }
           $("#max-price").html(ui.values[1] + suffix);
         }
@@ -584,45 +578,50 @@
       $('#filterbtn').click(function () {
         $('#filters').toggle(300);
       })
+      // <<<<<<<<<<<<<<<<<<<<<<<<<<< Function to sort items >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> //
       $('.sort-item').click(function () {
         var sort_criteria = ($(this)).data("sort")
         $("input[name*='sort_hide']").val(sort_criteria);
         products = $("input[name*='prods']").val();
         inn_sort = document.getElementById('final_cat').getAttribute('final_cat')
         size_filter = []
+        color_filter = []
         $.each($("input[name='size_box']:checked"), function () {
           size_filter.push($(this).val());
         });
-        // alert(size_filter)
-      $.ajax({
-        url: '/products/sort',
-        type: 'get',
-        data: {
-          'sort_criteria': sort_criteria,
-          'products': products,
-          'inner_sort': inn_sort,
-          'size[]' : size_filter
-        },
-        beforeSend: function () {
-          $('#loading_area').show();
-        },
-        success: function (data) {
-          $('#loading_area').hide();
-          $("#productsect").empty();
-          for (i = 0; i < data.length; i++) {
-            if (i == 0) {
-              products = JSON.parse(data[i])
+        $.each($("input[name='color_box']:checked"), function () {
+          color_filter.push($(this).val());
+        });
+        $.ajax({
+          url: '/products/sort',
+          type: 'get',
+          data: {
+            'sort_criteria': sort_criteria,
+            'products': products,
+            'colors[]': color_filter,
+            'inner_sort': inn_sort,
+            'size[]': size_filter
+          },
+          beforeSend: function () {
+            $('#loading_area').show();
+          },
+          success: function (data) {
+            $('#loading_area').hide();
+            $("#productsect").empty();
+            for (i = 0; i < data.length; i++) {
+              if (i == 0) {
+                products = JSON.parse(data[i])
+              }
+              else {
+                wish = JSON.parse(data[i])
+              }
             }
-            else {
-              wish = JSON.parse(data[i])
-            }
+            create_products(products, wish);
+            document.getElementById('filter_data').setAttribute('sort-criteria', sort_criteria)
           }
-          create_products(products, wish);
-          document.getElementById('filter_data').setAttribute('sort-criteria',sort_criteria)
-        }
+        })
       })
     })
-})
 
   </script>
 

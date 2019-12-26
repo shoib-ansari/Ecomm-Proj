@@ -47,7 +47,6 @@ def register(request):
         userobj = User.objects.create(username=name, email=email, contact=contact_number, password=password)
         userobj.set_password(password)
         userobj.save()
-        Cart.objects.create(user=userobj)
         auth.login(request, userobj)
         return JsonResponse("user has been registered scusssfully", safe=False)
 

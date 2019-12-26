@@ -4,12 +4,35 @@ from django.core import serializers
 from .models import *
 from useraccounts.views import getnavitems
 from cart.models import *
+from django.db.models import Q
+
 
 # Create your views here.
+
+def price_filter(request,prodobj,min_price,max_price):
+    return prodobj.filter(Q(Current_Price__gte=int(min_price)) & Q(Current_Price__lte=(max_price)))
+
+def color_filter(request,prodobj,colors):
+    prod_ids = []
+    color_list = []
+    for i in prodobj:
+        prod_ids.append(i.id)
+    print(prod_ids)
+    color_obj = Color_variation.objects.filter(product_id__in=prod_ids)
+    print(color_obj)
+    for i in color_obj:
+        if i.color in colors:
+            color_list.append(i.product_id)
+    print(prod_ids)
+    print(color_list)
+    print(",,<<<<<<<<<<<<<<<<<<<|||||||>>>>>>>>>>>>>>>>>>>>>>",Product.objects.filter(id__in=color_list))
+    return Product.objects.filter(id__in=color_list)
+
 def size_filter(request,prodobj,size_list):
     color_ids = []
     prod_ids = []
     size_obj = Size_variation.objects.filter(size__in=size_list)
+    print("---------",size_obj)
     for i in size_obj:
         if not i.color_id in color_ids:
             color_ids.append(i.color_id)
@@ -17,11 +40,8 @@ def size_filter(request,prodobj,size_list):
     for i in color_obj:
         if not i.product_id in prod_ids:
             prod_ids.append(i.product_id)
-    # print("KKKKKKKKkkkkkKKKKkkkKkKKkKKKKkkKKKKKkk",size_list)
-
-    # print("KKKKKKKKkkkkkKKKKkkkKkKKkKKKKkkKKKKKkk",color_ids)
-    # print("KKKKKKKKkkkkkKKKKkkkKkKKkKKKKkkKKKKKkk",prod_ids)
-    print("AAAASSSSSSIIIIIIOOye....ooyeeeeee",Product.objects.filter(id__in=prod_ids))
+    print("----------------------",color_obj)
+    print("----------------------",prod_ids)
     return prodobj.filter(id__in=prod_ids)
     
 def get_wishlist(request):
@@ -31,9 +51,7 @@ def get_wishlist(request):
         return Wishlist.objects.none()
 
 def get_products_of_subcat(request,sub_cat):
-    print("OOOOOOOOOOOOOOOOOOOO",sub_cat)
     sub_cat_obj = SubCategory.objects.get(name=sub_cat)
-    print("!!!!!!!!!!!!!!!!!!!!!",Product.objects.filter(sub_category=sub_cat_obj))
     return Product.objects.filter(sub_category=sub_cat_obj)
 
 def getsubcats(request):
@@ -115,14 +133,14 @@ def showproducts(request):
                 color_list.append(i.color)
     size_set = Size_variation.objects.filter(color__in=color_id_list)
     for i in size_set:
-        size_list.append(i.size)
+        if not i.size in size_list:
+            size_list.append(i.size)
 
     wishlist = []
     if request.user.is_authenticated:
         wishobj = Wishlist.objects.filter(user=request.user)
         for i in wishobj:
             wishlist.append(i.product_id)
-
     return render(request,'shop.html',{"products":product_set,"nav_products":nav_product_dict,"categories":categories,'colors':color_list,'sizes':size_list,"sub_cat":sub_cat,"wishlist":wishlist})
 
 def show_detailed_product(request):
@@ -140,7 +158,8 @@ def show_detailed_product(request):
         for j in  temp_set:
             templist.append(j.size)
             prod_size_dict[i.id] = templist
-    return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,"color_variation":prod_color_set,"sizes":prod_size_dict})
+    cart_count = Cart.objects.filter(user=request.user).values('product').distinct().count()
+    return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,"color_variation":prod_color_set,"sizes":prod_size_dict,"cart_count":cart_count})
 
 def sort_products(request,prodobj,sort_criteria):
     if sort_criteria == 'lth':
@@ -155,43 +174,40 @@ def sort(request):
     sort_criteria = request.GET.get('sort_criteria')
     products = request.GET.get('products')
     sizes = request.GET.getlist('size[]')
-    print("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",products)
     final_cat = request.GET.get('inner_sort')
+    colors = request.GET.getlist('colors[]')
     prodobj = Product.objects.none()
     if final_cat:
         prodobj = Product.objects.filter(Final_category_id=final_cat)
     else:
         prodobj = get_products_of_subcat(request,products)
-    print("-----------------------------------------",prodobj)
     if sizes:
         prodobj = size_filter(request,prodobj,sizes)
-    print("_--------------___________-------------")
+    if colors:
+        prodobj = color_filter(request,prodobj,colors)
     prodobj = sort_products(request,prodobj,sort_criteria)
     # Get wishlist
     wishobj = get_wishlist(request)
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)
 
-
 def filter_final_cat(request):
     final_cat_id = request.GET.get('cat_id')
     sizes = request.GET.getlist('size[]')
-    prodobj = Product.objects.none()
+    prodobj = Product.objects.all()
+    colors = request.GET.getlist('colors[]')
+    sort_criteria = request.GET.get('sort_criteria')    
     if sizes:
-        print("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",sizes)
         prodobj = size_filter(request,prodobj,sizes)
-    else:
-        prodobj = Product.objects.all()
     prodobj = prodobj.filter(Final_category=int(final_cat_id))
-    
+    if colors:
+        prodobj = color_filter(request,prodobj,colors)
+    if sort_criteria:
+        prodobj = sort_products(request,prodobj,sort_criteria)
     # get wishlist
     wishobj = get_wishlist(request)
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)
-
-
-
-
 
 def filter(request):
     # get wishlist
@@ -199,22 +215,20 @@ def filter(request):
     sort_criteria = request.GET.get('sort_criteria')    
     final_cat = request.GET.get('final_cat')
     sizes = request.GET.getlist('size[]')
-    print("+++++++++++++++++",sizes)
     products = request.GET.get('products')
+    colors = request.GET.getlist('colors[]')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
     if final_cat:
-        print("bhai final cat found--------")
         prodobj = Product.objects.filter(Final_category_id=final_cat)
-        print("OOOOOOOOOOOOOOOOO",prodobj.count())
     else:
         prodobj = get_products_of_subcat(request,products)
-    if sort_criteria:
-        prodobj = sort_products(request,prodobj,sort_criteria)
-        print("OOOOOOOOOOOOOOOOO After Sort-----",prodobj.count())
-
-
+    prodobj = price_filter(request,prodobj,min_price,max_price)
     if sizes:
         prodobj = size_filter(request,prodobj,sizes)
-        print("OOOOOOOOOOOOOOOOO",prodobj.count())
-
+    if colors:
+        prodobj = color_filter(request,prodobj,colors)
+    if sort_criteria:
+        prodobj = sort_products(request,prodobj,sort_criteria)
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)

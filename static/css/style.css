@@ -1523,6 +1523,32 @@ figure.effect-jazz:hover p {
   }
 }
 
+.message{
+  position: fixed;
+  bottom: 10%;
+  width: 90%;
+  left: 5%;
+  background-color: #000;
+  z-index: 9999;
+  color: white;
+  padding: 1% 0% 1% 5%;
+  opacity: 0.8;
+  font-weight: 400;
+  font-family: monospace;
+  box-shadow: 6px 4px 5px black;
+  border-radius: 3px;
+  animation-name: message;
+  animation-duration: 1s;
+}
+
+@keyframes message{
+  0%   {bottom: 0%;
+        opacity: 0;
+  }
+  100% {bottom: 10%;
+  opacity: 0.8;}
+}
+
 @media(max-width:768px){
   #loginbtn , #regbtn{
     width: 60%;

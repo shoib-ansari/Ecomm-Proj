@@ -1788,7 +1788,7 @@ img {
     margin-left: 15px;
     text-transform: uppercase;
     width: 150px;
-    cursor: no-drop;
+    cursor: pointer;
     border-radius: 0;
 }
 #size_list li{

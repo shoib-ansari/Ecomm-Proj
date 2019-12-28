@@ -17,15 +17,10 @@ def color_filter(request,prodobj,colors):
     color_list = []
     for i in prodobj:
         prod_ids.append(i.id)
-    print(prod_ids)
     color_obj = Color_variation.objects.filter(product_id__in=prod_ids)
-    print(color_obj)
     for i in color_obj:
         if i.color in colors:
             color_list.append(i.product_id)
-    print(prod_ids)
-    print(color_list)
-    print(",,<<<<<<<<<<<<<<<<<<<|||||||>>>>>>>>>>>>>>>>>>>>>>",Product.objects.filter(id__in=color_list))
     return Product.objects.filter(id__in=color_list)
 
 def size_filter(request,prodobj,size_list):
@@ -158,7 +153,7 @@ def show_detailed_product(request):
         for j in  temp_set:
             templist.append(j.size)
             prod_size_dict[i.id] = templist
-    cart_count = Cart.objects.filter(user=request.user).values('product').distinct().count()
+    cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
     return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,"color_variation":prod_color_set,"sizes":prod_size_dict,"cart_count":cart_count})
 
 def sort_products(request,prodobj,sort_criteria):

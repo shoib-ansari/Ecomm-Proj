@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'products',
     'nested_inline',
     'cart',
+    'offers',
 ]
 
 MIDDLEWARE = [

@@ -76,7 +76,7 @@
             <a href="#" class="icons-btn d-inline-block"><span class="icon-heart-o"></span></a>
             <a href="cart.html" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
-              <span class="number">2</span>
+              <span class="number">{{cart_count}}</span>
             </a>
             <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
                 class="icon-menu"></span></a>
@@ -84,8 +84,7 @@
         </div>
       </div>
     </div>
-
-    <div class="bg-light py-3">
+    <div class="bg-light mt-4 py-3">
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
@@ -96,90 +95,43 @@
 
     <div class="container">
       <div class="row">
+        {% for i in cart_products %}
         <!-- Product start -->
-        <div class="col-md-3 m-4">
+        <div class="col-md-3 m-4" id="p_c_{{i.id}}">
           <a href="#" class="btn btn-primary removebtn">X</a>
           <div class="row">
-            <img src="{% static 'images/cloth_1.jpg' %}" class="img-fluid" alt="" srcset="">
+            <img src="{{i.image}}" class="img-fluid" alt="" srcset="">
           </div>
           <div class="cartdetail">
             <div class="row">
-              <h3> Tank tops </h3>
+              <h3> {{i.name}} </h3>
             </div>
             <div class="row">
-              <strike>₹1200</strike>&nbsp;<span class="text-success">₹1000</span>
+              <h5><small>Color:- &nbsp</small>{{i.color}}</h5>
+              <h5 class="ml-2"><small>Size:- &nbsp</small>{{i.size}}</h5>
+            </div>
+            <div class="row">
+              <strike>₹{{i.max_price}}</strike>&nbsp;<span class="text-success">₹{{i.price}}</span>
             </div>
             <div class="row m-2">
               <div class="input-group mb-3" style="max-width: 120px;">
                 <div class="input-group-prepend">
-                  <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                  <button class="btn btn-outline-primary" clr_id="{{i.id}}"
+                    onclick="update_qty(this,'down')">&minus;</button>
                 </div>
-                <input type="text" class="form-control text-center" value="1" placeholder=""
-                  aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <input type="text" class="form-control text-center" id="qty_of_{{i.id}}" value="{{i.Quantity}}"
+                  readonly>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                  <button class="btn btn-outline-primary" clr_id="{{i.id}}"
+                    onclick="update_qty(this,'up')">&plus;</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <!-- Product Ends -->
-        <!-- Product start -->
-        <div class="col-md-3 m-4">
-          <a href="#" class="btn btn-primary removebtn">X</a>
-          <div class="row">
-            <img src="{% static 'images/cloth_2.jpg' %}" class="img-fluid" alt="" srcset="">
-          </div>
-          <div class="cartdetail">
-            <div class="row">
-              <h3> collor t-shirt </h3>
-            </div>
-            <div class="row">
-              <strike>₹1200</strike>&nbsp;<span class="text-success">₹1000</span>
-            </div>
-            <div class="row m-2">
-              <div class="input-group mb-3" style="max-width: 120px;">
-                <div class="input-group-prepend">
-                  <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                </div>
-                <input type="text" class="form-control text-center" value="1" placeholder=""
-                  aria-label="Example text with button addon" aria-describedby="button-addon1">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Product Ends -->
-        <!-- Product start -->
-        <div class="col-md-3 m-4">
-          <a href="#" class="btn btn-primary removebtn">X</a>
-          <div class="row">
-            <img src="{% static 'images/cloth_3.jpg' %}" class="img-fluid" alt="" srcset="">
-          </div>
-          <div class="cartdetail">
-            <div class="row">
-              <h3> Rounded t-shirt </h3>
-            </div>
-            <div class="row">
-              <strike>₹1200</strike>&nbsp;<span class="text-success">₹1000</span>
-            </div>
-            <div class="row m-2">
-              <div class="input-group mb-3" style="max-width: 120px;">
-                <div class="input-group-prepend">
-                  <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                </div>
-                <input type="text" class="form-control text-center" value="1" placeholder=""
-                  aria-label="Example text with button addon" aria-describedby="button-addon1">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Product Ends -->
+        {% endfor %}
+
       </div>
     </div>
 
@@ -231,42 +183,42 @@
             <!-- COUPON AREA ENDS -->
             <!-- COUPON START -->
             <div class="row mt-2">
-                <div class="col-md-4">
-                  <img src="{% static 'images/coupons/c2.png' %}" class="img-fluid" alt="" srcset="">
+              <div class="col-md-4">
+                <img src="{% static 'images/coupons/c2.png' %}" class="img-fluid" alt="" srcset="">
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  First50
                 </div>
-                <div class="col-md-8">
-                  <div class="row">
-                    First50
-                  </div>
-                  <div class="row border-bottom">
-                    Flash 50 back on applying this offer
-                  </div>
-                  <div class="row applybtn">
-                    APPLY
-                  </div>
+                <div class="row border-bottom">
+                  Flash 50 back on applying this offer
+                </div>
+                <div class="row applybtn">
+                  APPLY
                 </div>
               </div>
-              <!-- COUPON ENDS -->
-              <!-- COUPON AREA ENDS -->
-              <!-- COUPON START -->
+            </div>
+            <!-- COUPON ENDS -->
+            <!-- COUPON AREA ENDS -->
+            <!-- COUPON START -->
             <div class="row mt-2">
-                <div class="col-md-4">
-                  <img src="{% static 'images/coupons/c3.png' %}" class="img-fluid" alt="" srcset="">
+              <div class="col-md-4">
+                <img src="{% static 'images/coupons/c3.png' %}" class="img-fluid" alt="" srcset="">
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  Redeem
                 </div>
-                <div class="col-md-8">
-                  <div class="row">
-                    Redeem
-                  </div>
-                  <div class="row border-bottom">
-                    get 20 % off on min purchase of 2000
-                  </div>
-                  <div class="row applybtn">
-                    APPLY
-                  </div>
+                <div class="row border-bottom">
+                  get 20 % off on min purchase of 2000
+                </div>
+                <div class="row applybtn">
+                  APPLY
                 </div>
               </div>
-              <!-- COUPON ENDS -->
-              <!-- COUPON AREA ENDS -->
+            </div>
+            <!-- COUPON ENDS -->
+            <!-- COUPON AREA ENDS -->
           </div>
           <div class="col-md-6 pl-5">
             <div class="row justify-content-end">
@@ -281,7 +233,7 @@
                     <span class="text-black">Subtotal</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black">$<span id="ttl_amt">{{total}}</span></strong>
                   </div>
                 </div>
                 <div class="row mb-5">
@@ -311,7 +263,6 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-
             <div class="block-7">
               <h3 class="footer-heading mb-4">About Us</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates
@@ -386,6 +337,10 @@
       </div>
     </footer>
   </div>
+  <div id="loading_area" style="display: none;">
+    <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+  </div>
+
 
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/jquery-ui.js' %}"></script>
@@ -393,9 +348,56 @@
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/owl.carousel.min.js' %}"></script>
   <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-  <script src="{% static 'js/aos.js' %}"></script>
+  <!-- <script src="{% static 'js/aos.js' %}"></script> -->
 
-  <script src="{% static 'js/main.js' %}"></script>
+  <!-- <script src="{% static 'js/main.js' %}"></script> -->
+  <script>
+    function update_qty(ele, temp) {
+
+      $.ajax({
+        url: '/cart/update_cart',
+        type: 'get',
+        data: {
+          'id': ele.getAttribute('clr_id'),
+          'data': temp
+        },
+        beforeSend: function () {
+          $('#loading_area').show();
+        },
+        success: function (data) {
+          qty = 0;
+          amt = 0;
+          $('#loading_area').hide();
+          var arr = data.split("?")
+          // If product remain in cart (i.e.., qty is more than 0)
+          var amt = document.getElementById("ttl_amt").innerHTML;
+          if (arr[2] == 'Y') {
+            var target_id = "qty_of_" + arr[0]
+            var qty = document.getElementById(target_id).value;
+            if (temp == 'up') {
+              amt = parseInt(amt) + parseInt(arr[1])
+              qty++;
+            }
+            else {
+              amt = parseInt(amt) - parseInt(arr[1])
+              qty--;
+            }
+            document.getElementById(target_id).value = qty;
+            // update amount
+            $('#ttl_amt').html(amt)
+          }
+          //  product deleted from the cart (i.e.., qty is 0)
+          else {
+            target_id = "p_c_" + arr[0]
+            document.getElementById(target_id).remove()
+            amt = parseInt(amt) - parseInt(arr[1])
+            $('#ttl_amt').html(amt)
+          }
+          $('.number').html(parseInt(arr[3]))
+        }
+      })
+    }
+  </script>
 
 </body>
 

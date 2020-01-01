@@ -476,12 +476,13 @@
       })
     }
 
-function filter_prods(){
+// filter products for price , size and color
+  function filter_prods(){
       var size_filter = []
       var color_filter = []
       var min_price = $('#min-price').html()
       var max_price = $('#max-price').html()
-  $.each($("input[name='size_box']:checked"), function () {
+      $.each($("input[name='size_box']:checked"), function () {
           size_filter.push($(this).val());
         });
         $.each($("input[name='color_box']:checked"), function () {
@@ -557,7 +558,6 @@ function filter_prods(){
     $(function () {
       // ------------- Function for Color , size and price filter ('/products/filter') -------------------------------
       $('.size_box, .color_box').change(function () {filter_prods();})
-       
       // -----------------------------------------------------------------
       $("#slider-range").slider({
         range: true,

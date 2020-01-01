@@ -9,5 +9,6 @@ urlpatterns = [
     re_path(r'^view_',views.show_detailed_product,name="Show product on single page"),
     path('sort',views.sort,name="Sort Products through Ajax"),
     path('filter_final_cat',views.filter_final_cat,name="filter final category through Ajax"),
-    path('filter',views.filter,name='filter price, size and color')
+    path('filter',views.filter,name='filter price, size and color'),
+    path('search',views.search,name='search products')
 ]

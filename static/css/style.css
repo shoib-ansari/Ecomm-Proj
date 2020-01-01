@@ -13,7 +13,15 @@ color: black; }
 ::selection {
   background: #000;
   color: #fff; }
-
+#inv_mess{
+  /* display: none; */
+  color: firebrick;
+  font-weight: 700;
+  padding-left: 5%;
+}
+#coupon_apl_btn ,#coupon_rmv_btn{
+  display: none;
+}
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;

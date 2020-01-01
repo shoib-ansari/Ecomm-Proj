@@ -227,3 +227,31 @@ def filter(request):
         prodobj = sort_products(request,prodobj,sort_criteria)
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)
+
+def search(request):
+    query = request.GET.get('query')
+    print("-----------------------------------------------------------------")
+    print(query)
+    querylist = query.split(" ")
+    resultid = []
+    for i in querylist:
+        prodobj = Product.objects.filter(Product_Name__icontains=i)
+        for j in prodobj:
+            resultid.append(j.id)
+    for i in querylist:
+        prodobj = Product.objects.filter(Keywords__icontains=i)
+        for j in prodobj:
+            resultid.append(j.id)
+    searchid = []
+    for i in resultid:
+        if i not in searchid:
+            searchid.append(i)
+    print("-----------------------------------||||------------------------------")
+    print(searchid)
+    prodobj = Product.objects.values('Product_Name').filter(id__in=searchid)
+    # print(type(prodobj))
+    # print("search kr lia..............................")
+    # import json
+    # prodobj = json.dumps(prodobj, sort_keys=True)
+    # return JsonResponse(serializers.serialize('json',prodobj), safe=False)
+    return HttpResponse(prodobj)

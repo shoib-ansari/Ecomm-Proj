@@ -1,4 +1,5 @@
 from django.db import models
+from offers.models import Offer
 
 # Create your models here.
 
@@ -41,6 +42,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to="Product_Images")
     rating = models.DecimalField(default=0,decimal_places=1,max_digits=5)
     total_ratings = models.IntegerField(default=0)
+    offer = models.ForeignKey(Offer,on_delete=models.CASCADE,default=None,null=True,blank=True)
 
 
     def __str__(self):

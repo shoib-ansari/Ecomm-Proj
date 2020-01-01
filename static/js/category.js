@@ -6,17 +6,10 @@ $(document).ready(function () {
         $id = ($(this).attr('id'))
         var option_name = $(this).find('*');
         option_name.remove('*')
-        // alert(option_name)
-        // for ($i=option_name.length-1;$i>=1;$i--){
-        //     alert($i)
-        //     console.log($i)
-        //     option_name.remove($i);
-        //     console.log("---------------"+$i)
-        // }
     });
     $.ajax({
         url: '/products/getsubcat',
-        type: 'get', // This is the default though, you don't actually need to always mention it
+        type: 'get',
         data: {
             category: category
         },
@@ -37,7 +30,6 @@ $(document).ready(function () {
                             .attr("value", id[i])
                             .text(name[i]));
                 }
-                
             });
 },
     failure: function (data) {

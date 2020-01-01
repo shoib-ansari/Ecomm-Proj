@@ -19,7 +19,6 @@
   <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
-
 <body>
 
   {% if messages %} {% for message in messages %}
@@ -33,7 +32,7 @@
         <div class="container">
           <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
           <form action="#" method="post">
-            <input type="text" class="form-control" placeholder="search Here....." />
+            <input type="text" class="form-control" placeholder="search Here....." id="prod_search" />
           </form>
         </div>
       </div>
@@ -48,7 +47,6 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-
                   {% for key , value in products.items %}
                   <li class="has-children active">
                       <a href="/">{{ key }}</a>
@@ -63,16 +61,9 @@
                             </ul>
                           </li>
                         {% endfor %}
-                       
                       </ul>
                     </li>
-
                     {% endfor %}
-
-
-               
-                  
-
                 {% if request.user.is_authenticated %}
                 <li class="has-children active">
                   <big><a><span class="icon-user-o"></span> &nbsp;{{user.username}}</big></a>
@@ -467,16 +458,12 @@
       </form>
     </div>
   </div>
-
-
-
-
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-  <script src="{% static 'js/jquery-ui.js' %}"></script>
-  <script src="{% static 'js/popper.min.js' %}"></script>
+  <!-- <script src="{% static 'js/jquery-ui.js' %}"></script> -->
+  <!-- <script src="{% static 'js/popper.min.js' %}"></script> -->
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  <!-- <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script> -->
   <script src="{% static 'js/aos.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
   <script>
@@ -495,10 +482,6 @@
       $(".close").click(function () {
         $("#logindiv").fadeOut(200);
       });
-
-
-
-
     });
 
    
@@ -617,6 +600,25 @@
   </script>
 
   <!-- ajax function to check username allready exists Ends -->
+  <script>
+  $('#prod_search').keyup(function () {
+      $.ajax({
+        url:'/products/search',
+        type:'get',
+        data :{
+          'query' : $(this).val()
+        },
+        beforeSend: function(){
+
+        },
+        success:function(data){
+          data = JSON.parse(data)
+          console.log(data)
+          console.log(typeof(data))
+        }
+      })
+    })
+  </script>
 
 </body>
 

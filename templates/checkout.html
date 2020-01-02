@@ -215,13 +215,19 @@
                         <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
                         <td class="text-black">${{total}}</td>
                       </tr>
+                      {% if cashback %}
                       <tr>
                         <td class="text-success font-weight-bold"><strong>Cashback</strong></td>
-                        <td class="text-success">$350.00</td>
+                        <td class="text-success">${{ cashback }}</td>
                       </tr>
+                      {% endif %}
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                        {% if new_total %}
+                        <td class="text-black font-weight-bold"><strong>${{new_total}}</strong></td>
+                        {% else %}
                         <td class="text-black font-weight-bold"><strong>${{total}}</strong></td>
+                        {% endif %}
                       </tr>
                     </tbody>
                   </table>

@@ -49,8 +49,34 @@ def show_cart(request):
         i["color"] = color_obj.color
         i["name"] = color_obj.product.Product_Name
         total = total + i['Quantity']*i["price"]
+    # Checking for promocodes ---------
+    cart_total =total
+    cashback = 0
+    promobj = Promocodes.objects.none()
     promocode = request.session.get('promocode',False)
-    return render(request,'cart.html',{'cart_products':prod_dict_list,"total":total,"cart_count":cart_count,"promocodes":promo_obj,"promocode":promocode})
+    promocode = request.session.get('promocode',False)
+    if promocode:
+        promobj = Promocodes.objects.get(code=promocode)
+        if cart_total >= promobj.min_transaction:
+            if promobj.cashback_type == '1':  # Calculaton on basis of percentage
+                value = promobj.cashback
+                cashback= int(cart_total*(value/100))
+                if cashback >= promobj.max_cashback:
+                    print("zada hai...")
+                    cashback = promobj.max_cashback
+            else:               #Calculation on the basis of price
+                value = promobj.cashback
+                cashback= cart_total - value
+                if cashback >= promobj.max_cashback:
+                    cashback = promobj.max_cashback
+            cart_total = total - cashback
+    # if there is no promocodes
+    if cart_total == total:
+        cart_total = None
+        cashback = None
+    return render(request,'cart.html',{'cart_products':prod_dict_list,"total":total,
+    "cart_count":cart_count,"promocodes":promo_obj,"promocode":promocode,
+    "total_after_cb":cart_total,"cashback":cashback})
 
 def update_cart(request):
     cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
@@ -62,6 +88,7 @@ def update_cart(request):
     flag = request.GET.get('data')
     cart_obj = Cart.objects.get(id=obj_id)
     color_obj = Color_variation.objects.select_related('product').get(id=cart_obj.color.id)
+
     # If product is last of its kind || sending '?N' if product has to be is removed in return_string
     if  cart_obj.Quantity == 1 and flag == 'down':
         cart_count = cart_count-1
@@ -86,14 +113,26 @@ def update_cart(request):
             cart_total = cart_total + offer_price*(i.Quantity)
         else:
             cart_total = cart_total + curr_price*(i.Quantity)
+
+    # Checking for promocodes --------
+    cashback = 0
     code = request.session.get('promocode',None)
     if code:
         promobj = Promocodes.objects.get(code=code)
+        # If promocode becomes Invalid
         if cart_total < promobj.min_transaction:
             return_string = return_string+"?remove"
             del request.session['promocode']
+        # If promocode is valid
         else:
-            return_string = return_string+"?pass"
+            if promobj.cashback_type == '1':  # Calculaton on basis of percentage
+                cashback = cart_total*(promobj.cashback/100)
+                if cashback > promobj.max_cashback:
+                    cashback = promobj.max_cashback
+            else:                           # Calculaton on basis of price
+                cashback = promobj.cashback
+            new_total = cart_total - cashback
+            return_string = return_string+"?pass^"+str(new_total)+"^"+str(cashback)
     return HttpResponse(return_string)
 
 def remove_prod_from_cart(request):

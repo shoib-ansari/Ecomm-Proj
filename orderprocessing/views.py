@@ -6,7 +6,7 @@ from .models import *
 
 # Create your views here.
 def getaddress(request):
-    promocode = request.session.get('promocode',None)
+
     total = 0
     cart_dict_list =[]
     cartobj = Cart.objects.filter(user=request.user).select_related('color').values()
@@ -18,7 +18,20 @@ def getaddress(request):
         i["color"] = color_obj.color
         i["price"] = i['Quantity']*color_obj.product.Current_Price
         total = total + i['Quantity']*color_obj.product.Current_Price
-    return render(request,'checkout.html',{'cart_products':cart_dict_list,"total":total,'promocode':promocode})
+    promocode = request.session.get('promocode',None)
+    cashback = None
+    new_total = None
+    if promocode:
+        promobj = Promocodes.objects.get(code=promocode)
+        if promobj.cashback_type == '1':  # Calculaton on basis of percentage
+            cashback = total*(promobj.cashback/100)
+            if cashback > promobj.max_cashback:
+                cashback = promobj.max_cashback
+            else:                           # Calculaton on basis of price
+                cashback = promobj.cashback
+        new_total = total - cashback
+    return render(request,'checkout.html',{'cart_products':cart_dict_list,"total":total,'promocode':promocode,
+    "cashback":cashback,"new_total":new_total})
 
 def get_order(request):
     f_name = request.POST.get('fname')

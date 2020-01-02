@@ -22,6 +22,9 @@ color: black; }
 #coupon_apl_btn ,#coupon_rmv_btn{
   display: none;
 }
+#coupon_field::placeholder{
+  color: rgb(156, 156, 156);
+}
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;

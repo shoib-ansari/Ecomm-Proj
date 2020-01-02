@@ -153,23 +153,20 @@
               {% if promocode %}
               <div class="col-md-8 mb-3" id="coupon_div">
                 <input type="text" class="form-control py-3" id="coupon_field" placeholder="Coupon Code"
-                  value="{{promocode}}">
+                  value="{{promocode}}" readonly>
                   <!-- <small  id="inv_mess" >Invalid coupon code !</small> -->
               </div>
               <div class="col-md-4">
-                <button class="btn btn-outline-primary" id="coupon_apl_btn" onclick="check_coupon_code('a')" >Apply Coupon</button>
-                <button class="btn btn-primary" id="coupon_rmv_btn" onclick="check_coupon_code('r')" style="display: block;"> Remove </button>
+                <button class="btn btn-primary" id="coupon_rmv_btn" onclick="rmv_coupon('r')" style="display: block;"> Remove </button>
               </div>
               {% else %}
               <div class="col-md-8 mb-3" id="coupon_div">
-                <input type="text" class="form-control py-3" id="coupon_field" placeholder="Coupon Code">
+                <input type="text" class="form-control py-3" id="coupon_field" placeholder="Coupon Code" readonly>
                 <!-- <p id="inv_mess">Invalid coupon code !</p> -->
               </div>
               <div class="col-md-4">
-                <button class="btn btn-outline-primary" id="coupon_apl_btn" onclick="check_coupon_code('a')" style="display: block;" >Apply Coupon</button>
-                <button class="btn btn-primary" id="coupon_rmv_btn" onclick="check_coupon_code('r')"> Remove </button>
-
-                
+                <button class="btn btn-primary" id="coupon_rmv_btn" onclick="rmv_coupon('r')" style="display: block;"> Remove </button>
+             
               </div>
               {% endif %}
 
@@ -211,16 +208,32 @@
                   <div class="col-md-6">
                     <span class="text-black">Subtotal</span>
                   </div>
+                 
                   <div class="col-md-6 text-right">
                     <strong class="text-black">$<span id="ttl_amt">{{total}}</span></strong>
                   </div>
+                </div>
+                <div class="row text-success mb-3" id="cb">
+                  {% if cashback %}
+                  <div class="col-md-6">
+                    <span class="text-success">Cashback</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-success">$<span id="cb_price">{{cashback}}</span></strong>
+                  </div>
+                  {% endif %}
                 </div>
                 <div class="row mb-5">
                   <div class="col-md-6">
                     <span class="text-black">Total</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    {% if total_after_cb %}
+                    <strong class="text-black" id="f_amt">${{total_after_cb}}</strong>
+                    {% else %}
+                    <strong class="text-black" id="f_amt">${{total}}</strong>
+                    {% endif %}
+
                   </div>
                 </div>
 
@@ -301,19 +314,6 @@
 
 
           </div>
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-          <div class="col-md-12">
-            <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;
-              <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
-              with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"
-                class="text-primary">Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-          </div>
-
         </div>
       </div>
     </footer>

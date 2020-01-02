@@ -19,12 +19,14 @@ def getnavitems(request):
         if sub_cat:
             for j in sub_cat:
                 temp_final_list = []
+                temp_final_list.append(j.id)
                 final_cat = FinalCategory.objects.filter(sub_category=j)
                 if final_cat:
                     for k in final_cat:
                         temp_final_list.append(k.name)
-                    temp_sub_dict[j.name] = temp_final_list
+                temp_sub_dict[j.name] = temp_final_list
             product_dict[i.name] = temp_sub_dict
+    print(product_dict)
     return product_dict
 
 

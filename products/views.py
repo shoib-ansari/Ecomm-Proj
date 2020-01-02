@@ -111,7 +111,7 @@ def showproducts(request):
     url = request.get_full_path()
     temp = url.split("in")
     sub_cat = temp[1]
-    sub_cat_obj = SubCategory.objects.get(name=sub_cat)
+    sub_cat_obj = SubCategory.objects.get(id=int(sub_cat))
     final_cat_set = FinalCategory.objects.filter(sub_category=sub_cat_obj)
     categories = FinalCategory.objects.filter(sub_category=sub_cat_obj.id)
     product_set = Product.objects.filter(sub_category=sub_cat_obj)

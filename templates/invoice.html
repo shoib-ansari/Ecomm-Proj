@@ -1,0 +1,122 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Invoice</title>
+    <style>
+        th {
+            padding-top: 4px;
+            color: white;
+            background-color: orangered;
+            text-align: left;
+            padding-left: 5px;
+            margin-bottom: 100px;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .content {
+            margin-top: 20px;
+        }
+
+        .contents td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <p style="text-align: center; font-size: 25px; margin-bottom: -20px;">Clothing Mart</p>
+    <hr>
+    <table>
+        <tr>
+            <td>
+                <P>Clothing Mart Ltd.</P>
+                <P>123 Street Address</P>
+                <P>Jaipur, Raj(302020)</P>
+                <P>0141-3020145</P>
+                <P>www.clothingMartenc.com</p>
+            </td>
+            <td>
+                <!-- <img src="img/logo.png.url"> -->
+                <p>Payment Date :- {{ date }}</p>
+                <p>Reciept No:- <span>{{ Ch_id }}</p>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <P>BILL TO :- </P>
+    <p>{{pno}}</p>
+    <p>{{email}}</p>
+    <p>{{ c_name }}</p>
+    <p>{{address}}</p>
+    <p>{{city}}, {{state}}</p>
+     <table class="desctable">
+        <th>
+            DESCRIBTION
+        </th>
+        <th>
+            QTY.
+        </th>
+        <th>
+            UNIT PRICE
+        </th>
+        <th>
+            TOTAL
+        </th>
+        <!-- Item start -->
+        <tr class="contents">
+            <td>{{p_name}}</td>
+            <td>{{qty}}</td>
+            <td>{{u_price}}</td>
+            <td>{% widthratio u_price 1 qty %}</td>
+        </tr>
+        <!-- Item ENDS -->
+    </table>
+    <hr>
+    <table style="font-weight: 600; font-size: 12px;">
+        <!-- TOTAL start -->
+        <tr style="text-align: right; padding-right:-18px; ">
+            <td>
+                Total :
+            </td>
+            <td style="padding-right: 75px;">
+                {% widthratio u_price 1 qty %}
+            </td>   
+        </tr>
+        <tr style="text-align: right; padding-right:-18px; color: green; ">
+            <td>
+                Discount Recieved :
+            </td>
+            <td style="padding-right: 75px;">
+                &#8377; {{d_recieved}}
+            </td>
+        </tr>
+        <tr style="text-align: right; padding-right:-18px; ">
+            <td>
+                Delivery/Shipping
+            </td>
+            <td style="padding-right: 75px;">
+                ---
+            </td>
+        </tr>
+        <tr style="text-align: right; padding-right:-18px; ">
+            <td>
+                Total Taxes:
+            </td>
+            <td style="padding-right: 75px;">
+                {{tax}}
+            </td>
+        </tr>
+        <tr style="text-align: right; padding-right:-18px; font-weight: 900; ">
+            <td>
+                Net Amount:
+            </td>
+            <td style="padding-right: 75px;">
+                {{total}}
+            </td>
+        </tr>
+        <!-- TOTAL ENDS -->
+    </table>
+</body>
+</html>

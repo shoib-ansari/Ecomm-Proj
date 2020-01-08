@@ -1,10 +1,9 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Dealers &mdash; Colorlib e-Commerce Template</title>
+  <title>Ecommerce_web</title>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,25 +16,23 @@
   <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}" />
   <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  </head>
-<body>
 
-  {% if messages %} {% for message in messages %}
-  <script>
-    alert("Cannot be authenticated");
-  </script>
-  {% endfor %} {% endif %}
+</head>
+
+<body>
   <div class="site-wrap">
     <div class="site-navbar bg-white py-2">
       <div class="search-wrap">
         <div class="container">
           <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
-          <form action="#" method="post">
-            <input type="text" class="form-control" placeholder="search Here....." id="prod_search" />
+          <form action="/products/show_results" method="GET" id="src_frm">
+            <input list="products_list" class="form-control" name="query" placeholder="search Here....." id="prod_search">
+            <datalist id="products_list">
+              <!-- Datalist will append here -->
+            </datalist>
           </form>
         </div>
       </div>
-
       <div class="container">
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
@@ -46,33 +43,39 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                  {% for key , value in products.items %}
-                  <li class="has-children active">
-                      <a href="/">{{ key }}</a>
+                {% for key , value in products.items %}
+                <li class="has-children active">
+                  <a href="/">{{ key }}</a>
+                  <ul class="dropdown">
+                    {% for i,j in value.items %}
+                    <li class="has-children">
+                      {% with j|first as first_object %}
+                      <a href="products/sub_productsin{{first_object}}">{{i}}</a>
+                      {% endwith %}
                       <ul class="dropdown">
-                        {% for i,j in value.items %}
-                        <li class="has-children">
-                          {% with j|first as first_object %}
-                            <a href="products/sub_productsin{{first_object}}">{{i}}</a>
-                            {% endwith %}
-                            <ul class="dropdown">
-                              {% for k in j %}
-                              {% if not forloop.counter == 1 %}
-                              <li><a href="#">{{k}}</a></li>
-                              {% endif %}
-                              {% endfor  %}
-                            </ul>
-                          </li>
-                        {% endfor %}
+                        {% for k in j %}
+                        {% if not forloop.counter == 1 %}
+                        <li><a href="#">{{k}}</a></li>
+                        {% endif %}
+                        {% endfor  %}
                       </ul>
                     </li>
                     {% endfor %}
+                  </ul>
+                </li>
+                {% endfor %}
                 {% if request.user.is_authenticated %}
                 <li class="has-children active">
                   <big><a><span class="icon-user-o"></span> &nbsp;{{user.username}}</big></a>
                   <ul class="dropdown">
-                    <li><a href="#">Order-history</a></li>
-                    <li><a href="#">Notifications</a></li>
+                    <li><a href="userprofile">My Account</a></li>
+                    <li><a href="orderprocessing/order_history">Order-history</a></li>
+                    {% if notification %}
+                    <li><a href="/notifications" id="not_dot">Notifications</a></li>
+                    {% else %}
+                    <li><a href="/notifications">Notifications</a></li>
+                    {% endif %}
+                    <li><a href="/manage_address">Manage Address</a></li>
                     <li><a href="/logut">Logout</a></li>
                   </ul>
                 </li>
@@ -383,20 +386,20 @@
           <h4 class="text-center  pt-2">Login</h4>
         </div>
         <div class="form-group">
-          <label for="name"   >Name</label>
-          <div id="uname" data-tip="Username not found">
-            <input type="text" class="form-control effect-8 " id="name" name="username" 
-            placeholder="Enter Name"  required >
+          <!-- <label for="name">Name</label> -->
+          <div id="uname" data-tip="Username not found m-4">
+            <input type="text" class="form-control effect-8 " id="name" name="username" placeholder="Enter Name"
+              required>
           </div>
-          
+
           <span class="focus-border"></span>
         </div>
         <div class="form-group">
-          <label for="pwd">Password</label>
-          <div id="pwd" data-tip="Incorrect Password" >
+          <!-- <label for="pwd">Password</label> -->
+          <div id="pwd" data-tip="Incorrect Password m-4">
             <input type="password" name="pwd" class="form-control effect-8 " id="pswd" placeholder="Password" required>
-          <span class="focus-border"></span>
-            
+            <span class="focus-border"></span>
+
           </div>
         </div>
         <div class="d-flex justify-content-between">
@@ -411,7 +414,8 @@
         <br />
         <div class="row">
           <button type="submit" id="loginbtn" class="btn btn-primary col-md-4" style="margin: auto;">
-            <h6 class="pt-1"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> &nbsp;login</h6> 
+            <h6 class="pt-1"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="display: none;"></span> &nbsp;login</h6>
           </button>
         </div>
       </form>
@@ -425,7 +429,7 @@
         <div class="form-group">
           <label for="name">Name</label>
           <div id="registername" data-tip="UserName Allready Exist">
-              <input type="text" class="form-control" id="rname" name="username" aria-describedby="emailHelp"
+            <input type="text" class="form-control" id="rname" name="username" aria-describedby="emailHelp"
               placeholder="Enter Name" required />
           </div>
         </div>
@@ -446,7 +450,7 @@
         <div class="form-group">
           <label for="pwd">Conform Password</label>
           <div id="confirmpwd" data-tip="Password Not Matched">
-              <input type="password" name="pwd2" class="form-control" id="confpwd" placeholder="Password">
+            <input type="password" name="pwd2" class="form-control" id="confpwd" placeholder="Password">
           </div>
         </div>
         Already a member
@@ -455,18 +459,19 @@
         <br />
         <div class="row pt-3">
           <button type="submit" class="btn btn-primary col-md-4" id="regbtn" style="margin: auto;">
-              <h6><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Register</h6>
+            <h6><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="display: none;"></span> Register</h6>
           </button>
         </div>
       </form>
     </div>
   </div>
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-  <!-- <script src="{% static 'js/jquery-ui.js' %}"></script> -->
-  <!-- <script src="{% static 'js/popper.min.js' %}"></script> -->
+  <script src="{% static 'js/jquery-ui.js' %}"></script> -->
+  <script src="{% static 'js/popper.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-  <!-- <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script> -->
+  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
   <script src="{% static 'js/aos.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
   <script>
@@ -487,10 +492,10 @@
       });
     });
 
-   
+
   </script>
 
-  <!-- function to call ajax to check login Starts-->
+  function to call ajax to check login Starts
 
   <script>
 
@@ -513,19 +518,19 @@
             usernamedata: usernametemp,
             passworddata: passwordtemp
           },
-          beforeSend: function() {
+          beforeSend: function () {
             $('.spinner-border').show();
-            },
+          },
           success: function (data) {
             $('.spinner-border').hide();
             if (data == 'Login granted') {
               document.location.href = "/"
             }
             else {
-              if(data == 'Username not availabe'){
+              if (data == 'Username not availabe') {
                 $('#uname').attr('id', 'unametip');
               }
-              else if(data == 'Incorrect Password'){
+              else if (data == 'Incorrect Password') {
                 $('#pwd').attr('id', 'pwdtip');
               }
             }
@@ -548,7 +553,7 @@
     $("#registform").submit(function (e) {
 
       e.preventDefault();
-      
+
       $('#unametip').attr('id', 'confirmpwd');
       $('#unametip').attr('id', 'registername');
 
@@ -558,12 +563,12 @@
       if (password != conformpassword) {
 
         // alert("password doesnot matched");
-          $('#confirmpwd').attr('id', 'unametip');
+        $('#confirmpwd').attr('id', 'unametip');
 
       }
 
       else {
-       
+
         var token = '{{csrf_token}}';
         var name = document.getElementById("rname").value;
         var contact = document.getElementById("number").value;
@@ -580,15 +585,15 @@
               emaildata: email,
               contactdata: contact
             },
-            beforeSend: function() {
-            $('.spinner-border').show();
+            beforeSend: function () {
+              $('.spinner-border').show();
             },
             success: function (data) {
               $('.spinner-border').hide();
-              if(data == "Username allready exists"){
-                   $('#registername').attr('id', 'unametip');
+              if (data == "Username allready exists") {
+                $('#registername').attr('id', 'unametip');
               }
-              else{
+              else {
                 document.location.href = "/"
               }
             }
@@ -604,20 +609,24 @@
 
   <!-- ajax function to check username allready exists Ends -->
   <script>
-  $('#prod_search').keyup(function () {
+    $('#prod_search').keyup(function () {
       $.ajax({
-        url:'/products/search',
-        type:'get',
-        data :{
-          'query' : $(this).val()
+        url: '/products/search',
+        type: 'get',
+        data: {
+          'query': $(this).val()
         },
-        beforeSend: function(){
-
+        beforeSend: function () {
+          console.log("searching......")
         },
-        success:function(data){
-          data = JSON.parse(data)
-          console.log(data)
-          console.log(typeof(data))
+        success: function (data) {
+          str = ''
+          var data_list = document.getElementById('products_list')
+          for (i = 0; i < data.length; i++) {
+            // console.log(data[i])
+            str += '<option value="' + data[i] + '" />';
+          }
+          data_list.innerHTML = str;
         }
       })
     })

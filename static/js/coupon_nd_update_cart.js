@@ -111,7 +111,9 @@ function remove_prod(e) {
     },
   })
 }
-function update_qty(ele, temp) {
+
+
+function update_qty(ele,temp) {
   $.ajax({
     url: '/cart/update_cart',
     type: 'get',

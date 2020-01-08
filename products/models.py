@@ -1,5 +1,6 @@
 from django.db import models
 from offers.models import Offer
+from useraccounts.models import User
 
 # Create your models here.
 
@@ -62,5 +63,14 @@ class Size_variation(models.Model):
     size = models.CharField(max_length=1000,blank=True)
     Quantity = models.CharField(max_length=1000)
 
-    
-        
+class Reviews(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    Review = models.CharField(max_length=10000,blank=True)
+    rating = models.IntegerField(blank=True,null=True)
+
+class Reviewimages(models.Model):
+    review = models.ForeignKey(Reviews,on_delete=models.CASCADE)
+    image = models.ImageField(blank=False,upload_to='reviewpics')
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)

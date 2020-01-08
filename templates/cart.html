@@ -94,7 +94,7 @@
     </div>
 
     <div class="container">
-      <div class="row">
+      <div class="row justify-content-center">
         {% for i in cart_products %}
         <!-- Product start -->
         <div class="col-md-3 m-4" id="p_c_{{i.id}}">
@@ -108,7 +108,9 @@
             </div>
             <div class="row">
               <h5><small>Color:- &nbsp</small>{{i.color}}</h5>
+              {% if i.size %}
               <h5 class="ml-2"><small>Size:- &nbsp</small>{{i.size}}</h5>
+              {% endif %}
             </div>
             <div class="row">
               <strike>₹{{i.max_price}}</strike>&nbsp;<span class="text-success">₹{{i.price}}</span>
@@ -136,7 +138,9 @@
     <div class="site-section">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6" data-aos="fade-right"
+          data-aos-easing="linear"
+          data-aos-duration="400">
             <div class="row mb-5">
               <div class="col-md-6 mb-3 mb-md-0">
                 <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
@@ -196,7 +200,9 @@
             {% endfor %}
             <!-- COUPON AREA ENDS -->
           </div>
-          <div class="col-md-6 pl-5">
+          <div class="col-md-6 pl-5" data-aos="fade-left"
+          data-aos-easing="linear"
+          data-aos-duration="500">
             <div class="row justify-content-end">
               <div class="col-md-7">
                 <div class="row">
@@ -329,8 +335,8 @@
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/owl.carousel.min.js' %}"></script>
   <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-  <!-- <script src="{% static 'js/aos.js' %}"></script> -->
-  <!-- <script src="{% static 'js/main.js' %}"></script> -->
+  <script src="{% static 'js/aos.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/coupon_nd_update_cart.js' %}"></script>
 
 

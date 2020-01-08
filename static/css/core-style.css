@@ -2204,7 +2204,7 @@ img {
      transition: 500ms;
  }
  .Rating .icon-star-o:hover{
-     transform: translateY(-5px);
+     transform: translateY(-5px) rotateZ(40deg);
  }
  #skip{
      cursor: pointer;
@@ -2213,3 +2213,6 @@ img {
  #skip:hover{
      transform: translateX(5px);
  }
+ .car_img{
+    height: 60vh !important;
+  }

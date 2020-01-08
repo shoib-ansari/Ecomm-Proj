@@ -10,5 +10,8 @@ urlpatterns = [
     path('sort',views.sort,name="Sort Products through Ajax"),
     path('filter_final_cat',views.filter_final_cat,name="filter final category through Ajax"),
     path('filter',views.filter,name='filter price, size and color'),
-    path('search',views.search,name='search products')
+    path('rate',views.rate,name='Rate the product'),
+    path('review',views.review,name='Give review for the product'),
+    path('search',views.search,name='search products'),
+    path('show_results',views.show_results,name='search products')
 ]

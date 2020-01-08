@@ -4,7 +4,9 @@ from django.core import serializers
 from .models import *
 from products.models import Color_variation
 from offers.models import Promocodes
-# from django.db.models import Count , Q
+from orderprocessing.models import Checkout
+from django.db.models import Sum
+from django.db.models import Count , Q
 
 # Create your views here.
 
@@ -34,7 +36,29 @@ def add_to_cart(request):
     return HttpResponse(cart_count)
 
 def show_cart(request):
-    promo_obj = Promocodes.objects.all()
+    promobj = Checkout.objects.filter(Q(promocode__isnull=True) and Q(user=request.user)).values('promocode').distinct()
+    appliedcode = []
+    for i in promobj:
+        appliedcode.append(i['promocode'])
+    promobj = Promocodes.objects.all()
+    prev_codes = []
+    for i in appliedcode:
+        counter = Checkout.objects.filter(Q(promocode__isnull=False) & Q(user=request.user)
+            and Q(promocode=i)).count()
+        prev_codes.append((i,counter))
+    invalid_codes = []
+    for i in prev_codes:
+        if i[0] is not None:
+            code_counter = Checkout.objects.filter(Q(promocode=i[0]) & Q(user=request.user)).count()
+            print(code_counter)
+            if code_counter >= Promocodes.objects.get(id=i[0]).applicabe_for_transactions:
+                invalid_codes.append(i[0])
+    available_codes = Promocodes.objects.all().exclude(id__in=invalid_codes) 
+    promo_obj = available_codes
+
+
+
+
     cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
     total = 0
     prod_dict_list = []
@@ -81,7 +105,7 @@ def show_cart(request):
 def update_cart(request):
     cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
     return_string = ''
-    flag = request.GET.get('data')
+    # flag = request.GET.get('data')
     total = 0
     prod_ids = []
     obj_id = request.GET.get('id')

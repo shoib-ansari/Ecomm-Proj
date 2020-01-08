@@ -5,6 +5,8 @@ from .models import *
 from useraccounts.views import getnavitems
 from cart.models import *
 from django.db.models import Q
+from orderprocessing.models import Checkout , Ordered_products
+from itertools import chain
 
 
 # Create your views here.
@@ -143,7 +145,10 @@ def show_detailed_product(request):
     url = request.get_full_path()
     temp = url.split("?")
     id = int(temp[1])
-    prodobj = Product.objects.get(id=id)
+    prodobj = Product.objects.select_related('Final_category').select_related('sub_category').get(id=id)
+    final_cat = prodobj.Final_category
+    sub_cat = prodobj.sub_category
+    related_products = Product.objects.filter(Q(Final_category=final_cat) & Q(sub_category=sub_cat))
     color_id =[]
     prod_color_set = Color_variation.objects.filter(product=prodobj)
     prod_size_dict = {}
@@ -153,8 +158,12 @@ def show_detailed_product(request):
         for j in  temp_set:
             templist.append(j.size)
             prod_size_dict[i.id] = templist
-    cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
-    return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,"color_variation":prod_color_set,"sizes":prod_size_dict,"cart_count":cart_count})
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
+    return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,
+    "color_variation":prod_color_set,"sizes":prod_size_dict,"cart_count":cart_count,
+    "related_products":related_products})
 
 def sort_products(request,prodobj,sort_criteria):
     if sort_criteria == 'lth':
@@ -230,8 +239,6 @@ def filter(request):
 
 def search(request):
     query = request.GET.get('query')
-    print("-----------------------------------------------------------------")
-    print(query)
     querylist = query.split(" ")
     resultid = []
     for i in querylist:
@@ -246,12 +253,76 @@ def search(request):
     for i in resultid:
         if i not in searchid:
             searchid.append(i)
-    print("-----------------------------------||||------------------------------")
-    print(searchid)
     prodobj = Product.objects.values('Product_Name').filter(id__in=searchid)
-    # print(type(prodobj))
-    # print("search kr lia..............................")
-    # import json
-    # prodobj = json.dumps(prodobj, sort_keys=True)
-    # return JsonResponse(serializers.serialize('json',prodobj), safe=False)
-    return HttpResponse(prodobj)
+    return_list = []
+    for i in prodobj:
+        return_list.append(i['Product_Name'])
+    print(return_list)
+    return JsonResponse(return_list,safe=False)
+
+def rate(request):
+    prod_id = int(request.GET.get('prod_id'))
+    curr_rating = int(request.GET.get('rate'))
+    check_obj_list = Checkout.objects.filter(user=request.user).values_list('id',flat=True)
+    ordered_ids = Ordered_products.objects.filter(id__in=check_obj_list).values_list('product_id',flat=True)
+    if prod_id in list(ordered_ids):
+        prodobj = Product.objects.get(id=prod_id)
+        rating = prodobj.rating
+        newrating = (rating*prodobj.total_ratings + curr_rating)/(prodobj.total_ratings + 1)
+        prodobj.total_ratings = prodobj.total_ratings + 1
+        prodobj.rating = newrating
+        prodobj.save()
+        return_string = str(rating)+"^"
+        return HttpResponse("permission granted")
+    return HttpResponse("Denied^")
+
+def review(request):
+    import json
+    # prod_id = int(request.GET.get('prod_id'))
+    # review = request.GET.get('review')
+    # images = request.FILES.getlist('images')
+    images = request.FILES.get('images')
+    print("-----------------------------------")
+    print(images)
+    # print(prod_id)
+    # print(review)
+    # print(images)
+    # check_obj_list = Checkout.objects.filter(user=request.user).values_list('id',flat=True)
+    # ordered_ids = Ordered_products.objects.filter(id__in=check_obj_list).values_list('product_id',flat=True)
+    # if prod_id in list(ordered_ids):
+    #     pass
+
+
+def show_results(request):
+    query = request.GET.get('query')
+    querylist = query.split(" ")
+    product_list = []
+    for i in querylist:
+        prodobj = Product.objects.filter(Q(Product_Name__icontains=i) | Q(Keywords__icontains=i)).values()
+        # prodobj is a set of products
+        for j in prodobj:
+            product_list.append(j)
+        # A list of dict is created
+    print(len(product_list))
+    print(product_list)
+            # for k in j:
+            #     k['counter'] = 0
+            #     k['counter'] = k['counter'] + k['Product_Name'].count(i) + k['Keywords'].count(i) 
+    
+    # for i in querylist:
+    #     prodobj2 = Product.objects.filter(Keywords__icontains=i).values()
+    #     for j in prodobj2:
+    #         j['counter'] = 0
+    #         j['counter'] = j['counter'] + j['Product_Name'].count(i) 
+    
+    # temp = Product.objects.all().values()
+    # print(temp)
+
+    # prodobj = prodobj1.union(prodobj2)
+    # print("---------------------------------",prodobj)
+    # prodobj = Product.objects.values('Product_Name').filter(id__in=searchid)
+    # return_list = []
+    # for i in prodobj:
+    #     return_list.append(i['Product_Name'])
+    # print(return_list)
+    return render(request,'shop.html',{"products":product_list})

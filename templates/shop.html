@@ -4,10 +4,10 @@
 <html lang="en">
 
 <head>
+  
   <title>Dealers &mdash;E commerce</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <link href="https://fonts.googleapis.com/css?family=Rubik:400,700" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/aos.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 </head>
 
 <body>
@@ -73,7 +74,7 @@
           <div class="icons">
             <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
             <a href="#" class="icons-btn d-inline-block"><span class="icon-heart-o"></span></a>
-            <a href="cart.html" class="icons-btn d-inline-block bag">
+            <a href="/cart" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
               <span class="number">2</span>
             </a>
@@ -194,7 +195,11 @@
                   <div class="container-fluid pndd">
                     <div class="row ">{{i.Product_Name}}</div>
                     <!-- <span class="row ">Summer Collection</span> -->
+                    {% if i.Offer_price %}
+                    <strong class="row ">${{i.Offer_price}}<h1>In offer </h1></strong>
+                    {% else %}
                     <strong class="row ">${{i.Current_Price}}</strong>
+                    {% endif %}
                   </div>
                 </a>
               </div>

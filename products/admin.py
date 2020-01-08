@@ -59,6 +59,14 @@ class ProductAdmin(NestedModelAdmin):
                 obj.disc_per = offerobj.discount
                 obj.offer_id = offerobj.id
         super().save_model(request, obj, form, change)
+    
+    def Remove_all_offers(self,request,queryset):
+        for obj in queryset:
+            if obj.offer_id is not None:
+                obj.offerprice = 0
+                obj.disc_per = 100 -(obj.pdiscount / obj.pprice) * 100
+                obj.offer_id = None
+                obj.save()
 
     # class Media:
     #     js = ('/static/js/chained_dropdown.js','https://code.jquery.com/jquery-3.3.1.min.js',)

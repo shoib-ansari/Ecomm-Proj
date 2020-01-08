@@ -98,30 +98,32 @@
 
     <div class="site-section">
       <div class="container">
-        <div class="d-flex justify-content-center">
+        <div class="row justify-content-center">
           <h3 class="text-primary">Notifications <span class="icon-notifications_active"></span></h3>
+          <p class="pt-2 pl-3 malr">mark all as read</p>
         </div>
         <div class="row">
-          <!-- start notification -->
-          <!-- <div class="col-md-5 m-4 notincard-unseen "> -->
-            <div class="row notincard-unseen m-2">
+          {% for i in notification %}
+          <div class="row noticard  m-2">
+            {% if i.seen_by_user == 0 %}
+            <div class="row notific unseen p-3" id="ncrd_{{i.id}}">
+              {% else %}
               <div class="row notific  p-3">
-                <h4> <span class="icon-bell-o" style="font-size: large;"></span> You return request has been approved</h4><span class="text-muted pl-3"> 24 jan 2019</span>
+                {% endif %}
+                <h4> <span class="icon-bell-o" style="font-size: large;"></span> Notification title {{i.title}}</h4><span
+                  class="text-muted pl-3">{{i.date}}</span>
                 <div class="container-fluid">
-                  The return request for the black jeans has been approved by us. We will contact you soon fo return
-                  Pickup.. &nbsp;<a href="#">read More</a>
+                  {{i.notification}} &nbsp;<span class="mr" n_id={{i.id}}>Mark read</span>
                 </div>
               </div>
             </div>
-           
-          <!-- </div> -->
+            <!-- End notification -->
+            {% endfor %}
+            <!-- start notification -->
 
-          <!-- End notification -->
 
-          <!-- start notification -->
-
-          <!-- <div class="col-md-5 m-4 notincard-seen "> -->
-            <div class="row notincard-seen m-2">
+            <!-- start notification -->
+            <!-- <div class="row notincard seen m-2">
               <div class="row notific p-3">
                 <h4><span class="icon-bell-o" style="font-size: large;"></span> You return request has been approved</h4><span class="text-muted pl-3"> 24 jan 2019</span>
                 <div class="container-fluid">
@@ -129,104 +131,149 @@
                   Pickup..
                 </div>
               </div>
-            </div>
-          <!-- </div> -->
+            </div> -->
 
-        <!-- End Notification -->
+            <!-- End Notification -->
 
+          </div>
         </div>
       </div>
+
+      <footer class="site-footer custom-border-top">
+        <div class="container ">
+          <div class="row">
+            <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+              <div class="block-7">
+                <h3 class="footer-heading mb-4">About Us</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates
+                  sed dolorum excepturi iure eaque, aut unde.</p>
+              </div>
+              <div class="block-7">
+                <form action="#" method="post">
+                  <label for="email_subscribe" class="footer-heading">Subscribe</label>
+                  <div class="form-group">
+                    <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email">
+                    <input type="submit" class="btn btn-sm btn-primary" value="Send">
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 class="footer-heading mb-4">Quick Links</h3>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <ul class="list-unstyled">
+                    <li><a href="#">Sell online</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Shopping cart</a></li>
+                    <li><a href="#">Store builder</a></li>
+                  </ul>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <ul class="list-unstyled">
+                    <li><a href="#">Mobile commerce</a></li>
+                    <li><a href="#">Dropshipping</a></li>
+                    <li><a href="#">Website development</a></li>
+                  </ul>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <ul class="list-unstyled">
+                    <li><a href="#">Point of sale</a></li>
+                    <li><a href="#">Hardware</a></li>
+                    <li><a href="#">Software</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+              <div class="block-5 mb-5">
+                <h3 class="footer-heading mb-4">Contact Info</h3>
+                <ul class="list-unstyled">
+                  <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
+                  <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
+                  <li class="email">emailaddress@domain.com</li>
+                </ul>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="row pt-5 mt-5 text-center">
+            <div class="col-md-12">
+              <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+                with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"
+                  class="text-primary">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </footer>
     </div>
 
-    <footer class="site-footer custom-border-top">
-      <div class="container ">
-        <div class="row">
-          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
 
-            <div class="block-7">
-              <h3 class="footer-heading mb-4">About Us</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates
-                sed dolorum excepturi iure eaque, aut unde.</p>
-            </div>
-            <div class="block-7">
-              <form action="#" method="post">
-                <label for="email_subscribe" class="footer-heading">Subscribe</label>
-                <div class="form-group">
-                  <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email">
-                  <input type="submit" class="btn btn-sm btn-primary" value="Send">
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
-            <div class="row">
-              <div class="col-md-12">
-                <h3 class="footer-heading mb-4">Quick Links</h3>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Sell online</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Shopping cart</a></li>
-                  <li><a href="#">Store builder</a></li>
-                </ul>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Mobile commerce</a></li>
-                  <li><a href="#">Dropshipping</a></li>
-                  <li><a href="#">Website development</a></li>
-                </ul>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Point of sale</a></li>
-                  <li><a href="#">Hardware</a></li>
-                  <li><a href="#">Software</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+    <script src="{% static 'js/main.js' %}"></script>
 
-          <div class="col-md-6 col-lg-3">
-            <div class="block-5 mb-5">
-              <h3 class="footer-heading mb-4">Contact Info</h3>
-              <ul class="list-unstyled">
-                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-                <li class="email">emailaddress@domain.com</li>
-              </ul>
-            </div>
+    <script>
+    
+    
+    $('.mr').click(function(){
+      n_id = $(this).attr("n_id")
+      $.ajax({
+        url : '/notifications/mark_seen',
+        type : 'get',
+        data : {
+          n_id : n_id
+        },
+        // beforeSend : function(){
+        // },
+        success : function(data){
+          var card = "ncrd_"+n_id
+         if(data == 'success'){
+          document.getElementById(card).classList.remove("unseen");
+         }
+         else{
+           alert("There is a error")
+         }
+        }
+      })
+    })
 
+   $('.malr').click(function () {
+    $.ajax({
+        url : '/notifications/mark_seen',
+        type : 'get',
+        data : {
+        },
+        // beforeSend : function(){
+        // },
+        success : function(data){
+          var card = "ncrd_"+n_id
+         if(data !== 'success'){
+          alert("There is a error")
+         }
+        }
+      })
+   })
+   
+   
+    </script>
 
-          </div>
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-          <div class="col-md-12">
-            <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;
-              <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
-              with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"
-                class="text-primary">Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-  <script src="{% static 'js/jquery-ui.js' %}"></script>
-  <script src="{% static 'js/popper.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-  <script src="{% static 'js/aos.js' %}"></script>
-
-  <script src="{% static 'js/main.js' %}"></script>
 
 </body>
 

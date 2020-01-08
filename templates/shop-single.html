@@ -241,8 +241,7 @@
                                         <input type="number" class="qty-text" id="qty" step="1" min="1" max="12"
                                             name="quantity" value="1" readonly>
                                         {% with color_variation|first as first_object %}
-                                        <input type="hidden" name="color" id="prod_color"
-                                            value="{{first_object.id}}">
+                                        <input type="hidden" name="color" id="prod_color" value="{{first_object.id}}">
                                         {% endwith %}
                                         <input type="hidden" name="size" id="prod_size" value="">
                                         <span class="qty-minus"
@@ -471,29 +470,29 @@
                     <!-- Write new review start -->
                     <div class="container-fluid">
                         <div class=" newrevtext">
-                            <span id="newrevbtn">Write a new review</span>
+                            <span id="newrevbtn">Rate or write a review..</span>
                         </div>
                     </div>
                     <!-- Write new review ends -->
                     <div class="container-fluid" id="reviewformdiv" style="display: none; overflow: hidden;">
-                        <form action="" method="post">
-                            <div class="container-fluid ratediv ">
-                                <div class="row Rating">
-                                    <span class="icon-star-o"></span>
-                                    <span class="icon-star-o"></span>
-                                    <span class="icon-star-o"></span>
-                                    <span class="icon-star-o"></span>
-                                    <span class="icon-star-o"></span>
-                                </div>
-                                <div class="row Rating m-2">
-                                    <big id="skip"> Skip Rating And Write A Review → </big>
-                                </div>
+                        <div class="container-fluid ratediv ">
+                            <div class="row Rating">
+                                <span rat="1" class="icon-star-o"></span>
+                                <span rat="2" class="icon-star-o"></span>
+                                <span rat="3" class="icon-star-o"></span>
+                                <span rat="4" class="icon-star-o"></span>
+                                <span rat="5" class="icon-star-o"></span>
                             </div>
-                            <div class="container-fluid review" style="display: none;">
-                                <label for="filebtn">
+                            <div class="row Rating m-2">
+                                <big id="skip"> Skip Rating And Write A Review → </big>
+                            </div>
+                        </div>
+                        <div class="container-fluid review" style="display: none;">
+                            <form method="get" id="review_form">
+                                <label for="image_inp">
                                     <span class="icon-camera"></span>&nbsp;<span>Upload </span>
                                 </label>
-                                <input type="file" name="input reviewimages" id="filebtn" multiple
+                                <input type="file" name="reviewimages" id="image_inp" multiple
                                     accept="image/gif,image/jpeg,image/jpg,image/png" hidden>
                                 <div class="form-group">
                                     <!-- <label for="exampleFormControlTextarea1"> Write your Review About this product ..
@@ -502,11 +501,11 @@
                                         placeholder="Write your Review About this product here.."></textarea>
                                 </div>
                                 <div class="d-flex flex-row-reverse">
-                                    <button type="submit" class="btn btn-outline-primary"> Submit &nbsp;<span
-                                            class=" icon-paper-plane-o"></span></button>
+                                    <button type="submit" id="review_text" class="btn btn-outline-primary"> Submit
+                                        &nbsp;<span class=" icon-paper-plane-o"></span></button>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -533,7 +532,7 @@
                     <div class="container-fluid m-3">
                         <form action="#" method="post">
                             <div class="form-group">
-                                <textarea class="form-control" id="review" rows="3" required
+                                <textarea class="form-control" id="question" rows="3" required
                                     placeholder="Ask a question About this product here.."></textarea>
                             </div>
                             <div class="d-flex justify-content-center">
@@ -553,73 +552,22 @@
 
             <!-- Related Products -->
             <div class="container-fluid ">
-                <div class="row title-section">
+                <div class="row title-section mt-5">
                     <h3 style="margin:auto;"> Related Products</h3>
                     <div class="col-md-12 block-3 products-wrap">
                         <div class="nonloop-block-3 owl-carousel">
+                            {% for i in related_products %}
                             <div class="product">
-                                <a href="#" class="item">
-                                    <img src="{% static 'images/product_1.jpg' %}" alt="Image" class="img-fluid">
-                                    <div class="item-info">
-                                        <h3>The Shoe</h3>
-                                        <span class="collection d-block">Summer Collection</span>
-                                        <strong class="price">$9.50</strong>
+                                <a href="/products/view_?{{i.id}}" class="item">
+                                    <img src="{{i.image.url}}" alt="Image" class="img-fluid car_img" />
+                                    <div class="container-fluid pndd">
+                                        <div class="row ">{{i.Product_Name}}</div>
+                                        <!-- <span class="row ">Summer Collection</span> -->
+                                        <strong class="row ">${{i.Current_Price}}</strong>
                                     </div>
                                 </a>
                             </div>
-                            <div class="product">
-                                <a href="#" class="item">
-                                    <span class="tag">Sale</span>
-                                    <img src="{% static 'images/product_2.jpg' %}" alt="Image" class="img-fluid">
-                                    <div class="item-info">
-                                        <h3>Marc Jacobs Bag</h3>
-                                        <span class="collection d-block">Summer Collection</span>
-                                        <strong class="price">$9.50 <del>$30.00</del></strong>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="product">
-                                <a href="#" class="item">
-                                    <img src="{% static 'images/product_3.jpg' %}" alt="Image" class="img-fluid">
-                                    <div class="item-info">
-                                        <h3>The Belt</h3>
-                                        <span class="collection d-block">Summer Collection</span>
-                                        <strong class="price">$9.50</strong>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="product">
-                                <a href="#" class="item">
-                                    <img src="{% static 'images/product_1.jpg' %}" alt="Image" class="img-fluid">
-                                    <div class="item-info">
-                                        <h3>The Shoe</h3>
-                                        <span class="collection d-block">Summer Collection</span>
-                                        <strong class="price">$9.50</strong>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="product">
-                                <a href="#" class="item">
-                                    <span class="tag">Sale</span>
-                                    <img src="{% static 'images/product_2.jpg' %}" alt="Image" class="img-fluid">
-                                    <div class="item-info">
-                                        <h3>Marc Jacobs Bag</h3>
-                                        <span class="collection d-block">Summer Collection</span>
-                                        <strong class="price">$9.50 <del>$30.00</del></strong>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="product">
-                                <a href="#" class="item">
-                                    <img src="{% static 'images/product_3.jpg' %}" alt="Image" class="img-fluid">
-                                    <div class="item-info">
-                                        <h3>The Belt</h3>
-                                        <span class="collection d-block">Summer Collection</span>
-                                        <strong class="price">$9.50</strong>
-                                    </div>
-                                </a>
-                            </div>
+                            {% endfor %}
 
                         </div>
                     </div>
@@ -706,6 +654,7 @@
     <div id="loading_area" style="display: none;">
         <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
     </div>
+    <input type="hidden" name="prod_id" id="p_id" value="{{product.id}}">
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
@@ -722,16 +671,31 @@
     <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'js/aos.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-
-
     <script>
+        $('.owl-carousel').owlCarousel({
+            loop: false,
+            margin: 10,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 4
+                }
+            }
+        });
         var prod_id = {{ product.id }}
         function check_add_cart_status() {
             var color = $('#prod_color').val()
             var size = $('#prod_size').val()
             var quantity = $('.qty-text').val()
-            // alert("hello")
-            if (color == '' || size == '') {
+            var list_length = $('#size_list li').length
+            if (color == '' || size == '' && list_length > 0) {
+                alert(list_length)
                 $('.messaged').html('<div class="message">Select size first..</div>')
                 setTimeout(function () { $('.messaged').empty() }, 2000);
             }
@@ -857,6 +821,71 @@
                 {% endfor %}
             });
         });
+    </script>
+
+    <!-- script for rating and reviews -->
+    <script>
+        var p_id = document.getElementById('p_id').value
+        $('.icon-star-o').click(function () {
+            rate = $(this).attr('rat')
+            $.ajax({
+                url: '/products/rate',
+                type: 'get',
+                data: {
+                    prod_id: p_id,
+                    rate: rate
+                },
+                beforeSend: function () {
+                    // alert("updating")
+                }, success: function (data) {
+                    data = data.split("^")
+                    if (data[0] == "Denied") {
+                        // alert("can't updated")
+                    }
+                    else {
+                        // alert("wait")
+                        $('.ratediv').hide(500);
+                        $('.review').fadeIn(500);
+                    }
+                }
+            })
+        })
+
+
+
+        // --------------------------  SUBMIT RATING  ------------------
+
+        $('#review_form').submit(function (e) {
+            e.preventDefault();
+            var images = new Object()
+            // var list = new Array();
+            review = $('#review').val()
+            images = $('#image_inp').prop("files");
+            console.log(typeof (images))
+            console.log(images)
+            alert(document.getElementById('p_id').value)
+            pid = document.getElementById('p_id').value
+            $.ajax({
+                url: '/products/review',
+                type: 'get',
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                data: {
+                    // review : review,
+                    // prod_id : pid,
+                    images: images
+                },
+                // data : $(this).serialize(),
+                beforeSend: function () {
+                    alert("sending")
+                },
+                success: function () {
+                    alert("done")
+                }
+            })
+        })
+
     </script>
 </body>
 

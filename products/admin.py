@@ -28,8 +28,8 @@ class Color_variationInline(NestedStackedInline):
 
 class MainCategoryAdmin(admin.ModelAdmin):
     inlines = [SubCategoryInline,FinalCategoryInline]
-    # class Media:
-    #     js = ('/static/js/category.js','https://code.jquery.com/jquery-3.3.1.min.js')
+    class Media:
+        js = ('/static/js/category.js','https://code.jquery.com/jquery-3.3.1.min.js')
 
 class ProductAdmin(NestedModelAdmin):
 
@@ -68,8 +68,8 @@ class ProductAdmin(NestedModelAdmin):
                 obj.offer_id = None
                 obj.save()
 
-    # class Media:
-    #     js = ('/static/js/chained_dropdown.js','https://code.jquery.com/jquery-3.3.1.min.js',)
+    class Media:
+        js = ('/static/js/chained_dropdown.js','https://code.jquery.com/jquery-3.3.1.min.js',)
 
 
 

@@ -156,7 +156,6 @@ function update_qty(ele,temp) {
       }
       $('.number').html(parseInt(arr[3]))
       if (arr[4] == 'remove') {
-        alert("bhai shanda ban raha h !!!")
         // ---------- <<<  Creating coupon code Removed Message
         message = document.createElement('p');
         message.setAttribute("id", "inv_mess");

@@ -6,6 +6,7 @@ urlpatterns = [
     re_path(r'^getfinalcategories',views.getfinalcategories,name="get final categories"),
     path('getsubcat',views.getsubcat,name="get sub categories"),
     re_path(r'^sub_productsin',views.showproducts,name="get final categories"),
+    re_path(r'^get_cat_data',views.get_cat_data,name="get categories data"),
     re_path(r'^view_',views.show_detailed_product,name="Show product on single page"),
     path('sort',views.sort,name="Sort Products through Ajax"),
     path('filter_final_cat',views.filter_final_cat,name="filter final category through Ajax"),

@@ -178,7 +178,7 @@
             <div class="row mb-5" id="productsect">
               {% for i in products %}
               <!-- Put col-md-3 for 4 products per row  And col-md-4 for 3 products per row -->
-              <div class="col-md-4 col-sm-6 border-top">
+              <div class="col-md-4 col-sm-6 border-top products">
                 {% if request.user.is_authenticated %}
                 {% if i.id in wishlist %}
                 <span id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
@@ -191,12 +191,15 @@
                 <a><span class="icon-heart-o"></span></a>
                 {% endif %}
                 <a href="/products/view_?{{i.id}}" class="item">
+                  {% if i.Offer_price %}
+                  <span class="tag">Sale</span>
+                  {% endif %}
                   <img src="{{i.image.url}}" alt="Image" class="img-fluid">
                   <div class="container-fluid pndd">
                     <div class="row ">{{i.Product_Name}}</div>
                     <!-- <span class="row ">Summer Collection</span> -->
                     {% if i.Offer_price %}
-                    <strong class="row ">${{i.Offer_price}}<h1>In offer </h1></strong>
+                    <strong class="row ">${{i.Offer_price}}</strong>
                     {% else %}
                     <strong class="row ">${{i.Current_Price}}</strong>
                     {% endif %}

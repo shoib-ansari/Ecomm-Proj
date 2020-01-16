@@ -15,8 +15,12 @@ class RerurnRequestAdmin(admin.ModelAdmin):
     list_filter = ["user","seen_status"]
     # search_fields = ["first_name","Keywords"]
 
+class Ordered_productsAdmin(admin.ModelAdmin):
+    list_display = ['product','color','size','sell_price','checkout','quantity']
+    # list_filter = ["user","seen_status"]
+
 
 admin.site.register(Checkout,CheckoutAdmin)
-admin.site.register(Ordered_products)
+admin.site.register(Ordered_products,Ordered_productsAdmin)
 admin.site.register(RerurnRequest,RerurnRequestAdmin)
 

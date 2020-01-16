@@ -15,4 +15,8 @@ class User(AbstractUser):
     def __srt__(self):
         return self.username
 
+class SuggestTags(models.Model):
+    user = models.ForeignKey(User,on_delete='models.CASCADE')
+    tags = models.TextField(max_length=4000)
+
 

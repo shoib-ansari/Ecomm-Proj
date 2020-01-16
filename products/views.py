@@ -2,11 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse ,JsonResponse
 from django.core import serializers
 from .models import *
-from useraccounts.views import getnavitems
+from useraccounts.views import getnavitems , add_to_suggestions
 from cart.models import *
 from django.db.models import Q
 from orderprocessing.models import Checkout , Ordered_products
-from itertools import chain
+from useraccounts.models import SuggestTags
 
 
 # Create your views here.
@@ -29,7 +29,6 @@ def size_filter(request,prodobj,size_list):
     color_ids = []
     prod_ids = []
     size_obj = Size_variation.objects.filter(size__in=size_list)
-    print("---------",size_obj)
     for i in size_obj:
         if not i.color_id in color_ids:
             color_ids.append(i.color_id)
@@ -37,8 +36,6 @@ def size_filter(request,prodobj,size_list):
     for i in color_obj:
         if not i.product_id in prod_ids:
             prod_ids.append(i.product_id)
-    print("----------------------",color_obj)
-    print("----------------------",prod_ids)
     return prodobj.filter(id__in=prod_ids)
     
 def get_wishlist(request):
@@ -48,7 +45,7 @@ def get_wishlist(request):
         return Wishlist.objects.none()
 
 def get_products_of_subcat(request,sub_cat):
-    sub_cat_obj = SubCategory.objects.get(name=sub_cat)
+    sub_cat_obj = SubCategory.objects.get(id=sub_cat)
     return Product.objects.filter(sub_category=sub_cat_obj)
 
 def getsubcats(request):
@@ -241,22 +238,23 @@ def search(request):
     query = request.GET.get('query')
     querylist = query.split(" ")
     resultid = []
+    return_list = []
     for i in querylist:
         prodobj = Product.objects.filter(Product_Name__icontains=i)
         for j in prodobj:
-            resultid.append(j.id)
+            return_list.append(j.Product_Name)
     for i in querylist:
         prodobj = Product.objects.filter(Keywords__icontains=i)
         for j in prodobj:
             resultid.append(j.id)
-    searchid = []
-    for i in resultid:
-        if i not in searchid:
-            searchid.append(i)
-    prodobj = Product.objects.values('Product_Name').filter(id__in=searchid)
-    return_list = []
+    prodobj = Product.objects.values('Keywords').filter(id__in=resultid)
     for i in prodobj:
-        return_list.append(i['Product_Name'])
+        temp = i['Keywords'].split(",")
+        for  j in temp:
+            return_list.append(j)
+    for i in return_list:
+        if i in return_list:
+            return_list.remove(i)
     print(return_list)
     return JsonResponse(return_list,safe=False)
 
@@ -292,37 +290,35 @@ def review(request):
     # if prod_id in list(ordered_ids):
     #     pass
 
-
 def show_results(request):
     query = request.GET.get('query')
     querylist = query.split(" ")
     product_list = []
+    add_to_suggestions(request,query)
+    exception_list = ['for','in',]
+    querylist = list(set(querylist) - set(exception_list))
     for i in querylist:
-        prodobj = Product.objects.filter(Q(Product_Name__icontains=i) | Q(Keywords__icontains=i)).values()
+        prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
         # prodobj is a set of products
         for j in prodobj:
             product_list.append(j)
-        # A list of dict is created
-    print(len(product_list))
-    print(product_list)
-            # for k in j:
-            #     k['counter'] = 0
-            #     k['counter'] = k['counter'] + k['Product_Name'].count(i) + k['Keywords'].count(i) 
-    
-    # for i in querylist:
-    #     prodobj2 = Product.objects.filter(Keywords__icontains=i).values()
-    #     for j in prodobj2:
-    #         j['counter'] = 0
-    #         j['counter'] = j['counter'] + j['Product_Name'].count(i) 
-    
-    # temp = Product.objects.all().values()
-    # print(temp)
+    # using frozenset to remove duplicates  
+    product_list = {frozenset(item.items()) : item for item in product_list}.values()
+    for i in querylist:
+        for j in product_list:
+            j['counter'] = 0
+            j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
+    prod_list = sorted(product_list, key = lambda i: i['counter']) 
+    prod_list.reverse()
+    return render(request,'shop_search.htm',{"products":prod_list})
 
-    # prodobj = prodobj1.union(prodobj2)
-    # print("---------------------------------",prodobj)
-    # prodobj = Product.objects.values('Product_Name').filter(id__in=searchid)
-    # return_list = []
-    # for i in prodobj:
-    #     return_list.append(i['Product_Name'])
-    # print(return_list)
-    return render(request,'shop.html',{"products":product_list})
+def get_cat_data(request):
+    url = request.get_full_path()
+    url = url.split("?")
+    id = int(url[1])
+    prodobj = Product.objects.select_related('sub_category').select_related('Final_category').get(id=id)
+    sub_cat = "~"+prodobj.sub_category.name+"~"
+    final_cat = "~"+prodobj.Final_category.name+"~"
+    data_list = [sub_cat,final_cat]
+    print("----------------------------",data_list)
+    return JsonResponse(data_list,safe=False)

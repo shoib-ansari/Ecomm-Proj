@@ -50,9 +50,8 @@ class Ordered_products(models.Model):
     size = models.CharField(max_length=80)
     status = models.IntegerField(choices=STATUS_CHOICES,default=1)
 
-    # def __str__(self):
-    #     return self.product
-
+    def __str__(self):
+        return  self.product
 
 
 class RerurnRequest(models.Model):

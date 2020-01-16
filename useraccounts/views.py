@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse , HttpResponse
-from .models import User
+from .models import User , SuggestTags
 from django.contrib.auth.models import auth
 from django.contrib import messages
 from products.models import *
 from cart.models import Cart
 import json
+from django.db.models import Q
 from notifications.models import Notifications
+from django.core.mail import send_mail
+from EcommerceWebsite.settings import EMAIL_HOST_USER
+from django.conf import settings
 
 
 # Create your views here.
@@ -40,12 +44,56 @@ def get_noti_status(request):
     else:
         return False
 
+def add_to_suggestions(request,query):
+    string = ''
+    import re
+    if request.user.is_authenticated:
+        sobj , flag = SuggestTags.objects.get_or_create(user=request.user)
+        if not len(re.findall(query, sobj.tags)):
+            sobj.tags = sobj.tags + ","+ str(query)
+
+            if len(re.findall(",", sobj.tags)) > 6:
+                temp_list = sobj.tags.split(",")
+                temp_list.pop(0)
+                for i in temp_list:
+                    string = string +i + ","
+                sobj.tags =string
+            sobj.save()
+
+def get_suggested_products(request):
+    if request.user.is_authenticated:
+        try:
+            sobj = SuggestTags.objects.get(user=request.user)
+            if sobj.tags:
+                querylist = sobj.tags.split(",")
+                product_list = []
+                exception_list = ['for','in',]
+                querylist = list(set(querylist) - set(exception_list))
+                for i in querylist:
+                    prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
+                    # prodobj is a set of products
+                    for j in prodobj:
+                        product_list.append(j)
+                # using frozenset to remove duplicates  
+                product_list = {frozenset(item.items()) : item for item in product_list}.values()
+                for i in querylist:
+                    for j in product_list:
+                        j['counter'] = 0
+                        j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
+                prod_list = sorted(product_list, key = lambda i: i['counter']) 
+                prod_list.reverse()
+                return prod_list
+        except SuggestTags.DoesNotExist:
+            return None
+    else:
+        return None
 
 def homepage(request):
     
     product_dict = getnavitems(request)
     noti_flag = get_noti_status(request)
-    return render(request, "index.html",{"products":product_dict,"notification":noti_flag})
+    suggest_prods = get_suggested_products(request)
+    return render(request, "index.html",{"products":product_dict,"notification":noti_flag,"suggestions":suggest_prods})
     
 
 def register(request):
@@ -88,7 +136,6 @@ def checklogin(request):
         if tempuser:
             return JsonResponse("Incorrect Password", safe=False)
 
-
 def update_user_profile_page(request):
 
     product_dict = getnavitems(request)
@@ -120,7 +167,6 @@ def update_profile(request):
         return_dict['status'] = 'invalid password'
         return HttpResponse(json.dumps(return_dict),content_type="application/json")
 
-
 def addr_page(request):
     return render(request,'manage_addr.htm')
 
@@ -147,3 +193,42 @@ def update_addr(request):
     user.alt_contact = alt_phone
     user.save()
     return HttpResponse('Updated')
+
+def test(request):
+    # SENDING MAIL TO USER___---------
+
+    flag = send_mail(
+        'Order recieved mail',
+        'Order placed successfully we will deliver it soon!!!.',
+        EMAIL_HOST_USER,
+        ['ansarishoib1008@gmail.com'],
+        fail_silently=False,
+    )
+    print("!!!!!!!!!!!$$$$$$$$$ ",flag)
+
+def f_p_page(request):
+        return render(request,'forgot_pwd.html')
+
+def send_recovery(request):
+    mail = request.GET.get('mail')
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    try:
+        user = User.objects.get(email=mail)
+    except User.DoesNotExist:
+        return HttpResponse('invalid')
+    if user:
+        import random
+        vcode = random.randint(100000, 999999)
+        request.session[mail] = vcode
+        message = ('Your Verifaction code to reset password is : '+ str(vcode))
+        # SENDING MAIL TO USER___---------
+        print("sending mail.............................................")
+        flag = send_mail(
+            'Password Recovery Code',
+             message,
+            'ecommerce.store.jpr@gmail.com',
+            [email],
+            fail_silently=True,
+        )
+        print("-------------------",flag)
+        return HttpResponse('sent')

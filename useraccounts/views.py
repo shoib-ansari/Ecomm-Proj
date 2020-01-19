@@ -29,7 +29,10 @@ def getnavitems(request):
                 final_cat = FinalCategory.objects.filter(sub_category=j)
                 if final_cat:
                     for k in final_cat:
-                        temp_final_list.append(k.name)
+                        last_list = []
+                        last_list.append(k.id)
+                        last_list.append(k.name)
+                        temp_final_list.append(last_list)
                 temp_sub_dict[j.name] = temp_final_list
             product_dict[i.name] = temp_sub_dict
     return product_dict
@@ -209,26 +212,46 @@ def test(request):
 def f_p_page(request):
         return render(request,'forgot_pwd.html')
 
-def send_recovery(request):
-    mail = request.GET.get('mail')
-    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+def send_recovery_code(request):
+    v_code = request.GET.get('v_code')
+    if v_code:
+        mail = request.GET.get('mail')
+        userobj = User.objects.get(email=mail)
+        try:
+            verobj = V_code.objects.get(user=userobj,code=v_code)
+        except V_code.DoesNotExist:
+            return HttpResponse("invalid Code")
+        if verobj:
+            verobj.delete()
+            auth.login(request,userobj)
+            return HttpResponse("logged inn")
+
+    string = ''
+    ver_obj = V_code.objects.none()
+    e_mail = request.GET.get('email')
     try:
-        user = User.objects.get(email=mail)
+        userobj = User.objects.get(email=e_mail)
     except User.DoesNotExist:
-        return HttpResponse('invalid')
-    if user:
-        import random
+        return HttpResponse('invalid mail')
+    if userobj:
         vcode = random.randint(100000, 999999)
-        request.session[mail] = vcode
+        string = 'Enter verification code sent to you email'
         message = ('Your Verifaction code to reset password is : '+ str(vcode))
+        try:
+            ver_obj = V_code.objects.get(user=userobj)
+        except V_code.DoesNotExist:
+            V_code.objects.create(user=userobj,code=vcode)
+        if ver_obj:
+            string = 'Your verification code is updated'
+            ver_obj.code = vcode
+            ver_obj.save()
         # SENDING MAIL TO USER___---------
-        print("sending mail.............................................")
         flag = send_mail(
             'Password Recovery Code',
-             message,
+            message,
             'ecommerce.store.jpr@gmail.com',
-            [email],
-            fail_silently=True,
-        )
-        print("-------------------",flag)
-        return HttpResponse('sent')
+            [e_mail],
+            fail_silently=False,
+        ) 
+        string = string + "?" + e_mail
+        return HttpResponse(string)

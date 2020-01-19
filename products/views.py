@@ -1,5 +1,5 @@
 from django.shortcuts import render 
-from django.http import HttpResponse ,JsonResponse
+from django.http import HttpResponse ,JsonResponse , HttpResponseRedirect
 from django.core import serializers
 from .models import *
 from useraccounts.views import getnavitems , add_to_suggestions
@@ -110,10 +110,18 @@ def showproducts(request):
     url = request.get_full_path()
     temp = url.split("in")
     sub_cat = temp[1]
+    gotdata = ''
+    try:
+        gotdata = temp[2]
+    except IndexError:
+        gotdata = None
     sub_cat_obj = SubCategory.objects.get(id=int(sub_cat))
     final_cat_set = FinalCategory.objects.filter(sub_category=sub_cat_obj)
     categories = FinalCategory.objects.filter(sub_category=sub_cat_obj.id)
-    product_set = Product.objects.filter(sub_category=sub_cat_obj)
+    if gotdata:
+        product_set = Product.objects.filter(Final_category_id=int(gotdata))
+    else:
+        product_set = Product.objects.filter(sub_category=sub_cat_obj)
     color_list = []
     id_list = []
     size_list = []
@@ -158,9 +166,10 @@ def show_detailed_product(request):
     cart_count = 0
     if request.user.is_authenticated:
         cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
+    review_obj = Reviews.objects.filter(product=prodobj).select_related('user')
     return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,
     "color_variation":prod_color_set,"sizes":prod_size_dict,"cart_count":cart_count,
-    "related_products":related_products})
+    "related_products":related_products,"reviews":review_obj})
 
 def sort_products(request,prodobj,sort_criteria):
     if sort_criteria == 'lth':
@@ -270,25 +279,27 @@ def rate(request):
         prodobj.total_ratings = prodobj.total_ratings + 1
         prodobj.rating = newrating
         prodobj.save()
+        review_obj, created = Reviews.objects.update_or_create(user=request.user,product=prodobj,defaults={'rating': curr_rating},)
         return_string = str(rating)+"^"
         return HttpResponse("permission granted")
     return HttpResponse("Denied^")
 
 def review(request):
-    import json
-    # prod_id = int(request.GET.get('prod_id'))
-    # review = request.GET.get('review')
-    # images = request.FILES.getlist('images')
-    images = request.FILES.get('images')
-    print("-----------------------------------")
-    print(images)
-    # print(prod_id)
-    # print(review)
-    # print(images)
-    # check_obj_list = Checkout.objects.filter(user=request.user).values_list('id',flat=True)
-    # ordered_ids = Ordered_products.objects.filter(id__in=check_obj_list).values_list('product_id',flat=True)
-    # if prod_id in list(ordered_ids):
-    #     pass
+    ret_string = ''
+    review = request.GET.get('review')
+    p_id = int(request.GET.get('prod_id'))
+    review_obj, created = Reviews.objects.update_or_create(user=request.user,product=Product.objects.get(id=p_id),defaults={'review': review})
+    name = request.user.first_name
+    if not name:
+        name = request.user.username
+    if created:
+        ret_string = ret_string + '1~'+str(review_obj.id)+'~' +name +'~'+str(review_obj.rating)+'~'+str(review_obj.review)
+    else:
+        ret_string = ret_string + '0~'+str(review_obj.id)+'~'+name +'~'+str(review_obj.rating)+'~'+str(review_obj.review)
+    return HttpResponse(ret_string)
+    
+        
+    print(review_obj.rating)
 
 def show_results(request):
     query = request.GET.get('query')
@@ -322,3 +333,23 @@ def get_cat_data(request):
     data_list = [sub_cat,final_cat]
     print("----------------------------",data_list)
     return JsonResponse(data_list,safe=False)
+
+def get_images(request):
+    # images = request.GET.getlist('reviewimages')
+    images = request.FILES.getlist('reviewimages')
+    review = request.GET.get('review')
+    p_id = request.GET.get('p_id')
+    prodobj = Product.objects.get(id=p_id)
+    print("-------------------------------------",images)
+    try:
+        reviewobj = Reviews.objects.get(Q(product_id=prodobj.id) & Q(user=request.user))
+        reviewobj.Review = review
+        reviewobj.save()
+    except Reviews.DoesNotExist:
+        reviewobj = Reviews.objects.create(product_id=prodobj.id,user=request.user,Review = review)
+    for i in images:
+        reviewobj
+        reviewimageobj = Reviewimages.objects.create(image=i,review_id=reviewobj.id,product_id=prodobj.id,user_id=request.user.id)
+    url = str(request.META.get('HTTP_REFERER'))+'#rt_rv'
+    print("---------------------------------------",request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(url)

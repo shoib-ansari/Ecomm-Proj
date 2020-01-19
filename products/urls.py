@@ -14,5 +14,6 @@ urlpatterns = [
     path('rate',views.rate,name='Rate the product'),
     path('review',views.review,name='Give review for the product'),
     path('search',views.search,name='search products'),
-    path('show_results',views.show_results,name='search products')
+    path('show_results',views.show_results,name='search products'),
+    path('get_images',views.get_images,name='search products images from user'),
 ]

@@ -2,11 +2,15 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
+class Ordered_productsInline(admin.TabularInline):
+    model = Ordered_products
+    extra = 0
 
 class CheckoutAdmin(admin.ModelAdmin):
     list_display = ['user','first_name','number','city','state','Mark_as_seen','date']
     list_filter = ["city","state","first_name"]
     search_fields = ["first_name","Keywords"]
+    inlines = [Ordered_productsInline]
 
 
 
@@ -15,12 +19,14 @@ class RerurnRequestAdmin(admin.ModelAdmin):
     list_filter = ["user","seen_status"]
     # search_fields = ["first_name","Keywords"]
 
-class Ordered_productsAdmin(admin.ModelAdmin):
-    list_display = ['product','color','size','sell_price','checkout','quantity']
-    # list_filter = ["user","seen_status"]
+
+
+# class Ordered_productsAdmin(admin.ModelAdmin):
+#     list_display = ['product','color','size','sell_price','checkout','quantity']
+#     # list_filter = ["user","seen_status"]
 
 
 admin.site.register(Checkout,CheckoutAdmin)
-admin.site.register(Ordered_products,Ordered_productsAdmin)
+# admin.site.register(Ordered_products,Ordered_productsAdmin)
 admin.site.register(RerurnRequest,RerurnRequestAdmin)
 

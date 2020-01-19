@@ -66,7 +66,7 @@ class Size_variation(models.Model):
 class Reviews(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    Review = models.CharField(max_length=10000,blank=True)
+    review = models.CharField(max_length=10000,blank=True)
     rating = models.IntegerField(blank=True,null=True)
 
 class Reviewimages(models.Model):

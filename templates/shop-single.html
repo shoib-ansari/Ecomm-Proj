@@ -428,45 +428,25 @@
 
                 <!-- Rating and review area start -->
                 <div class="row p-3 " id="ratingdiv">
+                    <div id="rt_rv">
+                        {% for i in reviews %}
                     <!-- Rating and review start -->
-                    <div class="container-fluid  p-2 text-dark">
+                    <div class="container-fluid  p-2 text-dark r_cnt" id="{{i.id}}">
                         <div class="row">
                             <span class="icon-commenting-o text-primary" style="font-size: x-large;"></span> &nbsp;
-                            <h5 class="reviewname">Tushar Mathur</h5> &nbsp; <div class="ratingspec"> 4<span
-                                    class="icon-star "></span>
+                            <h5 class="reviewname" >{{i.user.first_name}}</h5> &nbsp; <div class="ratingspec">{{i.rating }}<span class="icon-star"></span>
                             </div>
                         </div>
-                        <div class="row pl-4 reviewtext">
-                            It's really a nice product. I recommend it to everyone
+                        <div class="row pl-5 reviewtext">
+                            {{i.review }}
                         </div>
                     </div>
                     <!-- Rating and review end -->
-                    <!-- Rating and review start -->
-                    <div class="container-fluid p-2 text-dark">
-                        <div class="row">
-                            <span class="icon-commenting-o text-primary" style="font-size: x-large;"></span> &nbsp;
-                            <h5 class="reviewname">Tushar Mathur</h5> &nbsp; <div class="ratingspec"> 4<span
-                                    class="icon-star "></span>
-                            </div>
-                        </div>
-                        <div class="row pl-4 reviewtext">
-                            It's really a nice product. I recommend it to everyone
-                        </div>
+                    {% endfor %}
                     </div>
-                    <!-- Rating and review end -->
-                    <!-- Rating and review start -->
-                    <div class="container-fluid p-2 text-dark">
-                        <div class="row">
-                            <span class="icon-commenting-o text-primary" style="font-size: x-large;"></span> &nbsp;
-                            <h5 class="reviewname">Tushar Mathur</h5> &nbsp; <div class="ratingspec"> 4<span
-                                    class="icon-star "></span>
-                            </div>
-                        </div>
-                        <div class="row pl-4 reviewtext">
-                            It's really a nice product. I recommend it to everyone
-                        </div>
-                    </div>
-                    <!-- Rating and review end -->
+                    
+                  
+                    
                     <!-- Write new review start -->
                     <div class="container-fluid">
                         <div class=" newrevtext">
@@ -488,7 +468,8 @@
                             </div>
                         </div>
                         <div class="container-fluid review" style="display: none;">
-                            <form method="get" id="review_form">
+
+                            <form method="get" id="review_form" action="/products/get_images">
                                 <label for="image_inp">
                                     <span class="icon-camera"></span>&nbsp;<span>Upload </span>
                                 </label>
@@ -497,14 +478,16 @@
                                 <div class="form-group">
                                     <!-- <label for="exampleFormControlTextarea1"> Write your Review About this product ..
                                     </label> -->
-                                    <textarea class="form-control" id="review" rows="3" required
+                                    <textarea class="form-control" id="review" rows="3" required name="review"
                                         placeholder="Write your Review About this product here.."></textarea>
                                 </div>
+                                <input type="hidden" name="p_id" value="{{product.id}}">
                                 <div class="d-flex flex-row-reverse">
                                     <button type="submit" id="review_text" class="btn btn-outline-primary"> Submit
                                         &nbsp;<span class=" icon-paper-plane-o"></span></button>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -663,15 +646,15 @@
     <!-- Bootstrap js -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- Plugins js -->
-    <!-- <script src="{% static 'js/plugins.js' %}"></script> -->
+    <script src="{% static 'js/plugins.js' %}"></script>
     <!-- Active js -->
-    <!-- <script src="{% static 'js/active.js' %}"></script> -->
+    <script src="{% static 'js/active.js' %}"></script>
     <!-- carousel js -->
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'js/aos.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-    <script>
+    <script>      
         $('.owl-carousel').owlCarousel({
             loop: false,
             margin: 10,
@@ -688,7 +671,7 @@
                 }
             }
         });
-        var prod_id = {{ product.id }}
+        var prod_id =document.getElementById('p_id').value
         function check_add_cart_status() {
             var color = $('#prod_color').val()
             var size = $('#prod_size').val()
@@ -828,6 +811,7 @@
         var p_id = document.getElementById('p_id').value
         $('.icon-star-o').click(function () {
             rate = $(this).attr('rat')
+            // alert(rate)
             $.ajax({
                 url: '/products/rate',
                 type: 'get',
@@ -838,9 +822,10 @@
                 beforeSend: function () {
                     // alert("updating")
                 }, success: function (data) {
+                    // alert(data)
                     data = data.split("^")
                     if (data[0] == "Denied") {
-                        // alert("can't updated")
+                        alert("can't updated")
                     }
                     else {
                         // alert("wait")
@@ -856,34 +841,75 @@
         // --------------------------  SUBMIT RATING  ------------------
 
         $('#review_form').submit(function (e) {
-            e.preventDefault();
-            var images = new Object()
-            // var list = new Array();
+            // var images = new Object()
+            var images = document.getElementById('image_inp').files
+            alert(images.length)
             review = $('#review').val()
-            images = $('#image_inp').prop("files");
-            console.log(typeof (images))
-            console.log(images)
-            alert(document.getElementById('p_id').value)
-            pid = document.getElementById('p_id').value
-            $.ajax({
-                url: '/products/review',
-                type: 'get',
-                processData: false,
-                contentType: false,
-                dataType: "json",
-                data: {
-                    // review : review,
-                    // prod_id : pid,
-                    images: images
-                },
-                // data : $(this).serialize(),
-                beforeSend: function () {
-                    alert("sending")
-                },
-                success: function () {
-                    alert("done")
-                }
-            })
+            if(images.length == 0){
+                e.preventDefault();
+                $.ajax({
+                    url: '/products/review',
+                    type: 'get',
+                    data: {
+                        review : review,
+                        prod_id : p_id,
+                    },
+                    beforeSend: function () {
+                        // alert("sending")
+                    },
+                    success: function (data) {
+                        data = data.split('~')
+                        flag = data[0]
+                        rev_id = data[1]
+                        name = data[2]
+                        rating = data[3]
+                        review = data[4]
+                        var elementExists = document.getElementById(rev_id);
+                        if(elementExists){
+                            alert(rev_id.length)
+                            alert("mil gya...")
+                            $('#'+rev_id).find(".reviewname").text(name)
+                            $('#'+rev_id).find(".ratingspec").text(rating)
+                            $('#'+rev_id).find(".ratingspec").append('<span class="icon-star"></span>')
+                            $('#'+rev_id).find(".reviewtext").text(review)
+                            temp = 1
+                        }
+                        else{
+                            alert("creating")
+                            var main_div = document.createElement("div")
+                            main_div.classList.add("container-fluid","p-2","r_cnt")
+                            main_div.setAttribute('id',3)
+                            var row = document.createElement('div')
+                            row.classList.add("row")
+                            var span = document.createElement('span')
+                            span.classList.add('icon-commenting-o','text-primary')
+                            h5 = document.createElement('h5')
+                            h5.classList.add("reviewname","pb-2")
+                            h5.innerHTML = name
+                            ratingspec = document.createElement('div')
+                            icon = document.createElement('span')
+                            icon.classList.add('icon-star','text-primary','mt-1')
+                            ratingspec.innerHTML = rating
+                            ratingspec.classList.add('ratingspec','text-primary')
+                            row.appendChild(span)
+                            row.appendChild(h5)
+                            row.appendChild(ratingspec)
+                            row.appendChild(icon)
+                            main_div.appendChild(row)
+                            reviewtext =document.createElement('div')
+                            reviewtext.classList.add("row","pl-4")
+                            reviewtext.innerHTML = review
+                            main_div.appendChild(reviewtext)
+                            document.getElementById('rt_rv').appendChild(main_div)
+                            // $('#ratingdiv').before('<div class="container-fluid  p-2 text-dark r_cnt" "><div class="row"><span class="icon-commenting-o text-primary" style="font-size: x-large;"></span> &nbsp;<h5 class="reviewname" >{{i.user.first_name}}</h5> &nbsp; <div class="ratingspec">{{i.rating }}<span class="icon-star"></span></div></div><div class="row pl-5 reviewtext">{{i.review }}</div></div>')
+                            // alert($('#0000'))
+                            }
+                    }
+                })
+            }
+            // else{
+            //     // $('#review_form').submit();
+            // }
         })
 
     </script>

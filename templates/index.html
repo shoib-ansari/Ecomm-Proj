@@ -37,7 +37,7 @@
                     <div class="logo">
                         <div class="site-logo">
                             <a href="/" class="js-logo-clone">Dealers</a>
-                            <a href="/test" class="js-logo-clone">Test</a>
+                            <!-- <a href="/test" class="js-logo-clone">Test</a> -->
                         </div>
                     </div>
                     <div class="main-nav d-none d-lg-block">
@@ -50,12 +50,16 @@
                                         {% for i,j in value.items %}
                                         <li class="has-children">
                                             {% with j|first as first_object %}
-                                            <a href="products/sub_productsin{{first_object}}">{{i}}</a> {% endwith %}
+                                            <a href="products/sub_productsin{{first_object}}">{{i}}</a>
                                             <ul class="dropdown">
-                                                {% for k in j %} {% if not forloop.counter == 1 %}
-                                                <li><a href="#">{{k}}</a></li>
-                                                {% endif %} {% endfor %}
+                                                {% for k in j %} 
+                                                {% if k.0 %}
+                                                <li><a href="products/sub_productsin{{first_object}}in{{k.0}}">{{k.1}}</a></li>
+                                                {% endif %}
+                                                 {% endfor %}
                                             </ul>
+                                            {% endwith %}
+
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -435,6 +439,7 @@
     <script src="{% static 'js/aos.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script>
+        
         $('.owl-carousel').owlCarousel({
             loop: false,
             margin: 20,
@@ -468,6 +473,9 @@
             $(".close").click(function() {
                 $("#logindiv").fadeOut(200);
             });
+            // $("body").not('#loginform,#registform').click(function(){
+            //     $("#logindiv").fadeOut(200);
+            // });
         });
     </script>
 

@@ -215,35 +215,80 @@
     <script src="{% static 'js/main.js' %}"></script>
 
     <script>
-        
-    $('#snd_rec').submit(function(e){
-        e.preventDefault();
-        alert(document.getElementById('eml'))
-        var mail = $('#eml').val()
-        alert(mail)
-        $.ajax({
-            url:'/send_recovery',
-            type: "GET",
-            data :{
-                mail : mail
-            },
-            beforeSend:function () {
-                alert("ooi")
-                $('.fa-spinner').show()
-            },
-            success: function(data){
-                alert(data)
-               if(data == 'invalid'){
-               alert('there is no user associated with this e_mail id')
-            }
-             else if(data == 'sent'){
-                alert("Recovery code has been sent to your e-mail")
-            }
-        }
+        $(document).ready(function () {
+            $('#snd_rec').submit(function (e) {
+                e.preventDefault();
+                var v_code = ''
+                ml = document.getElementById("ml").value
+                if (document.contains(document.getElementById("eml"))) {
+                    email = $('#eml').val();
+                }
+                if (document.contains(document.getElementById("v_code"))) {
+                    v_code = $('#v_code').val();
+                }
+                $.ajax({
+                    url: '/useraccounts/send_recovery_code',
+                    data: {
+                        email: email,
+                        v_code: v_code,
+                        mail: ml
+                    },
+                    beforeSend: function () {
+                        $('.rec_cnt2').show()
+                        $('#mss').text()
+                        if (document.contains(document.getElementById("s_ml"))) {
+                            document.getElementById("s_ml").disabled = true;
+                        }
+                    },
+                    success: function (data) {
+                        $('.rec_cnt2').hide()
+                        if (data == 'invalid mail') {
+                            $('#mss').text("This mail id is not associated with any user")
+                            $('#mss').css("color", "red");
+                            if (document.contains(document.getElementById("s_ml"))) {
+                            document.getElementById("s_ml").disabled = false;
+                        }
+                        }
+                        else if (data == 'invalid Code') {
+                            $('#mss').text('')
+                            $('#mss').text(data)
+                            $('#mss').css("color", "red");
+                        }
+                        else if (data == 'logged inn') {
+                            window.location.href = '/'
+                        }
+                        else {
+                            alert
+                            temp = data.split("?")
+                            data = temp[0]
+                            mail = temp[1]
+                            $('#ml').val(mail)
+                            // $('#snd_rec').remove()
+                            $('#mss').text(data)
+                            $('#mss').css("color", "green");
+                            document.getElementById("eml").type = 'number';
+                            document.getElementById("eml").setAttribute('id', 'v_code')
+                            $('#eml').val('')
+                            $('#eml').attr("placeholder", "Type your varification code here");
+                            document.getElementById("s_ml").remove();
+                            var btn = document.createElement("Button");
+                            btn.classList.add("btn", "btn-outline-success");
+                            btn.innerHTML = "Verify"
+                            btn.setAttribute('id', "verify_btn")
+                            document.getElementsByClassName('modal-footer')[0].appendChild(btn)
+                        }
+                    }
+                })
+            })
+
+
+            $('#verify_btn').click(function () {
+                $('form').submit(false);
+                alert("Hiii")
+            })
+
         })
-    })
-        // })
-   
+
     </script>
 
 </body>

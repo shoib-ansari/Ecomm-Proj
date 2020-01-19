@@ -12,5 +12,5 @@ urlpatterns = [
     path('checkuserlogin',views.checklogin,name='checkinguserlogin'),
     path('test',views.test,name='checkinguserlogin'),
     path('forgot_pwd',views.f_p_page,name='Open Forgot pwd page'),
-    path('send_recovery',views.send_recovery,name='Send recovery mail')
+    path('send_recovery_code',views.send_recovery_code,name='Send recovery mail')
 ]

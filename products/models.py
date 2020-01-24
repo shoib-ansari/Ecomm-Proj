@@ -1,6 +1,7 @@
 from django.db import models
 from offers.models import Offer
 from useraccounts.models import User
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -24,6 +25,12 @@ class FinalCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+class Tags(models.Model):
+    name = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return self.name
     
 class Product(models.Model):
     Main_category = models.ForeignKey(MainCategory,on_delete=models.CASCADE)
@@ -37,6 +44,8 @@ class Product(models.Model):
     Size = models.CharField(max_length=250,blank=True)
     color = models.CharField(max_length=500,blank=True)
     Total_stock = models.IntegerField(null=True,blank=True)
+    brand = models.CharField(null=True,max_length=200)
+    tags = models.ManyToManyField(Tags,blank=True)
     Keywords = models.TextField(max_length=2000,blank=True)
     Return_allowed = models.BooleanField(default=True)
     date = models.DateField(auto_now_add=True)
@@ -74,3 +83,18 @@ class Reviewimages(models.Model):
     image = models.ImageField(blank=False,upload_to='reviewpics')
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+
+
+
+
+
+
+
+
+
+
+# def save_product(sender,instance, **kwargs ):
+#     print("-------------------------------------------------------------")
+#     print("tags are....",instance.tags.name)
+
+# post_save.connect(save_product,sender=Product)

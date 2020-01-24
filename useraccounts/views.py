@@ -63,40 +63,42 @@ def add_to_suggestions(request,query):
                 sobj.tags =string
             sobj.save()
 
-def get_suggested_products(request):
-    if request.user.is_authenticated:
-        try:
-            sobj = SuggestTags.objects.get(user=request.user)
-            if sobj.tags:
-                querylist = sobj.tags.split(",")
-                product_list = []
-                exception_list = ['for','in',]
-                querylist = list(set(querylist) - set(exception_list))
-                for i in querylist:
-                    prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
-                    # prodobj is a set of products
-                    for j in prodobj:
-                        product_list.append(j)
-                # using frozenset to remove duplicates  
-                product_list = {frozenset(item.items()) : item for item in product_list}.values()
-                for i in querylist:
-                    for j in product_list:
-                        j['counter'] = 0
-                        j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
-                prod_list = sorted(product_list, key = lambda i: i['counter']) 
-                prod_list.reverse()
-                return prod_list
-        except SuggestTags.DoesNotExist:
-            return None
-    else:
-        return None
+# def get_suggested_products(request):
+#     if request.user.is_authenticated:
+#         try:
+#             sobj = SuggestTags.objects.get(user=request.user)
+#             if sobj.tags:
+#                 querylist = sobj.tags.split(",")
+#                 product_list = []
+#                 exception_list = ['for','in',]
+#                 querylist = list(set(querylist) - set(exception_list))
+#                 for i in querylist:
+#                     prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
+#                     # prodobj is a set of products
+#                     for j in prodobj:
+#                         product_list.append(j)
+#                 # using frozenset to remove duplicates  
+#                 product_list = {frozenset(item.items()) : item for item in product_list}.values()
+#                 for i in querylist:
+#                     for j in product_list:
+#                         j['counter'] = 0
+#                         j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
+#                 prod_list = sorted(product_list, key = lambda i: i['counter']) 
+#                 prod_list.reverse()
+#                 return prod_list
+#         except SuggestTags.DoesNotExist:
+#             return None
+#     else:
+#         return None
 
 def homepage(request):
     
     product_dict = getnavitems(request)
     noti_flag = get_noti_status(request)
-    suggest_prods = get_suggested_products(request)
-    return render(request, "index.html",{"products":product_dict,"notification":noti_flag,"suggestions":suggest_prods})
+    # suggest_prods = get_suggested_products(request)
+    suggest_prods = None
+    main_cat = MainCategory.objects.all().distinct()
+    return render(request, "index.html",{"products":product_dict,"notification":noti_flag,"suggestions":suggest_prods,"main_cat":main_cat})
     
 
 def register(request):
@@ -197,17 +199,6 @@ def update_addr(request):
     user.save()
     return HttpResponse('Updated')
 
-def test(request):
-    # SENDING MAIL TO USER___---------
-
-    flag = send_mail(
-        'Order recieved mail',
-        'Order placed successfully we will deliver it soon!!!.',
-        EMAIL_HOST_USER,
-        ['ansarishoib1008@gmail.com'],
-        fail_silently=False,
-    )
-    print("!!!!!!!!!!!$$$$$$$$$ ",flag)
 
 def f_p_page(request):
         return render(request,'forgot_pwd.html')
@@ -255,3 +246,11 @@ def send_recovery_code(request):
         ) 
         string = string + "?" + e_mail
         return HttpResponse(string)
+
+
+from jeneprocessor.jenepdf import JenePDF
+
+def render_jene(request):
+    pdf_config = JenePDF("test.html", "result.pdf")
+    result = pdf_config.produce_pdf()
+    return result

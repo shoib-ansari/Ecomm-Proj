@@ -103,6 +103,22 @@
                 {% endfor %}
               </ul>
             </div>
+
+            <!-- Brand filter start -->
+            <div class="border p-4 mb-4">
+              <h3 class="mb-3 h6 text-uppercase text-black" style="user-select: none;">Filter by brand<span
+                  id="final_cat" data-cat=""></span></h3>
+              <ul class="list-unstyled">
+                {% for i in brands %}
+                <label for="s_sm" class="d-flex">
+                  <input type="checkbox" name="brand_box" class="brand_box" id="b_{{i}}" value="{{i}}" class="mr-2">
+                  <label for="b_{{i}}" style="margin-top: -8px; cursor: pointer;" class="text-black pl-2">{{i}}
+                    (2,319)</label>
+                </label>
+                {% endfor %}
+              </ul>
+            </div>
+            <!-- Brand filter ends -->
          
               <div class="border p-4  container-fluid">
                 <div class=" row">
@@ -127,22 +143,26 @@
                 <div class="container-fluid">
                   <div class="mb-4">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
-                    {% for i in sizes %}
+                    <div class="sizediv">
+                      {% for i in sizes %}
                     <label for="s_sm" class="d-flex">
                       <input type="checkbox" name="size_box" class="size_box" id="s_{{i}}" value="{{i}}" class="mr-2">
                       <label for="s_{{i}}" style="margin-top: -8px; cursor: pointer;" class="text-black">{{i}}
                         (2,319)</label>
                     </label>
                     {% endfor %}
+                    </div>
                   </div>
                   <div class="mb-4">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
-                    {% for i in colors %}
+                    <div class="colordiv">
+                      {% for i in colors %}
                     <div class="d-flex color-item align-items-center">
                       <input type="checkbox" class="color_box" name="color_box" id="{{i}}" value="{{i}}">
                       <label for="{{i}}" style="cursor:pointer;" class=" ml-1 mr-2">{{i}}</label>
                     </div>
                     {% endfor %}
+                    </div>
                     </a>
                   </div>
                 </div>
@@ -444,8 +464,12 @@
       var sort_criteria = document.getElementById('filter_data').getAttribute('sort-criteria')
       cat_id = e.getAttribute("data-cat_id")
       category = e.getAttribute("data-cat")
+      brand_filter = []
       size_filter = []
       color_filter = []
+      $.each($("input[name='brand_box']:checked"), function () {
+        brand_filter.push($(this).val());
+      });
       $.each($("input[name='size_box']:checked"), function () {
         size_filter.push($(this).val());
       });
@@ -460,7 +484,8 @@
           'sort_criteria': sort_criteria,
           'cat_id': cat_id,
           'colors[]': color_filter,
-          'size[]': size_filter
+          'size[]': size_filter,
+          'brand[]': brand_filter
         },
         beforeSend: function () {
           $('#loading_area').show();
@@ -484,12 +509,17 @@
       })
     }
 
-// filter products for price , size and color
+// filter products for "price" , size and color
   function filter_prods(){
       var size_filter = []
       var color_filter = []
+      
+      brand_filter = []
       var min_price = $('#min-price').html()
       var max_price = $('#max-price').html()
+      $.each($("input[name='brand_box']:checked"), function () {
+        brand_filter.push($(this).val());
+      });
       $.each($("input[name='size_box']:checked"), function () {
           size_filter.push($(this).val());
         });
@@ -508,6 +538,7 @@
             'colors[]': color_filter,
             'final_cat': final_cat,
             'size[]': size_filter,
+            'brand[]': brand_filter,
             'products': products,
             'min_price':min_price,
             'max_price':max_price
@@ -564,8 +595,8 @@
       })
     }
     $(function () {
-      // ------------- Function for Color , size and price filter ('/products/filter') -------------------------------
-      $('.size_box, .color_box').change(function () {filter_prods();})
+      // ------------- Function to call for Color , size and price filter ('/products/filter') -------------------------------
+      $('.size_box, .color_box, .brand_box').change(function () {filter_prods();})
       // -----------------------------------------------------------------
       $("#slider-range").slider({
         range: true,
@@ -594,6 +625,10 @@
         inn_sort = document.getElementById('final_cat').getAttribute('final_cat')
         size_filter = []
         color_filter = []
+        brand_filter = []
+        $.each($("input[name='brand_box']:checked"), function () {
+        brand_filter.push($(this).val());
+         });
         $.each($("input[name='size_box']:checked"), function () {
           size_filter.push($(this).val());
         });
@@ -608,6 +643,7 @@
             'products': products,
             'colors[]': color_filter,
             'inner_sort': inn_sort,
+            'brand[]': brand_filter,
             'size[]': size_filter
           },
           beforeSend: function () {

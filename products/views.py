@@ -297,6 +297,30 @@ def filter(request):
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)
 
+# def search(request):
+#     query = request.GET.get('query')
+#     querylist = query.split(" ")
+#     resultid = []
+#     return_list = []
+#     for i in querylist:
+#         prodobj = Product.objects.filter(Product_Name__icontains=i)
+#         for j in prodobj:
+#             return_list.append(j.Product_Name)
+#     for i in querylist:
+#         prodobj = Product.objects.filter(Keywords__icontains=i)
+#         for j in prodobj:
+#             resultid.append(j.id)
+#     prodobj = Product.objects.values('Keywords').filter(id__in=resultid)
+#     for i in prodobj:
+#         temp = i['Keywords'].split(",")
+#         for  j in temp:
+#             return_list.append(j)
+#     for i in return_list:
+#         if i in return_list:
+#             return_list.remove(i)
+#     print(return_list)
+#     return JsonResponse(return_list,safe=False)
+
 def search(request):
     query = request.GET.get('query')
     querylist = query.split(" ")
@@ -307,7 +331,7 @@ def search(request):
         for j in prodobj:
             return_list.append(j.Product_Name)
     for i in querylist:
-        prodobj = Product.objects.filter(Keywords__icontains=i)
+        prodobj = Product.objects.filter(tags__name__icontains=i)
         for j in prodobj:
             resultid.append(j.id)
     prodobj = Product.objects.values('Keywords').filter(id__in=resultid)
@@ -355,6 +379,30 @@ def review(request):
         
     print(review_obj.rating)
 
+# def show_results(request):
+#     query = request.GET.get('query')
+#     querylist = query.split(" ")
+#     product_list = []
+#     add_to_suggestions(request,query)
+#     exception_list = ['for','in',]
+#     querylist = list(set(querylist) - set(exception_list))
+#     for i in querylist:
+#         prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
+#         # prodobj is a set of products
+#         for j in prodobj:
+#             product_list.append(j)
+#     # using frozenset to remove duplicates  
+#     product_list = {frozenset(item.items()) : item for item in product_list}.values()
+#     for i in querylist:
+#         for j in product_list:
+#             j['counter'] = 0
+#             j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
+#     prod_list = sorted(product_list, key = lambda i: i['counter']) 
+#     prod_list.reverse()
+#     return render(request,'shop_search.htm',{"products":prod_list})
+
+
+
 def show_results(request):
     query = request.GET.get('query')
     querylist = query.split(" ")
@@ -362,20 +410,17 @@ def show_results(request):
     add_to_suggestions(request,query)
     exception_list = ['for','in',]
     querylist = list(set(querylist) - set(exception_list))
+    cat_set = {'men','women','boys','girls','kids'}
+    # gen = set(cat_set).intersection(querylist)
+    exceptions = list((cat_set)-(set(cat_set).intersection(querylist)))
     for i in querylist:
-        prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
-        # prodobj is a set of products
+        prodobj = Product.objects.filter(Q(tags__name__iexact=i) ).exclude(tags__name__icontains=exceptions).values()
+        # prodobj
         for j in prodobj:
             product_list.append(j)
     # using frozenset to remove duplicates  
-    product_list = {frozenset(item.items()) : item for item in product_list}.values()
-    for i in querylist:
-        for j in product_list:
-            j['counter'] = 0
-            j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
-    prod_list = sorted(product_list, key = lambda i: i['counter']) 
-    prod_list.reverse()
-    return render(request,'shop_search.htm',{"products":prod_list})
+    # product_list = {frozenset(item.items()) : item for item in product_list}.values()
+    return render(request,'shop_search.htm',{"products":product_list})
 
 def get_cat_data(request):
     url = request.get_full_path()

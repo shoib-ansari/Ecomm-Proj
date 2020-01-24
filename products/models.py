@@ -46,7 +46,7 @@ class Product(models.Model):
     Total_stock = models.IntegerField(null=True,blank=True)
     brand = models.CharField(null=True,max_length=200)
     tags = models.ManyToManyField(Tags,blank=True)
-    Keywords = models.TextField(max_length=2000,blank=True)
+    # Keywords = models.TextField(max_length=2000,blank=True)
     Return_allowed = models.BooleanField(default=True)
     date = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to="Product_Images")

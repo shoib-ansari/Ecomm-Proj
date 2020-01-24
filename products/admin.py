@@ -37,7 +37,7 @@ class ProductAdmin(NestedModelAdmin):
     list_display = ['Product_Name','Total_stock','date']
     inlines = [Color_variationInline]
     list_filter = ["date","Main_category","sub_category"]
-    search_fields = ["Product_Name","Keywords"]
+    search_fields = ["Product_Name"]
 
     def save_model(self, request, obj, form, change):
         if change == True:

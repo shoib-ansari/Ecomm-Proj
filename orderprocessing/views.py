@@ -3,6 +3,9 @@ from cart.models import *
 from products.models import Product
 from django.http import HttpResponse
 from .models import *
+from django.core.mail import send_mail
+from EcommerceWebsite.settings import EMAIL_HOST_USER
+from django.conf import settings
 # Importing for pdf generation -----------------#
 from django.template.loader import get_template #
 from .utils import render_to_pdf                #
@@ -47,26 +50,52 @@ def get_order(request):
     a_phone = request.POST.get('a_phone')
     e_mail = request.POST.get('e_mail')
     state = request.POST.get('state')
-    save_flag = request.POST.get('save_addr')
+    save_flag = request.POST.getlist('save_addr')
     cartobj = Cart.objects.filter(user=request.user).select_related('color')
+    if '1' in save_flag:
+        # userobj = User.objects.get(id=request.user)
+        request.user.first_name = f_name
+        request.user.last_name = l_name
+        request.user.address=address
+        request.user.city=city
+        request.user.state=state
+        request.user.address=address
+        request.user.contact=phone
+        request.user.alt_contact=a_phone
+        request.user.pincode=pin_code
+        request.user.save()
+
     if not a_phone:
         a_phone = 000
-    promocode = request.session.get('promocode',None)
+    promocode = request.session.get('promocode',False)
     if promocode:
         promocode = Promocodes.objects.get(code=promocode)
         del request.session['promocode']
-    checkout_obj = Checkout.objects.create(user=request.user,
-    first_name=f_name,
-    last_name=l_name,
-    address = address,
-    city= city,
-    state = state,
-    number = phone,
-    alt_number = phone,
-    pincode = pin_code,
-    email = e_mail,
-    promocode=promocode
-    )
+ 
+        checkout_obj = Checkout.objects.create(user=request.user,
+        first_name=f_name,
+        last_name=l_name,
+        address = address,
+        city= city,
+        state = state,
+        number = phone,
+        alt_number = a_phone,
+        pincode = pin_code,
+        email = e_mail,
+        promocode=promocode
+        )
+    else:
+        checkout_obj = Checkout.objects.create(user=request.user,
+        first_name=f_name,
+        last_name=l_name,
+        address = address,
+        city= city,
+        state = state,
+        number = phone,
+        alt_number = a_phone,
+        pincode = pin_code,
+        email = e_mail
+        )
 
     for i in cartobj:
         sell_price = 0
@@ -80,6 +109,19 @@ def get_order(request):
                                         color=i.color.color,quantity=i.Quantity,Image=i.color.Image_one,
                                         sell_price=sell_price,price=price,size=i.size)
     cartobj.delete()
+    mail_list = []
+    admin_mail = User.objects.filter(is_superuser=1)
+    for i in admin_mail:
+        mail_list.append(i.email)
+    # sending Mails--------------
+    message = "hi you have a order new from "+f_name+" in "+state
+    # flag = send_mail(
+    #         'New order recieved',
+    #         message,
+    #         'ecommerce.store.jpr@gmail.com',
+    #         mail_list,
+    #         fail_silently=False,
+    #     )
     return render(request,'thankyou.html')
 
 def order_history(request):

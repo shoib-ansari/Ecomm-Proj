@@ -11,6 +11,8 @@ from notifications.models import Notifications
 from django.core.mail import send_mail
 from EcommerceWebsite.settings import EMAIL_HOST_USER
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
 
 
 # Create your views here.
@@ -254,3 +256,4 @@ def render_jene(request):
     pdf_config = JenePDF("test.html", "result.pdf")
     result = pdf_config.produce_pdf()
     return result
+

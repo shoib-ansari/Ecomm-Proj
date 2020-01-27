@@ -28,7 +28,7 @@
 <body>
 
   <div class="site-wrap">
-    <div class="site-navbar bg-white py-2 position-relative">
+    <div class="site-navbar bg-white py-2">
       <div class="search-wrap">
         <div class="container">
           <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
@@ -84,17 +84,20 @@
         </div>
       </div>
     </div>
-    <div class="bg-light mt-4 py-3">
+    <!-- <div class="bg-light mt-4 py-3">
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
               class="text-black">Cart</strong></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="container">
       <div class="row justify-content-center">
+        {% if total == 0 %}
+        <img src="{% static 'images/undraw_empty_cart_co35.svg' %}" class="img-fluid p-3" style="height: 40vh;">
+        {% endif %}
         {% for i in cart_products %}
         <!-- Product start -->
         <div class="col-md-3 m-4" id="p_c_{{i.id}}">

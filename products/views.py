@@ -52,6 +52,7 @@ def get_wishlist(request):
         return Wishlist.objects.none()
 
 def get_products_of_subcat(request,sub_cat):
+    print("--------------------------------------------------------------------------------",sub_cat)
     sub_cat_obj = SubCategory.objects.get(id=sub_cat)
     return Product.objects.filter(sub_category=sub_cat_obj)
 
@@ -127,7 +128,7 @@ def showproducts(request):
         # If clicked on main category
         main_id = sub_cat.split("of")
         main_id = int(main_id[1])
-        categories = FinalCategory.objects.filter(main_category_id=main_id)
+        categories = SubCategory.objects.filter(main_category_id=main_id)
         prodobj = Product.objects.filter(Main_category_id=main_id)
         for i in prodobj:
             if i.brand not in brand_list and not i.brand is None:
@@ -152,12 +153,11 @@ def showproducts(request):
             wishobj = Wishlist.objects.filter(user=request.user)
             for i in wishobj:
                 wishlist.append(i.product_id)
-        main_cat = MainCategory.objects.all().distinct()
+        main_cat = MainCategory.objects.get(id=main_id)
+        sub_cat_obj = SubCategory.objects.filter(main_category_id=main_id)
         return render(request,'shop.html',{"products":prodobj,"nav_products":nav_product_dict,"categories":categories,
-        'colors':color_list,'sizes':size_list,"sub_cat":sub_cat_obj.name,"wishlist":wishlist,"brands":brand_list,"main_cat":main_cat})
+        'colors':color_list,'sizes':size_list,"wishlist":wishlist,"brands":brand_list,"main_cat":main_cat})
         return HttpResponse(prodobj)
-
-
     else:
         sub_cat_obj = SubCategory.objects.get(id=int(sub_cat))
         final_cat_set = FinalCategory.objects.filter(sub_category=sub_cat_obj)
@@ -191,7 +191,8 @@ def showproducts(request):
                 wishlist.append(i.product_id)
         main_cat = MainCategory.objects.all().distinct()
         return render(request,'shop.html',{"products":product_set,"nav_products":nav_product_dict,"categories":categories,
-        'colors':color_list,'sizes':size_list,"sub_cat":sub_cat_obj.name,"wishlist":wishlist,"brands":brand_list,"main_cat":main_cat})
+        'colors':color_list,'sizes':size_list,"sub_cat":sub_cat_obj.name,"wishlist":wishlist,"brands":brand_list,
+        "sub_id":sub_cat_obj.id})
 
 def show_detailed_product(request):
     nav_product_dict = getnavitems(request)
@@ -235,8 +236,11 @@ def sort(request):
     final_cat = request.GET.get('inner_sort')
     colors = request.GET.getlist('colors[]')
     brands = request.GET.getlist('brand[]')
+    main_cat = request.GET.get('main_cat')
     prodobj = Product.objects.none()
-    if final_cat:
+    if main_cat:
+        prodobj=Product.objects.filter(Main_category=main_cat)
+    elif final_cat:
         prodobj = Product.objects.filter(Final_category_id=final_cat)
     else:
         prodobj = get_products_of_subcat(request,products)
@@ -281,7 +285,11 @@ def filter(request):
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
     brands = request.GET.getlist('brand[]')
-    if final_cat:
+    main_cat = request.GET.get('main_cat')
+    prodobj = Product.objects.none()
+    if main_cat:
+        prodobj=Product.objects.filter(Main_category=main_cat)
+    elif final_cat:
         prodobj = Product.objects.filter(Final_category_id=final_cat)
     else:
         prodobj = get_products_of_subcat(request,products)
@@ -434,21 +442,20 @@ def get_cat_data(request):
     return JsonResponse(data_list,safe=False)
 
 def get_images(request):
-    # images = request.GET.getlist('reviewimages')
     images = request.FILES.getlist('reviewimages')
-    review = request.GET.get('review')
-    p_id = request.GET.get('p_id')
+    review = request.POST.get('review')
+    p_id = request.POST.get('p_id')
     prodobj = Product.objects.get(id=p_id)
-    print("-------------------------------------",images)
     try:
         reviewobj = Reviews.objects.get(Q(product_id=prodobj.id) & Q(user=request.user))
-        reviewobj.Review = review
+        reviewobj.review = review
         reviewobj.save()
     except Reviews.DoesNotExist:
         reviewobj = Reviews.objects.create(product_id=prodobj.id,user=request.user,Review = review)
     for i in images:
-        reviewobj
-        reviewimageobj = Reviewimages.objects.create(image=i,review_id=reviewobj.id,product_id=prodobj.id,user_id=request.user.id)
+        fs = FileSystemStorage(location='media/reviewpics')
+        fs.save(i.name, i)
+        reviewimageobj = Reviewimages.objects.create(image=i.name,review_id=reviewobj.id,product_id=prodobj.id,user_id=request.user.id)
     url = str(request.META.get('HTTP_REFERER'))+'#rt_rv'
     print("---------------------------------------",request.META.get('HTTP_REFERER'))
     return HttpResponseRedirect(url)

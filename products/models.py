@@ -31,6 +31,11 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.name
+
+from django.core.files.storage import FileSystemStorage
+fs = FileSystemStorage(location='/media/review_images')
+
+
     
 class Product(models.Model):
     Main_category = models.ForeignKey(MainCategory,on_delete=models.CASCADE)
@@ -80,7 +85,7 @@ class Reviews(models.Model):
 
 class Reviewimages(models.Model):
     review = models.ForeignKey(Reviews,on_delete=models.CASCADE)
-    image = models.ImageField(blank=False,upload_to='reviewpics')
+    image = models.ImageField(blank=False,storage=fs)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
 

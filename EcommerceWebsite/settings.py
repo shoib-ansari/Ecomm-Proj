@@ -118,6 +118,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ecommerce.store.jpr@gmail.com'
 EMAIL_HOST_PASSWORD = 'ecomm12345'
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 

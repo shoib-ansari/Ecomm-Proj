@@ -467,9 +467,10 @@
                                 <big id="skip"> Skip Rating And Write A Review → </big>
                             </div>
                         </div>
-                        <div class="container-fluid review" style="display: none;">
+                        <div class="container-fluid review" style="display: none;" >
 
-                            <form method="get" id="review_form" action="/products/get_images">
+                            <form method="POST" id="review_form" action="/products/get_images" enctype="multipart/form-data">
+                                {% csrf_token %}
                                 <label for="image_inp">
                                     <span class="icon-camera"></span>&nbsp;<span>Upload </span>
                                 </label>

@@ -566,7 +566,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .site-mobile-menu {
-    width: 300px;
+    width: 100%;
     position: fixed;
     right: 0;
     z-index: 2000;

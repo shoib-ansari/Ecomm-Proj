@@ -94,13 +94,26 @@
         <div class="row mb-5">
           <div class="col-md-3" id="filters">
             <div class="border p-4 mb-4">
+              {% if main_cat %}
+              <h3 class="mb-3 h6 text-uppercase text-black" style="user-select: none;">Categories in {{main_cat}}<span
+                id="final_cat" data-cat=""></span></h3>
+              {% else %}
               <h3 class="mb-3 h6 text-uppercase text-black" style="user-select: none;">Categories in {{sub_cat}}<span
-                  id="final_cat" data-cat=""></span></h3>
+                id="final_cat" data-cat=""></span></h3>
+              {% endif %}
               <ul class="list-unstyled">
-                {% for i in categories %}
-                <li class="mb-1" onclick="filter_cat(this)" class="categories" data-cat_id="{{i.id}}" data-cat="{{i}}">
-                  <a class="d-flex"><span>{{i}}</span> <span class="text-black ml-auto">(2,220)</span></a></li>
-                {% endfor %}
+                  {% if main_cat %}
+                  {% for i in categories %}
+                  <li class="mb-1"  class="categories" data-cat_id="{{i.id}}" data-cat="{{i}}">
+                    <a href="/products/sub_productsin{{i.id}}" class="d-flex"><span>{{i}}</span> <span class="text-black ml-auto">(2,220)</span></a></li>
+                  {% endfor %}
+                  {% else %}
+                  {% for i in categories %}
+                  <li class="mb-1" onclick="filter_cat(this)" class="categories" data-cat_id="{{i.id}}" data-cat="{{i}}">
+                    <a class="d-flex"><span>{{i}}</span> <span class="text-black ml-auto">(2,220)</span></a></li>
+                  {% endfor %}
+                {% endif %}
+                
               </ul>
             </div>
 
@@ -248,7 +261,8 @@
       </div>
     </div>
     <input type="hidden" name="sort_hide" value="">
-    <input type="hidden" name="prods" data-inn_sort="" value="{{sub_cat}}">
+    <!-- <input type="hidden" name="prods" data-inn_sort=""  value="{{sub_cat}}"> -->
+    <input type="hidden" id="f_data" m_c="{{main_cat.id}}" s_c="{{sub_id}}" f_c="" srt="">
     <div class="site-section">
       <div class="container">
         <div class="row">
@@ -461,7 +475,8 @@
     }
     // _______________-------------- CATEGORY FILTER --------------_______________________ //
     function filter_cat(e) {
-      var sort_criteria = document.getElementById('filter_data').getAttribute('sort-criteria')
+      // filter_prods();
+      var sort_criteria = document.getElementById('f_data').getAttribute('srt')
       cat_id = e.getAttribute("data-cat_id")
       category = e.getAttribute("data-cat")
       brand_filter = []
@@ -476,7 +491,7 @@
       $.each($("input[name='color_box']:checked"), function () {
           color_filter.push($(this).val());
         });
-      $("input[name*='prods']").attr('data-inn_sort', cat_id);
+      // $("input[name*='prods']").attr('data-inn_sort', cat_id);
       $.ajax({
         url: '/products/filter_final_cat',
         type: 'get',
@@ -504,7 +519,8 @@
           $('#loading_area').hide();
           var final_category = document.getElementById('final_cat')
           final_category.innerHTML = " (" + category + ")"
-          final_category.setAttribute('final_cat', cat_id)
+          // final_category.setAttribute('final_cat', cat_id)
+          document.getElementById('f_data').setAttribute('f_c',cat_id)
         }
       })
     }
@@ -526,10 +542,13 @@
         $.each($("input[name='color_box']:checked"), function () {
           color_filter.push($(this).val());
         });
-        var sort_criteria = document.getElementById('filter_data').getAttribute('sort-criteria')
-        cat = document.getElementById('final_cat').getAttribute('final_cat')
-        final_cat = document.getElementById('final_cat').getAttribute('final_cat')
-        products = $("input[name*='prods']").val();
+        var sort_criteria =document.getElementById('f_data').getAttribute('srt')
+        // cat = document.getElementById('final_cat').getAttribute('final_cat')
+        // final_cat = document.getElementById('final_cat').getAttribute('final_cat')
+        final_cat = document.getElementById('f_data').getAttribute('f_c')
+        // products = $("input[name*='prods']").val();
+        products = document.getElementById('f_data').getAttribute('s_c')
+        m_cat = $("#f_data").attr('m_c')
         $.ajax({
           url: '/products/filter',
           type: 'get',
@@ -541,7 +560,8 @@
             'brand[]': brand_filter,
             'products': products,
             'min_price':min_price,
-            'max_price':max_price
+            'max_price':max_price,
+            'main_cat':m_cat
           },
           beforeSend: function () {
             $('#loading_area').show();
@@ -620,8 +640,11 @@
       // <<<<<<<<<<<<<<<<<<<<<<<<<<< Function to sort items >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> //
       $('.sort-item').click(function () {
         var sort_criteria = ($(this)).data("sort")
-        $("input[name*='sort_hide']").val(sort_criteria);
-        products = $("input[name*='prods']").val();
+        document.getElementById('f_data').setAttribute('srt',sort_criteria)
+        // $("input[name*='sort_hide']").val(sort_criteria);
+        // products = $("input[name*='prods']").val();
+        products = $("#f_data").attr('s_c')
+        m_cat = $("#f_data").attr('m_c')
         inn_sort = document.getElementById('final_cat').getAttribute('final_cat')
         size_filter = []
         color_filter = []
@@ -644,7 +667,8 @@
             'colors[]': color_filter,
             'inner_sort': inn_sort,
             'brand[]': brand_filter,
-            'size[]': size_filter
+            'size[]': size_filter,
+            'main_cat':m_cat
           },
           beforeSend: function () {
             $('#loading_area').show();
@@ -661,7 +685,7 @@
               }
             }
             create_products(products, wish);
-            document.getElementById('filter_data').setAttribute('sort-criteria', sort_criteria)
+            // document.getElementById('filter_data').setAttribute('sort-criteria', sort_criteria)
           }
         })
       })

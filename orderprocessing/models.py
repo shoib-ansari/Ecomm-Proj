@@ -23,7 +23,7 @@ class Checkout(models.Model):
     state = models.CharField(max_length=150)
     payment_option = models.CharField(max_length=60,default=None,null=True)
     delivered = models.BooleanField(default=0)
-    promocode = models.ForeignKey(Promocodes,on_delete=models.CASCADE,null=True)
+    promocode = models.ForeignKey(Promocodes,on_delete=models.CASCADE,null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
 

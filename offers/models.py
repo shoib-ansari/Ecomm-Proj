@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 
-
 # Create your models here.
 
 class Promocodes(models.Model):
@@ -27,5 +26,10 @@ class Offer(models.Model):
     discount = models.IntegerField(default=None,validators=[MaxValueValidator(100)])
     end_offer = models.BooleanField(default=False)
     notification = models.CharField(max_length=4000)
+    add_to_main_header = models.BooleanField(default=False)
+    add_to_sub_header = models.BooleanField(default=False)
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = '/offer_products_in'

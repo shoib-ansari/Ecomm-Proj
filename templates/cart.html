@@ -93,8 +93,8 @@
       </div>
     </div> -->
 
-    <div class="container">
-      <div class="row justify-content-center">
+    <div class="container mt-5">
+      <div class="row justify-content-center mt-5">
         {% if total == 0 %}
         <img src="{% static 'images/undraw_empty_cart_co35.svg' %}" class="img-fluid p-3" style="height: 40vh;">
         {% endif %}
@@ -240,7 +240,7 @@
                     {% if total_after_cb %}
                     <strong class="text-black" id="f_amt">${{total_after_cb}}</strong>
                     {% else %}
-                    <strong class="text-black" id="f_amt">${{total}}</strong>
+                    $<strong class="text-black" id="f_amt">{{total}}</strong>
                     {% endif %}
 
                   </div>

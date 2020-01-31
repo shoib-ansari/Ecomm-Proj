@@ -12,6 +12,8 @@ from useraccounts.models import SuggestTags
 # Create your views here.
 
 def price_filter(request,prodobj,min_price,max_price):
+    print("hello--------------",min_price,max_price)
+    print(prodobj)
     return prodobj.filter(Q(Current_Price__gte=int(min_price)) & Q(Current_Price__lte=(max_price)))
 
 def color_filter(request,prodobj,colors):
@@ -26,11 +28,14 @@ def color_filter(request,prodobj,colors):
     return Product.objects.filter(id__in=color_list)
 
 def filter_brands(request,prodobj,brands):
+    print(")))))))",prodobj)
     id_list = []
     for i in prodobj:
         if i.brand in brands:
             id_list.append(i.id)
-    return Product.objects.filter(id__in=id_list)
+    print("77777777777777777",Product.objects.filter(id__in=id_list))
+    prodobj = Product.objects.filter(id__in=id_list)
+    return prodobj
 
 def size_filter(request,prodobj,size_list):
     color_ids = []
@@ -52,7 +57,6 @@ def get_wishlist(request):
         return Wishlist.objects.none()
 
 def get_products_of_subcat(request,sub_cat):
-    print("--------------------------------------------------------------------------------",sub_cat)
     sub_cat_obj = SubCategory.objects.get(id=sub_cat)
     return Product.objects.filter(sub_category=sub_cat_obj)
 
@@ -159,6 +163,7 @@ def showproducts(request):
         'colors':color_list,'sizes':size_list,"wishlist":wishlist,"brands":brand_list,"main_cat":main_cat})
         return HttpResponse(prodobj)
     else:
+        # If clicked on SubCategories
         sub_cat_obj = SubCategory.objects.get(id=int(sub_cat))
         final_cat_set = FinalCategory.objects.filter(sub_category=sub_cat_obj)
         categories = FinalCategory.objects.filter(sub_category=sub_cat_obj.id)
@@ -261,18 +266,26 @@ def filter_final_cat(request):
     sizes = request.GET.getlist('size[]')
     prodobj = Product.objects.all()
     colors = request.GET.getlist('colors[]')
-    sort_criteria = request.GET.get('sort_criteria')    
+    sort_criteria = request.GET.get('sort_criteria') 
+    brands = request.GET.getlist('brand[]')
+
     if sizes:
         prodobj = size_filter(request,prodobj,sizes)
     prodobj = prodobj.filter(Final_category=int(final_cat_id))
     if colors:
         prodobj = color_filter(request,prodobj,colors)
+    if brands:
+        prodobj = filter_brands(request,prodobj,brands)
     if sort_criteria:
         prodobj = sort_products(request,prodobj,sort_criteria)
     # get wishlist
     wishobj = get_wishlist(request)
     data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
     return JsonResponse(data, safe=False)
+
+def get_products_of_group(request,group_id):
+    product_list = Product_Group.objects.filter(group_id=group_id).values_list('product_id',flat=True)
+    return Product.objects.filter(id__in=product_list)
 
 def filter(request):
     # get wishlist
@@ -286,13 +299,17 @@ def filter(request):
     max_price = request.GET.get('max_price')
     brands = request.GET.getlist('brand[]')
     main_cat = request.GET.get('main_cat')
+    group_id = request.GET.get('group')
     prodobj = Product.objects.none()
     if main_cat:
         prodobj=Product.objects.filter(Main_category=main_cat)
     elif final_cat:
         prodobj = Product.objects.filter(Final_category_id=final_cat)
-    else:
+    elif products:
         prodobj = get_products_of_subcat(request,products)
+    elif group_id:
+        prodobj = get_products_of_group(request,group_id)
+
     prodobj = price_filter(request,prodobj,min_price,max_price)
     if brands:
         prodobj = filter_brands(request,prodobj,brands)
@@ -300,9 +317,15 @@ def filter(request):
         prodobj = size_filter(request,prodobj,sizes)
     if colors:
         prodobj = color_filter(request,prodobj,colors)
+    
     if sort_criteria:
         prodobj = sort_products(request,prodobj,sort_criteria)
-    data = [serializers.serialize('json', prodobj),serializers.serialize('json', wishobj)]
+    
+
+    # data = [list(prodobj.values()),list(wishobj.values())]
+    # print(data)
+    data = [serializers.serialize('json',prodobj),serializers.serialize('json', wishobj)]
+    # print(data)
     return JsonResponse(data, safe=False)
 
 # def search(request):
@@ -342,7 +365,7 @@ def search(request):
         prodobj = Product.objects.filter(tags__name__icontains=i)
         for j in prodobj:
             resultid.append(j.id)
-    prodobj = Product.objects.values('Keywords').filter(id__in=resultid)
+    # prodobj = Product.objects.values('Keywords').filter(id__in=resultid)
     for i in prodobj:
         temp = i['Keywords'].split(",")
         for  j in temp:
@@ -460,8 +483,6 @@ def get_images(request):
     print("---------------------------------------",request.META.get('HTTP_REFERER'))
     return HttpResponseRedirect(url)
 
-
-
 def showallproducts(request):
     url = request.get_full_path()
     main_id = url.split("in")[1]
@@ -504,7 +525,6 @@ def get_tag_data(request):
     tags = list(Tags.objects.filter(name__icontains=query).values())
     return JsonResponse(tags,safe=False)
 
-
 def check_tag_data(request):
     url = request.get_full_path()
     return_list = []
@@ -534,5 +554,41 @@ def get_tags(request):
     tag_list = []
     for i in tags:
         tag_list.append(i)
-    print("--------------------------------||||||||-------------------------------",tags)
     return JsonResponse(tag_list,safe=False)
+
+def get_self_cat_prod(request):
+    nav_product_dict = getnavitems(request)
+    url = request.get_full_path()
+    url = url.split('in')
+    grp_id = url[1]
+    products = Product_Group.objects.filter(group_id=grp_id).select_related('product')
+    product_set = Product.objects.none()
+    product_list = []
+    for i in products:
+        product_list.append(i.product.id)
+    product_set = Product.objects.filter(id__in=product_list)
+    brand_list = product_set.values_list('brand',flat=True).distinct().exclude(brand__isnull=True)
+    print('----------------------------------',brand_list)
+    color_list = []
+    id_list = []
+    size_list = []
+    color_id_list = []
+    for i in product_set:
+        id_list.append(i.id)
+        colors = Color_variation.objects.filter(product=i)
+        for i in colors:
+            color_id_list.append(i.id)
+            if i.color not in color_list:
+                color_list.append(i.color)
+    size_set = Size_variation.objects.filter(color__in=color_id_list)
+    for i in size_set:
+        if not i.size in size_list:
+            size_list.append(i.size)
+    wishlist = []
+    if request.user.is_authenticated:
+        wishobj = Wishlist.objects.filter(user=request.user)
+        for i in wishobj:
+            wishlist.append(i.product_id)
+    main_cat = MainCategory.objects.all().distinct()
+    return render(request,'shop.html',{"products":product_set,"nav_products":nav_product_dict,
+    'colors':color_list,'sizes':size_list,"wishlist":wishlist,"brands":brand_list,"group":grp_id})

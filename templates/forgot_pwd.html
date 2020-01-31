@@ -103,21 +103,24 @@
         </div>
 
         <!-- Modal -->
-    <div class="modal-dialog srm" role="document">
-      <div class="modal-content">
-    <form method="GET" id="snd_rec">
-        <div class="modal-body">
-            <div class="row rec_row p-3 justify-content-center">
-                <input type="email" id="eml" class="form-control rec_cnt" placeholder="Enter your e_mail" required>
-                <i class="fas fa-spinner fa-spin rec_cnt2" style="display: none;"></i>
+        <div class="modal-dialog srm" role="document">
+            <div class="modal-content">
+                <form method="GET" id="snd_rec">
+                    <div class="modal-body">
+                        <div class="row rec_row p-3 justify-content-center">
+                            <input type="email" id="eml" class="form-control rec_cnt" placeholder="Enter your e_mail"
+                                required>
+                            <i class="fas fa-spinner fa-spin rec_cnt2" style="display:none;"></i>
+                        </div>
+                    </div>
+                    <p class="ml-3" id="mss"></p>
+                    <div class="modal-footer">
+                        <button type="submit" id="s_ml" class="btn btn-outline-success">Send recovery mail</button>
+                        <input type="hidden" id="ml">
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-outline-primary">Send recovery mail</button>
-        </div>
-    </form>
-      </div>
-    </div>
 
 
 
@@ -227,7 +230,7 @@
                     v_code = $('#v_code').val();
                 }
                 $.ajax({
-                    url: '/useraccounts/send_recovery_code',
+                    url: '/send_recovery_code',
                     data: {
                         email: email,
                         v_code: v_code,

@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% block title %}E commerce web{% endblock %}
+{% block extrastyle %}
+<style>
+
+#header{
+    /* background-color: rgb(79, 48, 0); */
+}
+#user-tools::before{
+    z-index: 9;
+    content: "💥 new ";
+    color: red;
+    font-weight: 500;
+}
+</style>
+{% endblock %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">E commerce Admin</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+

@@ -108,6 +108,7 @@ function remove_prod(e) {
       amt = amt - (p * q)
       alert("amount after" + amt)
       $('#ttl_amt').html(amt)
+      $('#f_amt').html(amt)
     },
   })
 }

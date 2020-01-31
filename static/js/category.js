@@ -2,10 +2,11 @@ $(document).ready(function () {
     category = $('#id_name').val();
     $test = $('select[id ^=id_finalcategory][id $=category]')
     $test.each(function (a) {
-        // $(this).empty()
+        console.log($(this))
         $id = ($(this).attr('id'))
+        alert(('$(this) option:contains("Selection 1")'))
         var option_name = $(this).find('*');
-        option_name.remove('*')
+        // option_name.remove('*')
     });
     $.ajax({
         url: '/products/getsubcat',
@@ -14,6 +15,7 @@ $(document).ready(function () {
             category: category
         },
         success: function (data) {
+            alert(data)
             var temp = data.split("%");
             var id = []
             var name = []

@@ -12,6 +12,7 @@ urlpatterns = [
     re_path(r'^check_tag_data',views.check_tag_data,name="check tags data"),
     re_path(r'^get_tags',views.get_tags,name="Get products tags"),
     re_path(r'^view_',views.show_detailed_product,name="Show product on single page"),
+    re_path(r'self_categoriesin',views.get_self_cat_prod,name='Get products of categories'),
     path('sort',views.sort,name="Sort Products through Ajax"),
     path('filter_final_cat',views.filter_final_cat,name="filter final category through Ajax"),
     path('filter',views.filter,name='filter price, size and color'),

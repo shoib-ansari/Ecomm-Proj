@@ -19,4 +19,7 @@ class SuggestTags(models.Model):
     user = models.ForeignKey(User,on_delete='models.CASCADE')
     tags = models.TextField(max_length=4000)
 
+class V_code(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    code = models.CharField(max_length=6)
 

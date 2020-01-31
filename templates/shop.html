@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body style="padding-top: 5vh;">
   <div class="site-wrap">
     <div class="site-navbar bg-white py-2">
       <div class="search-wrap">
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="container">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center justify-content-between"> 
           <div class="logo">
             <div class="site-logo">
               <a href="/" class="js-logo-clone">Dealers</a>
@@ -89,10 +89,13 @@
         </div>
       </div>
     </div>
-    <div class="site-section">
+    <div class="site-section mt-4">
       <div class="container-fluid">
         <div class="row mb-5">
           <div class="col-md-3" id="filters">
+
+            {% if main_cat or sub_cat %}
+
             <div class="border p-4 mb-4">
               {% if main_cat %}
               <h3 class="mb-3 h6 text-uppercase text-black" style="user-select: none;">Categories in {{main_cat}}<span
@@ -116,7 +119,7 @@
                 
               </ul>
             </div>
-
+            {% endif %}
             <!-- Brand filter start -->
             <div class="border p-4 mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black" style="user-select: none;">Filter by brand<span
@@ -125,7 +128,7 @@
                 {% for i in brands %}
                 <label for="s_sm" class="d-flex">
                   <input type="checkbox" name="brand_box" class="brand_box" id="b_{{i}}" value="{{i}}" class="mr-2">
-                  <label for="b_{{i}}" style="margin-top: -8px; cursor: pointer;" class="text-black pl-2">{{i}}
+                  <label for="b_{{i}}" style="margin-top: -6px;" class="text-black pl-4 ">{{i}}
                     (2,319)</label>
                 </label>
                 {% endfor %}
@@ -154,18 +157,21 @@
                   <button onclick="filter_prods()" class="btn btn-outline-primary m-auto">Search</button>
                 </div>
                 <div class="container-fluid">
-                  <div class="mb-4">
+                  {% if sizes %}
+                  <div class="mb-4 pt-3">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
-                    <div class="sizediv">
+                    <div class="sizediv pt-3">
                       {% for i in sizes %}
-                    <label for="s_sm" class="d-flex">
-                      <input type="checkbox" name="size_box" class="size_box" id="s_{{i}}" value="{{i}}" class="mr-2">
-                      <label for="s_{{i}}" style="margin-top: -8px; cursor: pointer;" class="text-black">{{i}}
-                        (2,319)</label>
-                    </label>
-                    {% endfor %}
+                      <div for="s_sm" class="d-flex">
+                        <input type="checkbox" name="size_box" class="size_box" id="s_{{i}}" value="{{i}}" class="mr-2">
+                        <label for="s_{{i}}" style="margin-top: -8px; cursor: pointer;" class="text-black">{{i}}
+                          (2,319)</label>
+                      </div>
+                      {% endfor %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% if colors %}
                   <div class="mb-4">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
                     <div class="colordiv">
@@ -178,12 +184,13 @@
                     </div>
                     </a>
                   </div>
+                  {% endif %}
                 </div>
               </div>
           </div>
           <div class="col-md-9 ">
             <div class="row align">
-              <div class="col-md-12 mb-5">
+              <div class="col-md-12 mb-1">
                 <div class="float-md-left">
                   <h2 class="text-black h5">Shop All</h2><span id="sort_mess" data-sort=""></span>
                 </div>
@@ -262,7 +269,7 @@
     </div>
     <input type="hidden" name="sort_hide" value="">
     <!-- <input type="hidden" name="prods" data-inn_sort=""  value="{{sub_cat}}"> -->
-    <input type="hidden" id="f_data" m_c="{{main_cat.id}}" s_c="{{sub_id}}" f_c="" srt="">
+    <input type="hidden" id="f_data" group="{{group}}" m_c="{{main_cat.id}}" s_c="{{sub_id}}" f_c="" srt="">
     <div class="site-section">
       <div class="container">
         <div class="row">
@@ -491,6 +498,8 @@
       $.each($("input[name='color_box']:checked"), function () {
           color_filter.push($(this).val());
         });
+        alert(brand_filter)
+
       // $("input[name*='prods']").attr('data-inn_sort', cat_id);
       $.ajax({
         url: '/products/filter_final_cat',
@@ -506,6 +515,7 @@
           $('#loading_area').show();
         },
         success: function (data) {
+          alert(data)
           for (i = 0; i < data.length; i++) {
             if (i == 0) {
               products = JSON.parse(data[i])
@@ -548,6 +558,8 @@
         final_cat = document.getElementById('f_data').getAttribute('f_c')
         // products = $("input[name*='prods']").val();
         products = document.getElementById('f_data').getAttribute('s_c')
+        group = document.getElementById('f_data').getAttribute('group')
+
         m_cat = $("#f_data").attr('m_c')
         $.ajax({
           url: '/products/filter',
@@ -561,7 +573,8 @@
             'products': products,
             'min_price':min_price,
             'max_price':max_price,
-            'main_cat':m_cat
+            'main_cat':m_cat,
+            'group': group
           },
           beforeSend: function () {
             $('#loading_area').show();

@@ -102,45 +102,34 @@
 
         <!--  ============= CAROUSEL START HERE ============ -->
 
-        <div id="carouselExampleIndicators" class=" site-blocks-cover carousel slide" data-ride="carousel" data-aos="fade-up" data-aos-duration="1000">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <!-- <________________________ CAROUSEL START __________________________________ -->
-            <div class="carousel-inner">
-                {% for i in main_header %} {% if forloop.first %}
-                <div class="carousel-item active" data-interval="1000">
-                    {% if i|verbose_name == 'final_cat' %}
-                    <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
-                    {% else %}
-                    <a href="{{i|verbose_name}}{{i.id}}">
-                    {% endif %}
-                    <img src="/media/{{i.image}}" class="d-block w-100" data-interval="10000">
-                    </a> {% else %}
-                    <div class="carousel-item " data-interval="1000">
-                        {% if i|verbose_name == 'final_cat' %}
-                        <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
-                    {% else %}
-                    <a href="{{i|verbose_name}}{{i.id}}">
-                    {% endif %}
-                        <img src="/media/{{i.image}}" class="d-block w-100" data-interval="10000">
-                    </a> {% endif %}
-                    </div>
-                    {% endfor %}
-                    <!-- ___________________________CAROUSEL ENDS ________________________________ -->
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
+        
             <br />
+
+
+
+
+
+
+
+            <div class="owl-carousel owl-m">
+
+         
+            <!-- <________________________ CAROUSEL START __________________________________ -->
+            
+                    {% for i in main_header %} 
+                        <div>
+                            {% if i|verbose_name == 'final_cat' %}
+                            <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
+                            {% else %}
+                            <a href="{{i|verbose_name}}{{i.id}}">
+                            {% endif %}
+                            <img src="/media/{{i.image}}" class="d-block w-100" data-interval="10000">
+                            </a> 
+                        </div>
+                        {% endfor %}
+                    
+                    <!-- ___________________________CAROUSEL ENDS ________________________________ -->
+            </div>
 
 
             <div class="site-section">
@@ -157,16 +146,11 @@
                                 <div class="product">
                                     {% if i|verbose_name == 'final_cat' %}
                                     <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
-                        {% else %}
-                        <a href="{{i|verbose_name}}{{i.id}}">
-                        {% endif %}
-                        <img src="/media/{{i.image}}" alt="Image" class="img-fluid">
-                        <!-- <div class="container-fluid pndd">
-                          <div class="row ">The Shoe</div>
-                          <span class="row ">Summer Collection</span>
-                          <strong class="row ">$9.50</strong>
-                        </div> -->
-                      </a>
+                                        {% else %}
+                                        <a href="{{i|verbose_name}}{{i.id}}">
+                                        {% endif %}
+                                        <img src="/media/{{i.image}}" alt="Image" class="img-fluid">
+                                    </a>
                                 </div>
                                 {% endfor %}
 
@@ -198,7 +182,7 @@
                 </div>
                 <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
-                <h1 class="row justify-content-center mt-5 pt-5 mb-3" style="width: 100%;">
+                <h1 class="row justify-content-center mt-5 pt-5 mb-3" style="width: 100%;" id="slf_cat">
                     Hand Picked For You
                 </h1>
 
@@ -316,7 +300,7 @@
                 <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS ENDS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
 
-                <footer class="site-footer custom-border-top">
+                <footer class="site-footer custom-border-top" id="ftr">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
@@ -391,41 +375,44 @@
                     <div class="close p-3">
                         X
                     </div>
-                    <form method="post" id="loginform" action="/login">
+                    <form method="post" id="loginform" action="/login" >
                         {% csrf_token %}
                         <div class="heading">
-                            <h4 class="text-center  pt-2">Login</h4>
+                            <p class="text-center mb-3 pt-2">Login</p>
                         </div>
                         <div class="form-group">
-                            <!-- <label for="name">Name</label> -->
                             <div id="uname" data-tip="Username not found ">
-                                <input type="text" class="form-control effect-8  mt-4" id="name" name="username" placeholder="Enter Name" required>
+                                <input type="text" class="form-control " id="name" name="username"  required>
+                                <label for="name" class="lbl">Name</label>
+
                             </div>
 
                             <span class="focus-border"></span>
                         </div>
                         <div class="form-group">
-                            <!-- <label for="pwd">Password</label> -->
                             <div id="pwd" data-tip="Incorrect Password ">
-                                <input type="password" name="pwd" class="form-control effect-8 mt-4 " id="pswd" placeholder="Password" required>
+                                <input type="password" name="pwd" class="form-control  " id="pswd"  required>
+                                <label for="pwd" class="lbl">Password</label>
                                 <span class="focus-border"></span>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <a href="/forgot_pwd" class="text-primary">
-            Forgot <span> Password&nbsp;? </span>
-          </a>
-                            <div>
-                                New to Clothing Mart ?
-                                <span id="registbtn" class="text-primary" style="cursor: pointer;">Register Here</span>
+                            <div class="row justify-content-end mr-2">
+                                <a href="/forgot_pwd" class="text-primary">
+                                    Forgot Password ?
+                                </a>
                             </div>
                         </div>
                         <br />
                         <div class="row">
-                            <button type="submit" id="loginbtn" class="btn btn-primary col-md-4" style="margin: auto;">
-            <h6 class="pt-1"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                style="display: none;"></span> &nbsp;login</h6>
-          </button>
+                            <button type="submit" id="loginbtn" class="btn btn-outline-primary col-md-9" style="margin: auto; border-radius: 50px;">
+                                <h6 class="pt-1"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                    style="display: none;"></span> &nbsp;login</h6>
+                            </button>
+                        </div>
+                        <div class="row justify-content-center ">
+                            <p class="small mt-2">
+                                New to Clothing Mart ?
+                                <span id="registbtn" class="text-primary" style="cursor: pointer;">Register Here</span>
+                            </p>
                         </div>
                     </form>
 
@@ -436,32 +423,45 @@
                         </div>
                         <div class="form-group">
                             <div id="registername" data-tip="UserName Allready Exist">
-                                <input type="text" class="form-control" id="rname" name="username" aria-describedby="emailHelp" placeholder="Enter Name" required />
+                                <input type="text" class="form-control" id="rname" name="username" aria-describedby="emailHelp"  required />
+                                <label for="rname">Username</label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" id="email" name="useremail" aria-describedby="emailHelp" placeholder="E-mail" required />
+                            <input type="email" class="form-control" id="email" name="useremail" aria-describedby="emailHelp"  required />
+                            <label for="email">email</label>
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-control" id="number" aria-describedby="emailHelp" name="contactnum" required placeholder="Enter Contact Number" />
+                            <input type="number" class="form-control" id="number" aria-describedby="emailHelp" name="contactnum" required />
+                            <label for="number">Mobile</label>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="pwd" class="form-control" id="rgpwd" placeholder="Password" required />
+                            <input type="password" name="pwd" class="form-control" id="rgpwd"  required />
+                            <label for="rgpwd">Password</label>
                         </div>
                         <div class="form-group">
                             <div id="confirmpwd" data-tip="Password Not Matched">
-                                <input type="password" name="pwd2" class="form-control" id="confpwd" placeholder="Password">
+                                <input type="password" name="pwd2" class="form-control" id="confpwd"  required />
+                                <label for="confpwd">Confirm Password</label>
                             </div>
                         </div>
-                        Already a member
-                        <span id="loginfbtn" class="text-primary" style="cursor: pointer;">
-          Login Here</span>
+                        <!-- <div class="form-group">
+                            <div id="confirmpwd" data-tip="Password Not Matched">
+                                <input type="password" name="pwd2" class="form-control" id="confpwd" >
+                                <label for="confpwd">Confirm Password</label>
+                            </div>
+                        </div> -->
+                        <p class="small">
+                            Already a member
+                            <span id="loginfbtn" class="text-primary" style="cursor: pointer;">
+                            Login Here</span>
+                        </p>
                         <br />
-                        <div class="row pt-3">
-                            <button type="submit" class="btn btn-primary col-md-4" id="regbtn" style="margin: auto;">
-            <h6><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                style="display: none;"></span> Register</h6>
-          </button>
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary col-md-9" id="regbtn" style="margin: auto; border-radius: 50px;">
+                                <h6 class="pt-1"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                    style="display: none;"></span> Register</h6>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -474,10 +474,31 @@
             <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
             <script src="{% static 'js/aos.js' %}"></script>
             <script src="{% static 'js/main.js' %}"></script>
+
+
+
             <script>
-                $('.owl-carousel').owlCarousel({
+
+                $('.owl-m').owlCarousel({
                     loop: false,
                     margin: 20,
+                    nav: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 1
+                        }
+                    }
+                });
+
+
+                $('.owl-carousel').owlCarousel({
+                    loop: false,
                     nav: true,
                     responsive: {
                         0: {
@@ -491,6 +512,8 @@
                         }
                     }
                 });
+
+               
 
 
                 $(function() {
@@ -526,7 +549,6 @@
                     var token = '{{csrf_token}}';
                     var usernametemp = document.getElementById("name").value;
                     var passwordtemp = document.getElementById("pswd").value;
-
                     $.ajax({
                         headers: {
                             "X-CSRFToken": token
@@ -576,12 +598,10 @@
                     var conformpassword = document.getElementById("confpwd").value;
 
                     if (password != conformpassword) {
-
                         // alert("password doesnot matched");
                         $('#confirmpwd').attr('id', 'unametip');
 
                     } else {
-
                         var token = '{{csrf_token}}';
                         var name = document.getElementById("rname").value;
                         var contact = document.getElementById("number").value;
@@ -642,17 +662,33 @@
                         }
                     })
                 })
-
-                // $(window).scroll(function(){
-                //     if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.6){
-                // alert("hello")
-                // }
-                // });
-                // if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.6){
-                // alert("hello")
-                // }
-            </script>
-
+                var cal=true;
+                $(window).scroll(function() {
+                    var hT = $('#slf_cat').offset().top,
+                        hH = $('#slf_cat').outerHeight(),
+                        wH = $(window).height(),
+                        wS = $(this).scrollTop();
+                        console.log(cal)
+                    if (cal && wS > (hT+hH-wH)){
+                        cal = false
+                        $.ajax({
+                            url:'products/get_featured_products',
+                            type : 'get',
+                        beforeSend: function() {
+                            console.log("searching......")
+                        },
+                        success: function(data) {
+                            str = ''
+                            var data_list = document.getElementById('products_list')
+                            for (i = 0; i < data.length; i++) {
+                                // console.log(data[i])
+                                str += '<option value="' + data[i] + '" />';
+                            }
+                            data_list.innerHTML = str;
+                        }
+                        })
+                    }
+                    });
+    </script>
 </body>
-
 </html>

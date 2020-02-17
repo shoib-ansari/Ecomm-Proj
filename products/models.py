@@ -68,7 +68,7 @@ class Product(models.Model):
     color = models.CharField(max_length=500,blank=True)
     Total_stock = models.IntegerField(null=True,blank=True)
     brand = models.CharField(null=True,max_length=200)
-    tags = models.ManyToManyField(Tags,blank=True)
+    tags = models.ManyToManyField(Tags,related_name='products',blank=True)
     # Keywords = models.TextField(max_length=2000,blank=True)
     Return_allowed = models.BooleanField(default=True)
     date = models.DateField(auto_now_add=True)
@@ -112,13 +112,12 @@ class Reviewimages(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
 # ----------------------------------------------------------------------------------------------------
 
-
 class FeaturedProducts(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.product.Product_Name
-
+# ----------------------------------------------------------------------------------------------------
 
 class HomePageCategories(models.Model):
     heading = models.CharField(max_length=400)
@@ -130,7 +129,7 @@ class HomePageCategories(models.Model):
 
     def __str__(self):
         return self.heading
-
+# ----------------------------------------------------------------------------------------------------
 
 class Group_products(models.Model):
     Image = models.ImageField(upload_to="HomePage_Categories",blank=True)
@@ -138,10 +137,12 @@ class Group_products(models.Model):
 
     def __str__(self):
         return self.heading
+# ----------------------------------------------------------------------------------------------------
 
 class Product_Group(models.Model):
     group = models.ForeignKey(Group_products,on_delete=models.CASCADE,blank=True,null=True)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
+# ----------------------------------------------------------------------------------------------------
 
 
 

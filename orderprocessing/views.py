@@ -52,21 +52,24 @@ def get_order(request):
     state = request.POST.get('state')
     save_flag = request.POST.getlist('save_addr')
     cartobj = Cart.objects.filter(user=request.user).select_related('color')
-    if '1' in save_flag:
-        # userobj = User.objects.get(id=request.user)
-        request.user.first_name = f_name
-        request.user.last_name = l_name
-        request.user.address=address
-        request.user.city=city
-        request.user.state=state
-        request.user.address=address
-        request.user.contact=phone
-        request.user.alt_contact=a_phone
-        request.user.pincode=pin_code
-        request.user.save()
 
-    if not a_phone:
+    if a_phone == 'None':
         a_phone = 000
+
+    if '1' in save_flag:
+        userobj = User.objects.get(id=request.user.id)
+        userobj.first_name = f_name
+        userobj.last_name = l_name
+        userobj.address=address
+        userobj.city=city
+        userobj.state=state
+        userobj.address=address
+        userobj.contact=phone
+        userobj.alt_contact=a_phone
+        userobj.pincode=pin_code
+        userobj.save()
+
+
     promocode = request.session.get('promocode',False)
     if promocode:
         promocode = Promocodes.objects.get(code=promocode)

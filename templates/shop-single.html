@@ -208,12 +208,13 @@
                                 <p class="available">Colors Available: <span class="text-muted">In Stock</span></p>
                                 <div class="related_color_row">
                                     {% for i in color_variation %}
-                                    <div class="col-md-2" id="color_var_{{i.id}}">
-                                        <img src="{{i.Image_one.url}}" class="img-fluid">
+                                    <div class="col-md-2 " id="color_var_{{i.id}}">
+                                            <img src="{{i.Image_one.url}}" class="img-fluid">
+                                            <div class="pl-3">{{i.color}}</div>
                                     </div>
                                     {% endfor %}
                                 </div>
-                                <div class="single_product_ratings mb-15">
+                                <div class="single_product_ratings mb-5">
                                     <i class="fa fa-star" aria-hidden="true"></i>
                                     <i class="fa fa-star" aria-hidden="true"></i>
                                     <i class="fa fa-star" aria-hidden="true"></i>

@@ -89,16 +89,6 @@ class ProductAdmin(NestedModelAdmin):
          }
         js = ('/static/js/chained_dropdown.js','https://code.jquery.com/jquery-3.3.1.min.js',)
 
-
-
-admin.site.register(MainCategory,MainCategoryAdmin)
-admin.site.register(Product,ProductAdmin)
-admin.site.register(FeaturedProducts)
-admin.site.register(HomePageCategories)
-# admin.site.register(Category_Group,Category_GroupAdmin)
-# admin.site.register(Product_Group)
-# admin.site.register(Category_Products)
-
 class Product_GroupInline(admin.TabularInline):
     model = Product_Group
 
@@ -107,5 +97,10 @@ class Group_productsAdmin(admin.ModelAdmin):
     extra = 1
 
 
+
+admin.site.register(MainCategory,MainCategoryAdmin)
+admin.site.register(Product,ProductAdmin)
+admin.site.register(FeaturedProducts)
+admin.site.register(HomePageCategories)
 admin.site.register(Group_products,Group_productsAdmin)
 

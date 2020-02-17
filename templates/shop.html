@@ -269,7 +269,7 @@
     </div>
     <input type="hidden" name="sort_hide" value="">
     <!-- <input type="hidden" name="prods" data-inn_sort=""  value="{{sub_cat}}"> -->
-    <input type="hidden" id="f_data" group="{{group}}" m_c="{{main_cat.id}}" s_c="{{sub_id}}" f_c="" srt="">
+    <input type="hidden" id="f_data" group="{{group}}" m_c="{{main_cat.id}}" s_c="{{sub_id}}" s_l="{{search_list}}" f_c="" srt="">
     <div class="site-section">
       <div class="container">
         <div class="row">
@@ -498,9 +498,6 @@
       $.each($("input[name='color_box']:checked"), function () {
           color_filter.push($(this).val());
         });
-        alert(brand_filter)
-
-      // $("input[name*='prods']").attr('data-inn_sort', cat_id);
       $.ajax({
         url: '/products/filter_final_cat',
         type: 'get',
@@ -559,7 +556,7 @@
         // products = $("input[name*='prods']").val();
         products = document.getElementById('f_data').getAttribute('s_c')
         group = document.getElementById('f_data').getAttribute('group')
-
+        var s_l = document.getElementById('f_data').getAttribute('s_l')
         m_cat = $("#f_data").attr('m_c')
         $.ajax({
           url: '/products/filter',
@@ -574,7 +571,8 @@
             'min_price':min_price,
             'max_price':max_price,
             'main_cat':m_cat,
-            'group': group
+            'group': group,
+            's_l': s_l,
           },
           beforeSend: function () {
             $('#loading_area').show();

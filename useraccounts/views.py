@@ -132,7 +132,7 @@ def homepage(request):
         temp_list.append(Product_Group.objects.filter(group_id=i).values())
         print(len(temp_list))
         groups.append(temp_list)
-    print(groups)
+
 
 
     offers = Offer.objects.all()

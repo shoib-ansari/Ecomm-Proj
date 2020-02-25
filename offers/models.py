@@ -32,4 +32,4 @@ class Offer(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = '/offer_products_in'
+        verbose_name = 'Offers'

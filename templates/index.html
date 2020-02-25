@@ -101,27 +101,18 @@
         </div>
 
         <!--  ============= CAROUSEL START HERE ============ -->
-
-        
             <br />
-
-
-
-
-
-
-
             <div class="owl-carousel owl-m">
-
-         
             <!-- <________________________ CAROUSEL START __________________________________ -->
             
                     {% for i in main_header %} 
-                        <div>
+                        <div class="fit">
                             {% if i|verbose_name == 'final_cat' %}
-                            <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
-                            {% else %}
-                            <a href="{{i|verbose_name}}{{i.id}}">
+                            <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}" class="fit">
+                            {% elif i|verbose_name == 'Main Categories' %}
+                            <a href="products/sub_productsinM_of{{i.id}}">
+                            {% elif i|verbose_name == 'Offers' %}
+                            <a href="/offers/offer_products_in{{i.id}}">
                             {% endif %}
                             <img src="/media/{{i.image}}" class="d-block w-100" data-interval="10000">
                             </a> 
@@ -690,5 +681,19 @@
                     }
                     });
     </script>
+
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5e4a9676a89cda5a1886687e/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>

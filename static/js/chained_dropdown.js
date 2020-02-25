@@ -282,9 +282,7 @@ function get_curr_tags() {
             get_tags.send();
     }
         
-        else{
-            alert('noono')
-        } 
+       
 
     }
 

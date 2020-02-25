@@ -3,6 +3,10 @@ from useraccounts.models import User
 from django.db.models.signals import post_save
 from offers.models import Promocodes
 from products.models import Product
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
+
 
 # Create your models here.
 
@@ -63,3 +67,20 @@ class RerurnRequest(models.Model):
     return_status = models.BooleanField(default=False)
 
 
+from django.db.models.signals import post_save
+
+# @receiver(post_save, sender=Cart)
+
+def save_profile(sender, instance, **kwargs):
+    message = "Your order has been placed successfully. Your order id is #"+str(instance.id)+" Thank You "
+    usermails = User.objects.filter(is_superuser=True)
+    mails = [i.email for i in usermails]
+    mails.append(instance.email)
+    flag = send_mail(
+         'Order Placed successfully',
+         message,
+         'ecommerce.store.jpr@gmail.com',
+         [instance.email],
+         fail_silently=False,
+    )
+post_save.connect(save_profile, sender=Checkout)

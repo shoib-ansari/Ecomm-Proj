@@ -16,7 +16,7 @@ class MainCategory(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'products/sub_productsinM_of'
+        verbose_name = 'Main Categories'
         
 #----------------------------------------------------------------------------------------------------   
 class SubCategory(models.Model):

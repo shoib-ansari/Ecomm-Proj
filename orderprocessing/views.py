@@ -53,6 +53,8 @@ def get_order(request):
     save_flag = request.POST.getlist('save_addr')
     cartobj = Cart.objects.filter(user=request.user).select_related('color')
 
+
+    print("email---------",e_mail)
     if a_phone == 'None':
         a_phone = 000
 

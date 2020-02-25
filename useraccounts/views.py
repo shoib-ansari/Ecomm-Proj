@@ -18,6 +18,8 @@ import random
 # Create your views here.
 
 def getnavitems(request):
+    usermails= User.objects.filter(is_superuser=True)
+
     product_dict = {}
     main_cat = MainCategory.objects.all().distinct()
     for i in main_cat:

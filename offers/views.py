@@ -50,3 +50,6 @@ def remove_coupon(request):
             cart_total = cart_total + curr_price*(i.Quantity)
     del request.session['promocode']
     return HttpResponse(cart_total)
+
+def show_offerProds(request):
+    return render(request,'shop.html')

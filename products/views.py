@@ -98,22 +98,9 @@ def getfinalcategories(request):
     return HttpResponse(finalcatlist)
 
 def getsubcat(request):
-    subcat = request.GET.get("category")
-    cat_id = MainCategory.objects.get(name=subcat)
-    subcategories = SubCategory.objects.filter(main_category=cat_id)
-    subcatlist = []
-    if subcategories:
-        for i in subcategories:
-            if len(subcatlist) == 0:
-                subcatlist.append(i.id)
-                subcatlist.append("^")
-                subcatlist.append(i)
-            else:
-                subcatlist.append("%")
-                subcatlist.append(i.id)
-                subcatlist.append("^")
-                subcatlist.append(i)
-    return HttpResponse(subcatlist)
+    cat_id = request.GET.get('cat_id')
+    cat_obj = list(SubCategory.objects.filter(main_category_id=cat_id).values_list('id',flat=True))
+    return JsonResponse(cat_obj,safe=False)
 
 def showproducts(request):
     brand_list = []

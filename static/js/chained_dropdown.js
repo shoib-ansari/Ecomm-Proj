@@ -1,7 +1,10 @@
 $(document).ready(function () {
+     // Variables inetialized to set value erased in sub and final cat
     var sub_cat_val = 0
     var final_cat_val = 0
-        // JS to set value erased
+    counter = 0
+    // Counter used b/c onchange event of main categories triggered automatically after page load
+       
 
         var url = window.location.href
         if ((url).endsWith("change/")) {
@@ -50,7 +53,7 @@ $(document).ready(function () {
                 }
                 var sel = document.getElementById("id_sub_category");
                 for (i = sel.length - 1; i >= 1; i--) {
-                    if(sub_cat_val !== i){
+                    if(sub_cat_val !== i || counter!==1){
                         sel.remove(i);
                     }
                 }
@@ -78,6 +81,8 @@ $(document).ready(function () {
         };
         main_cat_obj.open("GET", "/products/getsubcategories/" + selectedvalue, true);
         main_cat_obj.send();
+        counter++;
+
     }
 
     sub_Cat.onchange = function () {

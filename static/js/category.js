@@ -20,15 +20,10 @@
                     for(i=0;i<data.length;i++){
                         ct_list.push(data[i].toString())
                     }
-                    // console.log(ct_list)
-
                     $("select[name*='finalcategory_set-'][name$=sub_category]").each(function (i, el) {
-                        // console.log(el)
                         for (j = 1; j < el.options.length; j++) {
-                           console.log(el.options[j].value)
                            if(! ct_list.includes(el.options[j].value)){
                             $("option[value="+el.options[j].value+"]").remove(); 
-
                            }
                         }
                     });

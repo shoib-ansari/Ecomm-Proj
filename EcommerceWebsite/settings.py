@@ -157,3 +157,7 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'useraccounts.User'
 
+# Stripe Checkout ------------------------------------------------------------
+STRIPE_SECRET_KEY = 'sk_test_TSHHJAYEcfG9N9aVflAljSUz00gz5Pj9Dt'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_ln3ez1iPJk2sRNERJ3g1R0t500tpa8isvS'
+

@@ -6,6 +6,8 @@ from .models import *
 from django.core.mail import send_mail
 from EcommerceWebsite.settings import EMAIL_HOST_USER
 from django.conf import settings
+import stripe
+stripe.api_key = settings.STRIPE_SECRET_KEY
 # Importing for pdf generation -----------------#
 from django.template.loader import get_template #
 from .utils import render_to_pdf                #
@@ -37,6 +39,8 @@ def getaddress(request):
         else:                           # Calculaton on basis of price
                 cashback = promobj.cashback
         new_total = total - cashback
+    if total==0:
+        return HttpResponse("Page available nhi h abhi")
     return render(request,'checkout.html',{'cart_products':cart_dict_list,"total":total,'promocode':promocode,
     "cashback":cashback,"new_total":new_total})
 
@@ -68,7 +72,7 @@ def get_order(request):
         userobj.address=address
         userobj.contact=phone
         userobj.alt_contact=a_phone
-        userobj.pincode=pin_code
+        userobj.postal_add=pin_code
         userobj.save()
 
 
@@ -173,9 +177,29 @@ def GeneratePDF(request):
         "discount": (order_obj.price - order_obj.sell_price),
         "date" : order_obj.checkout.date
     }
-    print("generating..............")
     html = template.render(i)
-    print("generating.........KKKK.....")
     pdf = render_to_pdf('invoice.html',i)
-    print("generating.....OOOOOOOO.........")
     return HttpResponse(pdf,content_type='application/pdf')
+
+# Charge for payment of products
+def charge(request): 
+    print('-------------------------------------------------------------------------------')
+    if request.method == 'POST':
+        charge = stripe.Charge.create(
+            amount=500,
+             shipping={
+                'name': 'Jenny Rosen',
+                'address': {
+                'line1': '510 Townsend St',
+                'postal_code': '98140',
+                'city': 'San Francisco',
+                'state': 'CA',
+                'country': 'US',
+                },
+            },
+            currency='INR',
+            description='A Django charge',
+            source=request.POST['stripeToken']
+        )
+        
+        return render(request, 'thankyou.html')

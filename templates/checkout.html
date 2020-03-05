@@ -164,6 +164,7 @@
                 <label for="c_order_notes" class="text-black">Order Notes</label>
                 <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
               </div>
+              <input type="hidden" name="pymthd" id="pymthd">
               </form>
             </div>
           </div>
@@ -223,36 +224,16 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
-
-                    <div class="collapse" id="collapsebank">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
+                  <!-- COD Start -->
+                  <div class="border p-3 mb-3 po " pm="cod">
+                    <h3 class="h6 mb-0">Pay on delivery</h3>
                   </div>
-
-                  <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-
-                    <div class="collapse" id="collapsecheque">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
+                  <!-- COD ends -->
+                  <!-- Stripe section start -->
+                  <div class="border p-3 mb-3 po" pm="stripe">
+                    <h3 class="h6 mb-0">Pay now</h3>
                   </div>
-
-                  <div class="border p-3 mb-5">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                    <div class="collapse" id="collapsepaypal">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-
+                  <!-- stripe section ends -->
                   <div class="form-group">
                     <button type="submit" form="add_form" class="btn btn-primary btn-lg btn-block" >Place Order</button>
                   </div>
@@ -342,6 +323,14 @@
       </div>
     </footer>
   </div>
+  <form action="/orderprocessing/charge" method="post" class="m-5">
+    {% csrf_token %}
+<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+data-key="pk_test_ln3ez1iPJk2sRNERJ3g1R0t500tpa8isvS"
+data-description="Ecommerce Store"
+data-amount="500"
+data-locale="auto">
+</script>
 
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
   <!-- <script src="{% static 'js/jquery-ui.js' %}"></script>
@@ -351,6 +340,27 @@
   <!-- <script src="{% static 'js/aos.js' %}"></script> -->
   <!-- <script src="{% static 'js/main.js' %}"></script> -->
 <script>
+  function remcls(){
+    $('.po').removeClass('shake')
+  }
+  $('#add_form').on('submit', function(e) {
+    var paymthd = $('#pymthd').val()
+    if(paymthd == ''){
+      // e.preventDefault();
+      $('.po').addClass('shake')
+      window.setTimeout(remcls, 1000);
+      return false
+    }
+    else if(paymthd == 'stripe'){
+      $('.stripe-button-el').click()
+      return false
+    }
+  })
+  $('.po').click(function(){
+    $('.po').removeClass('pg')
+    $(this).addClass('pg')
+    $('#pymthd').val($(this).attr('pm'))
+  })
 $('#coupon_field').on('input', function (e) {
       $('#coupon_apl_btn').html("Apply code")
       $('#coupon_apl_btn').addClass("btn-outline-primary");

@@ -110,24 +110,43 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                  {% if user.firstname %}
                   <input type="text" class="form-control" id="c_fname" name="fname" value="{{user.first_name}}" required>
+                  {% else %}
+                  <input type="text" class="form-control" id="c_fname" name="fname" value="{{user.first_name}}" required>
+                  {% endif %}
+
                 </div>
                 <div class="col-md-6">
                   <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                  {% if user.last_name %}
                   <input type="text" class="form-control" id="c_lname" name="lname" value="{{user.last_name}}" required>
+                  {% else %}
+                  <input type="text" class="form-control" id="c_lname" name="lname"  required>
+
+                  {% endif %}
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+            {% if user.address %}
                   <input type="text" class="form-control" id="c_address" name="address" value="{{user.address}}" required placeholder="Street address">
+                {% else %}
+                <input type="text" class="form-control" id="c_address" name="address" required placeholder="Street address">
+                {% endif %}
                 </div>
               </div>
 
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="city__" class="text-black">City <span class="text-danger">*</span></label>
+                  {% if request.user.city %}
                   <input type="text" class="form-control" id="city__" name="city" value="{{request.user.city}}" required>
+                  {% else %}
+                  <input type="text" class="form-control" id="city__" name="city"  required>
+                  {% endif %}
+               
                 </div>
                 <div class="col-md-6">
                   <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
@@ -138,22 +157,38 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="c_state" class="text-black">State<span class="text-danger">*</span></label>
+                  {% if request.user.state %}
                   <input type="text" class="form-control" id="c_state" name="state" value="{{request.user.state}}" required>
+                {% else %}
+                    <input type="text" class="form-control" id="c_state" name="state"  required>
+                {% endif %}
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                  {% if request.user.contact %}
                   <input type="number" class="form-control" id="phone" name="phone" value="{{request.user.contact}}" required>
+                {% else %}
+                    <input type="number" class="form-control" id="phone" name="phone" required>
+                {% endif %}
                 </div>
               </div>
 
               <div class="form-group row mb-5">
                 <div class="col-md-6">
                   <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
+                  {% if request.user.email %}
                   <input type="email" class="form-control" id="c_email_address" name="e_mail" value="{{request.user.email}}" >
+                {% else %}
+                                    <input type="email" class="form-control" id="c_email_address" name="e_mail"  >
+                {% endif %}
                 </div>
                 <div class="col-md-6">
                   <label for="c_phone" class="text-black">Alternate Phone</label>
+                  {% if request.user.alt_contact %}
                   <input type="text" class="form-control" id="c_phone" name="a_phone" placeholder="Alternate Phone Number" value="{{request.user.alt_contact}}" >
+                {% else %}
+                                    <input type="text" class="form-control" id="c_phone" name="a_phone" placeholder="Alternate Phone Number"  >
+                {% endif %}
                 </div>
               </div>
               <div class="form-group">

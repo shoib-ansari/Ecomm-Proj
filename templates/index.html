@@ -132,7 +132,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 block-3 products-wrap sub_car">
-                            <div class="nonloop-block-3 owl-carousel">
+                            <div class="nonloop-block-3 owl-carousel sub_car1">
                                 {% for i in sub_header %}
                                 <div class="product">
                                     {% if i|verbose_name == 'final_cat' %}
@@ -153,18 +153,18 @@
                 <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION START   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
                 <div>
                     {% for i in categories %}
-                    <div class="container mt-5 h_cat" data-aos="fade-up" data-aos-duration="1500">
-                        <h1 class="row justify-content-center mt-3">{{i.heading}}</h1>
-                        <p class="row justify-content-center">{{i.sub_heading}}</p>
-                        <div class="row justify-content-between pt-4">
-                            <div class="col-md-6 mt-2">
-                                <a href="{{i.link_one}}">
-                                    <img src="{{i.Image_one.url}}" alt="Image" class="img-fluid" />
+                    <div class="container mt-5 h_cat f_cnt" data-aos="fade-up" data-aos-duration="1500">
+                        <h1 class="row justify-content-center mt-3 w-100 cathead">{{i.heading}}</h1>
+                        <center>{{i.sub_heading}}</center>
+                        <div class="row justify-content-between pt-4 w-100 m-0">
+                            <div class="col-md-6 col-sm-6 mt-2 catimgd">
+                                <a href="{{i.link_one}}" class="fit">
+                                    <img src="{{i.Image_one.url}}" alt="Image" class="img-fluid fit" />
                                 </a>
                             </div>
-                            <div class="col-md-6 mt-2">
-                                <a href="{{i.link_two}}">
-                                    <img src="{{i.Image_two.url}}" alt="Image" class="img-fluid" />
+                            <div class="col-md-6 col-sm-6 mt-2 catimgd">
+                                <a href="{{i.link_two}}" class="fit">
+                                    <img src="{{i.Image_two.url}}" alt="Image" class="img-fluid fit" />
                                 </a>
                             </div>
                         </div>
@@ -172,11 +172,12 @@
                     {% endfor %}
                 </div>
                 <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
-                <h1 class="row justify-content-center mt-5 pt-5 mb-3" style="width: 100%;" id="slf_cat">
-                    Hand Picked For You
-                </h1>
-
+                <div class="container-fluid mt-5">
+                    <h3 class="row justify-content-center cathead" id="slf_cat">
+                        Hand Picked For You
+                    </h3>
+                </div>
+               
                 <!-- <<<<<<<<<<<<<<<<<<<<<<<<<  SELF CREATED CATEGORIES SECTION STARTS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
                 <div class="container-fluid pt-5">     
@@ -184,9 +185,9 @@
                     <div class="container slf_grp">
                         <div class="row justify-content-between">
                             {% for sub_group in groups %}
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-6 col-sm-6 mt-3 catimgd" data-aos="fade-up" data-aos-duration="1500">
                                 <span class="cat_text">{{sub_group.0.heading}}</span>
-                                <a href="/products/self_categoriesin{{sub_group.0.id}}">
+                                <a href="/products/self_categoriesin{{sub_group.0.id}}" class="fit">
                                 <img src="{{sub_group.0.Image.url}}" alt="" srcset="" class="img-fluid">
                                 </a>   
                             </div>
@@ -231,7 +232,7 @@
                             <div class="col-md-12 block-3 products-wrap">
                                 <div class="nonloop-block-3 owl-carousel">
                                     {% for i in suggestions %}
-                                    <div class="product">
+                                    <div class="product" data-aos="fade-up" data-aos-duration="1500">
                                         <a href="/products/view_?{{i.id}}" class="item p-2">
                                             <img src="/media/{{i.image}}" alt="Image" class="img-fluid car_img" />
                                             <div class="container-fluid pndd">
@@ -267,27 +268,55 @@
                 </div>
 
                 <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS STARTS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-                <div class="products-wrap border-top-0">
-                    <h1 class="row justify-content-center m-5">Featured Products</h1>
-                    <div class="container-fluid">
-                        <div class="row no-gutters products">
-                            {% for i in featured_prods %}
-                            <!-- Product STARTS -->
-                            <div class="col-6 col-md-6 col-lg-4" data-aos="fade-down">
-                                <a href="/products/view_?{{i.product.id}}" class="item">
-                                    <img src="{{i.product.image.url}}" alt="Image" class="img-fluid" />
-                                    <div class="container-fluid pndd">
-                                        <div class="row ">The Shoe</div>
-                                        <span class="row ">Summer Collection</span>
-                                        <strong class="row ">$9.50</strong>
-                                    </div>
-                                </a>
+
+                <h2>Related products</h2>
+
+
+                <div class="container ftrp m-auto p-0">
+                    <div class="row w-100 justify-content-around m-0">
+                        {% for i in featured_prods %}
+                        <div class="col-md-3  product_crd ">
+                            <div class="viewsect fit">
                             </div>
-                            <!-- Product Ends -->
-                            {% endfor %}
+                            <a href="/products/view_?{{i.product.id}}" class="item">
+                            <button class="vd_btn">VIEW DETAILS</button>
+                            </a>
+                                    <img src="{{i.product.image.url}}" alt="Image" class="fit" />
+                                    <div class="container-fluid pdesc m-0 pb-4  ">
+                                        <div class="row ">
+                                            <div class="col-md-9 text-dark">
+                                                Adidas orignal
+                                            </div>
+                                            <div class="col-md-3">
+                                                ₹400
+                                            </div>
+                                        </div>
+                                        <div class="row m-0 pdtxt">
+                                            Mens Formal
+                                        </div>
+                                        <div class="container-fluid m-0 pl-2">
+                                            <div class="row pdhed">
+                                                Sizes
+                                            </div>
+                                            <div class="row m-0 pdtxt">
+                                                XS,S,M,L,XXL
+                                            </div>
+                                            <div class="row pdhed">
+                                                Colors
+                                            </div>
+                                            <div class="row m-0 pdtxt">
+                                                XS,S,M,L,XXL
+                                            </div>
+                                        </div>
+
+
+                                    </div>        
                         </div>
-                    </div>
+                        {% endfor %}
+                    </div>  
                 </div>
+
+
                 <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS ENDS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
 
@@ -489,10 +518,9 @@
                         }
                     }
                 });
-
-
-                $('.owl-carousel').owlCarousel({
+                $('.sub_car1').owlCarousel({
                     loop: false,
+                    margin:15,
                     nav: true,
                     responsive: {
                         0: {
@@ -502,13 +530,10 @@
                             items: 3
                         },
                         1000: {
-                            items: 4
+                            items: 5
                         }
                     }
                 });
-
-               
-
 
                 $(function() {
                     $(".icon-user-o").click(function() {

@@ -1,90 +1,113 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Dealers &mdash; Colorlib e-Commerce Template</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<head>
-  <title>Dealers &mdash; Colorlib e-Commerce Template</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link
+      href="https://fonts.googleapis.com/css?family=Rubik:400,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/owl.theme.default.min.css' %}"
+    />
 
-  <link href="https://fonts.googleapis.com/css?family=Rubik:400,700" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
-  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
-  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
-  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
 
-  <link rel="stylesheet" href="{% static 'css/aos.css' %}">
-
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-</head>
-
-<body>
-
-  <div class="site-wrap">
-    <div class="site-navbar bg-white py-2">
-      <div class="search-wrap">
-        <div class="container">
-          <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
-          <form action="#" method="post">
-            <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
-          </form>
+  <body style="padding-top: 100px;">
+    <div class="site-wrap">
+      <div class="site-navbar bg-white py-2">
+        <div class="search-wrap">
+          <div class="container">
+            <a href="#" class="search-close js-search-close"
+              ><span class="icon-close2"></span
+            ></a>
+            <form action="#" method="post">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search keyword and hit enter..."
+              />
+            </form>
+          </div>
         </div>
-      </div>
 
-      <div class="container">
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="logo">
-            <div class="site-logo">
-              <a href="index.html" class="js-logo-clone">Dealers</a>
+        <div class="container">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="logo">
+              <div class="site-logo">
+                <a href="index.html" class="js-logo-clone">Dealers</a>
+              </div>
+            </div>
+            <div class="main-nav d-none d-lg-block">
+              <nav
+                class="site-navigation text-right text-md-center"
+                role="navigation"
+              >
+                <ul class="site-menu js-clone-nav d-none d-lg-block">
+                  <li class="has-children active">
+                    <a href="index.html">Collection</a>
+                    <ul class="dropdown">
+                      <li><a href="#">Men</a></li>
+                      <li><a href="#">Women</a></li>
+                      <li><a href="#">Children</a></li>
+                      <li class="has-children">
+                        <a href="#">Sub Menu</a>
+                        <ul class="dropdown">
+                          <li><a href="#">Men</a></li>
+                          <li><a href="#">Women</a></li>
+                          <li><a href="#">Children</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li><a href="shop.html">Shop</a></li>
+                  <li><a href="#">Catalogs</a></li>
+                  <li><a href="contact.html">Contact</a></li>
+                </ul>
+              </nav>
+            </div>
+            <div class="icons">
+              <a href="#" class="icons-btn d-inline-block js-search-open"
+                ><span class="icon-search"></span
+              ></a>
+              <a href="#" class="icons-btn d-inline-block"
+                ><span class="icon-heart-o"></span
+              ></a>
+              <a href="cart.html" class="icons-btn d-inline-block bag">
+                <span class="icon-shopping-bag"></span>
+                <span class="number">{{cart_count}}</span>
+              </a>
+              <a
+                href="#"
+                class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"
+                ><span class="icon-menu"></span
+              ></a>
             </div>
           </div>
-          <div class="main-nav d-none d-lg-block">
-            <nav class="site-navigation text-right text-md-center" role="navigation">
-              <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li class="has-children active">
-                  <a href="index.html">Collection</a>
-                  <ul class="dropdown">
-                    <li><a href="#">Men</a></li>
-                    <li><a href="#">Women</a></li>
-                    <li><a href="#">Children</a></li>
-                    <li class="has-children">
-                      <a href="#">Sub Menu</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Men</a></li>
-                        <li><a href="#">Women</a></li>
-                        <li><a href="#">Children</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="#">Catalogs</a></li>
-                <li><a href="contact.html">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="icons">
-            <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
-            <a href="#" class="icons-btn d-inline-block"><span class="icon-heart-o"></span></a>
-            <a href="cart.html" class="icons-btn d-inline-block bag">
-              <span class="icon-shopping-bag"></span>
-              <span class="number">{{cart_count}}</span>
-            </a>
-            <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
-                class="icon-menu"></span></a>
-          </div>
         </div>
       </div>
-    </div>
-    <!-- <div class="bg-light mt-4 py-3">
+      <!-- <div class="bg-light mt-4 py-3">
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
@@ -93,165 +116,252 @@
       </div>
     </div> -->
 
-    <div class="container mt-5">
-      <div class="row justify-content-center mt-5">
-        {% if total == 0 %}
-        <img src="{% static 'images/undraw_empty_cart_co35.svg' %}" class="img-fluid p-3" style="height: 40vh;">
-        {% endif %}
-        {% for i in cart_products %}
-        <!-- Product start -->
-        <div class="col-md-3 m-4" id="p_c_{{i.id}}">
-          <button onClick="remove_prod(this)" c_id="{{i.id}}"  class="btn btn-primary removebtn">X</button>
+      <div class="container m-auto crtcntnr">
+        {% if not total == 0 %}
+        <div class="rowhrw">
+          <h3 class="m-auto">My cart</h3>
+        </div>
+        <div class="row m-auto p-2 shadow hrw">
+          <div class="row chead w-100 py-2 border-bottom">
+            <div class="col-md-3"></div>
+            <div class="col-md-2">Name</div>
+            <div class="col-md-2">Details</div>
+            <div class="col-md-2">Quantity</div>
+            <div class="col-md-2">Total</div>
+            <div class="col-md-1"></div>
+          </div>
+          {% endif %}
+          {% for i in cart_products %}
+      <!-- CART PRODUCT START -->
+      <div class="row my-2 px-2 w-100 cpdetail border-bottom py-2" id="p_c_{{i.id}}">
+        <div class="col-md-3 cpimg ">
+          <img
+            src="{{i.image}}"
+            class="img-fluid"
+            alt=""
+            srcset=""
+          />
+        </div>
+        <div class="col-md-2">{{i.name}}</div>
+        <div class="col-md-2">
+          <small
+            >color-{{i.color}} <br />
+            size-{{i.size}} <br />
+            <strike>₹{{i.max_price}}</strike>&nbsp;<span class="text-success">₹{{i.price}}</span></small
+          >
+        </div>
+        <div class="col-md-2 row cpquant" >
+         
+          <div class="col-md-3 border updbtn" clr_id="{{i.id}}"  onclick="update_qty(this,'up')">+</div>
+          <div class="col-md-3 border "  value="{{i.Quantity}}"><input
+            type="text"
+            class="form-control text-center prdQty"
+            id="qty_of_{{i.id}}"
+            value="{{i.Quantity}}"
+            readonly
+          /></div>
+          <div class="col-md-3 border "   clr_id="{{i.id}}"   id="clr_{{i.id}}"
+          clr_id="{{i.id}}"
+          p="{{i.price}}"
+          q="{{i.Quantity}}" onclick="update_qty(this,'down')">-</div>
+         
+        </div>
+        <div class="col-md-2">OP</div>
+        <div class="col-md-1">
+          <p onClick="remove_prod(this)" c_id="{{i.id}}" class=" removebtn">
+            X
+          </p>
+        </div>
+      </div>
+      <!-- CART PRODUCT ENDS -->
+      {% endfor %}
+
+
+        </div>
+      </div>
+
+      <div class="container mt-5">
+        <div class="row justify-content-center mt-5">
+          {% if total == 0 %}
+          <img
+            src="{% static 'images/undraw_empty_cart_co35.svg' %}"
+            class="img-fluid p-3"
+            style="height: 40vh;"
+          />
+          {% endif %} 
+          <img
+            src="{% static 'images/undraw_empty_cart_co35.svg' %}"
+            class="img-fluid p-3" id="no_prods"
+            style="height: 40vh; display: none;"
+          />
+         
+        </div>
+      </div>
+      <div class="site-section">
+        <div class="container">
           <div class="row">
-            <img src="{{i.image}}" class="img-fluid" alt="" srcset="">
-          </div>
-          <div class="cartdetail">
-            <div class="row">
-              <h3> {{i.name}} </h3>
-            </div>
-            <div class="row">
-              <h5><small>Color:- &nbsp</small>{{i.color}}</h5>
-              {% if i.size %}
-              <h5 class="ml-2"><small>Size:- &nbsp</small>{{i.size}}</h5>
-              {% endif %}
-            </div>
-            <div class="row">
-              <strike>₹{{i.max_price}}</strike>&nbsp;<span class="text-success">₹{{i.price}}</span>
-            </div>
-            <div class="row m-2">
-              <div class="input-group mb-3" style="max-width: 120px;">
-                <div class="input-group-prepend">
-                  <button class="btn btn-outline-primary" id="clr_{{i.id}}" clr_id="{{i.id}}" p="{{i.price}}" q="{{i.Quantity}}"
-                    onclick="update_qty(this,'down')">&minus;</button>
+            <div
+              class="col-md-6"
+              data-aos="fade-right"
+              data-aos-easing="linear"
+              data-aos-duration="400"
+            >
+              <div class="row mb-5">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <button class="btn btn-primary btn-sm btn-block">
+                    Update Cart
+                  </button>
                 </div>
-                <input type="text" class="form-control text-center" id="qty_of_{{i.id}}" value="{{i.Quantity}}"
-                  readonly>
-                <div class="input-group-append">
-                  <button class="btn btn-outline-primary" clr_id="{{i.id}}"
-                    onclick="update_qty(this,'up')">&plus;</button>
+                <div class="col-md-6">
+                  <button class="btn btn-outline-primary btn-sm btn-block">
+                    Continue Shopping
+                  </button>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- Product Ends -->
-        {% endfor %}
-      </div>
-    </div>
-    <div class="site-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6" data-aos="fade-right"
-          data-aos-easing="linear"
-          data-aos-duration="400">
-            <div class="row mb-5">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
-              </div>
-              <div class="col-md-6">
-                <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <label class="text-black h4" for="coupon">Coupon</label>
-                <p>Enter your coupon code if you have one.</p>
-              </div>
-              {% if promocode %}
-              <div class="col-md-8 mb-3" id="coupon_div">
-                <input type="text" class="form-control py-3" id="coupon_field" placeholder="Coupon Code"
-                  value="{{promocode}}" readonly>
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-black h4" for="coupon">Coupon</label>
+                  <p>Enter your coupon code if you have one.</p>
+                </div>
+                {% if promocode %}
+                <div class="col-md-8 mb-3" id="coupon_div">
+                  <input
+                    type="text"
+                    class="form-control py-3"
+                    id="coupon_field"
+                    placeholder="Coupon Code"
+                    value="{{promocode}}"
+                    readonly
+                  />
                   <!-- <small  id="inv_mess" >Invalid coupon code !</small> -->
+                </div>
+                <div class="col-md-4">
+                  <button
+                    class="btn btn-primary"
+                    id="coupon_rmv_btn"
+                    onclick="rmv_coupon('r')"
+                    style="display: block;"
+                  >
+                    Remove
+                  </button>
+                </div>
+                {% else %}
+                <div class="col-md-8 mb-3" id="coupon_div">
+                  <input
+                    type="text"
+                    class="form-control py-3"
+                    id="coupon_field"
+                    placeholder="Coupon Code"
+                    readonly
+                  />
+                  <!-- <p id="inv_mess">Invalid coupon code !</p> -->
+                </div>
+                <div class="col-md-4">
+                  <button
+                    class="btn btn-primary"
+                    id="coupon_rmv_btn"
+                    onclick="rmv_coupon('r')"
+                    style="display: block;"
+                  >
+                    Remove
+                  </button>
+                </div>
+                {% endif %}
               </div>
-              <div class="col-md-4">
-                <button class="btn btn-primary" id="coupon_rmv_btn" onclick="rmv_coupon('r')" style="display: block;"> Remove </button>
-              </div>
-              {% else %}
-              <div class="col-md-8 mb-3" id="coupon_div">
-                <input type="text" class="form-control py-3" id="coupon_field" placeholder="Coupon Code" readonly>
-                <!-- <p id="inv_mess">Invalid coupon code !</p> -->
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-primary" id="coupon_rmv_btn" onclick="rmv_coupon('r')" style="display: block;"> Remove </button>
-             
-              </div>
-              {% endif %}
+              <!-- COUPONS AREA START -->
 
-
+              {% for i in promocodes %}
+              <!-- COUPON START -->
+              <div class="row mt-2 pl-2">
+                <div class="col-md-4">
+                  <img
+                    src="{{i.image.url}}"
+                    class="img-fluid"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    {{i.code}}
+                  </div>
+                  <div class="row border-bottom">
+                    {{i.describtion}}
+                  </div>
+                  <div
+                    class="row applybtn"
+                    code="{{i.code}}"
+                    min="{{i.min_transaction}}"
+                    onclick="apply_coupn(this)"
+                  >
+                    APPLY
+                  </div>
+                </div>
+              </div>
+              <!-- COUPON ENDS -->
+              {% endfor %}
+              <!-- COUPON AREA ENDS -->
             </div>
-            <!-- COUPONS AREA START -->
+            <div
+              class="col-md-6 pl-5"
+              data-aos="fade-left"
+              data-aos-easing="linear"
+              data-aos-duration="500"
+            >
+              <div class="row justify-content-end">
+                <div class="col-md-7">
+                  <div class="row">
+                    <div class="col-md-12 text-right border-bottom mb-5">
+                      <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <span class="text-black">Subtotal</span>
+                    </div>
 
-            {% for i in promocodes %}
-            <!-- COUPON START -->
-            <div class="row mt-2 pl-2">
-              <div class="col-md-4">
-                <img src="{{i.image.url}}" class="img-fluid" alt="" srcset="">
-              </div>
-              <div class="col-md-8">
-                <div class="row">
-                  {{i.code}}
-                </div>
-                <div class="row border-bottom">
-                  {{i.describtion}}
-                </div>
-                <div class="row applybtn" code="{{i.code}}" min="{{i.min_transaction}}" onclick="apply_coupn(this)">
-                  APPLY
-                </div>
-              </div>
-            </div>
-            <!-- COUPON ENDS -->
-            {% endfor %}
-            <!-- COUPON AREA ENDS -->
-          </div>
-          <div class="col-md-6 pl-5" data-aos="fade-left"
-          data-aos-easing="linear"
-          data-aos-duration="500">
-            <div class="row justify-content-end">
-              <div class="col-md-7">
-                <div class="row">
-                  <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                    <div class="col-md-6 text-right">
+                      <strong class="text-black"
+                        >$<span id="ttl_amt">{{total}}</span></strong
+                      >
+                    </div>
                   </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <span class="text-black">Subtotal</span>
-                  </div>
-                 
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">$<span id="ttl_amt">{{total}}</span></strong>
-                  </div>
-                </div>
-                <div class="row text-success mb-3" id="cb">
-                  {% if cashback %}
-                  <div class="col-md-6">
-                    <span class="text-success">Cashback</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-success">$<span id="cb_price">{{cashback}}</span></strong>
-                  </div>
-                  {% endif %}
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <span class="text-black">Total</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    {% if total_after_cb %}
-                    <strong class="text-black" id="f_amt">${{total_after_cb}}</strong>
-                    {% else %}
-                    $<strong class="text-black" id="f_amt">{{total}}</strong>
+                  <div class="row text-success mb-3" id="cb">
+                    {% if cashback %}
+                    <div class="col-md-6">
+                      <span class="text-success">Cashback</span>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <strong class="text-success"
+                        >$<span id="cb_price">{{cashback}}</span></strong
+                      >
+                    </div>
                     {% endif %}
-
                   </div>
-                </div>
+                  <div class="row mb-5">
+                    <div class="col-md-6">
+                      <span class="text-black">Total</span>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      {% if total_after_cb %}
+                      <strong class="text-black" id="f_amt"
+                        >${{total_after_cb}}</strong
+                      >
+                      {% else %} $<strong class="text-black" id="f_amt"
+                        >{{total}}</strong
+                      >
+                      {% endif %}
+                    </div>
+                  </div>
 
-                <div class="row">
-                  <div class="col-md-12">
-                    <a href="/orderprocessing">
-                      <button class="btn btn-primary btn-lg btn-block">Proceed
-                        To Checkout</button>
-                    </a>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <a href="/orderprocessing">
+                        <button class="btn btn-primary btn-lg btn-block">
+                          Proceed To Checkout
+                        </button>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -259,90 +369,104 @@
           </div>
         </div>
       </div>
+
+      <footer class="site-footer custom-border-top">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+              <div class="block-7">
+                <h3 class="footer-heading mb-4">About Us</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius
+                  quae reiciendis distinctio voluptates sed dolorum excepturi
+                  iure eaque, aut unde.
+                </p>
+              </div>
+              <div class="block-7">
+                <form action="#" method="post">
+                  <label for="email_subscribe" class="footer-heading"
+                    >Subscribe</label
+                  >
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control py-4"
+                      id="email_subscribe"
+                      placeholder="Email"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-sm btn-primary"
+                      value="Send"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 class="footer-heading mb-4">Quick Links</h3>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <ul class="list-unstyled">
+                    <li><a href="#">Sell online</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Shopping cart</a></li>
+                    <li><a href="#">Store builder</a></li>
+                  </ul>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <ul class="list-unstyled">
+                    <li><a href="#">Mobile commerce</a></li>
+                    <li><a href="#">Dropshipping</a></li>
+                    <li><a href="#">Website development</a></li>
+                  </ul>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <ul class="list-unstyled">
+                    <li><a href="#">Point of sale</a></li>
+                    <li><a href="#">Hardware</a></li>
+                    <li><a href="#">Software</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+              <div class="block-5 mb-5">
+                <h3 class="footer-heading mb-4">Contact Info</h3>
+                <ul class="list-unstyled">
+                  <li class="address">
+                    203 Fake St. Mountain View, San Francisco, California, USA
+                  </li>
+                  <li class="phone">
+                    <a href="tel://23923929210">+2 392 3929 210</a>
+                  </li>
+                  <li class="email">emailaddress@domain.com</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
-
-
-    <footer class="site-footer custom-border-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <div class="block-7">
-              <h3 class="footer-heading mb-4">About Us</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates
-                sed dolorum excepturi iure eaque, aut unde.</p>
-            </div>
-            <div class="block-7">
-              <form action="#" method="post">
-                <label for="email_subscribe" class="footer-heading">Subscribe</label>
-                <div class="form-group">
-                  <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email">
-                  <input type="submit" class="btn btn-sm btn-primary" value="Send">
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
-            <div class="row">
-              <div class="col-md-12">
-                <h3 class="footer-heading mb-4">Quick Links</h3>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Sell online</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Shopping cart</a></li>
-                  <li><a href="#">Store builder</a></li>
-                </ul>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Mobile commerce</a></li>
-                  <li><a href="#">Dropshipping</a></li>
-                  <li><a href="#">Website development</a></li>
-                </ul>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Point of sale</a></li>
-                  <li><a href="#">Hardware</a></li>
-                  <li><a href="#">Software</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3">
-            <div class="block-5 mb-5">
-              <h3 class="footer-heading mb-4">Contact Info</h3>
-              <ul class="list-unstyled">
-                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-                <li class="email">emailaddress@domain.com</li>
-              </ul>
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-    </footer>
-  </div>
-  <div id="loading_area" style="display: none;">
-    <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
-  </div>
-  <div class="messaged">
-  </div>
-  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-  <script src="{% static 'js/jquery-ui.js' %}"></script>
-  <script src="{% static 'js/popper.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-  <script src="{% static 'js/aos.js' %}"></script>
-  <script src="{% static 'js/main.js' %}"></script>
-  <script src="{% static 'js/coupon_nd_update_cart.js' %}"></script>
-
-
-</body>
-
+    <div id="loading_area" style="display: none;">
+      <span
+        class="spinner-border spinner-border-lg"
+        role="status"
+        aria-hidden="true"
+      ></span>
+    </div>
+    <div class="messaged"></div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/coupon_nd_update_cart.js' %}"></script>
+  </body>
 </html>

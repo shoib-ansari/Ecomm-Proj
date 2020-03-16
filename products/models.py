@@ -131,6 +131,10 @@ class HomePageCategories(models.Model):
         return self.heading
 # ----------------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------------
+
+class Category_set(models.Model):
+    title = models.CharField(max_length=400)
 class Group_products(models.Model):
     Image = models.ImageField(upload_to="HomePage_Categories",blank=True)
     heading = models.CharField(max_length=400,default='Try out',blank=True)

@@ -9,10 +9,12 @@ function rmv_coupon(){
   $.ajax({
     url:'/offers/rmv_coupon',
     beforeSend: function(){
-      alert('removing')
+      $('#loading_area').show();
+
     },
     success:function(data){
-      alert("removed")
+      $('#loading_area').hide();
+
       $('#coupon_field').val('')
       // Displaying removed message
       if (document.contains(document.getElementById("inv_mess"))) {
@@ -48,11 +50,13 @@ function apply_coupn(e) {
         'code': code,
       },
       beforeSend: function () {
+      $('#loading_area').show();
         if (document.contains(document.getElementById("inv_mess"))) {
           document.getElementById("inv_mess").remove();
         }
       },
       success: function (data) {
+      $('#loading_area').hide();
         data = data.split(",")
         if (data[1] == 'invalid cart amount') {
           // When user is using two much of his/her brain....
@@ -93,7 +97,6 @@ function remove_prod(e) {
   qty_pr_ele = document.getElementById(temp_id)
   var p = parseInt(qty_pr_ele.getAttribute('p'))
   var q = parseInt(qty_pr_ele.getAttribute('q'))
-  alert(p + "____" + q)
   e.parentNode.parentNode.removeChild(e.parentNode);
   $.ajax({
     url: '/cart/remove_prod_from_cart',
@@ -103,10 +106,13 @@ function remove_prod(e) {
     },
     beforeSend: function () {
       // $('#loading_area').show();
+      $('#p_c_'+cart_prod_id).remove()
       var amt = document.getElementById("ttl_amt").innerHTML;
-      alert(amt)
       amt = amt - (p * q)
-      alert("amount after" + amt)
+      if(amt == 0){
+        $('.hrw').remove()
+        $('#no_prods').show()
+      }
       $('#ttl_amt').html(amt)
       $('#f_amt').html(amt)
     },
@@ -147,6 +153,7 @@ function update_qty(ele,temp) {
         document.getElementById(target_id).value = qty;
         // update amount
         $('#ttl_amt').html(amt)
+        $('#ttl_amt').html(amt)
       }
       //  product deleted from the cart (i.e.., qty is 0)
       else {
@@ -154,6 +161,8 @@ function update_qty(ele,temp) {
         document.getElementById(target_id).remove()
         amt = parseInt(amt) - parseInt(arr[1])
         $('#ttl_amt').html(amt)
+        $('.hrw').remove()
+        $('#no_prods').show()
       }
       $('.number').html(parseInt(arr[3]))
       if (arr[4] == 'remove') {

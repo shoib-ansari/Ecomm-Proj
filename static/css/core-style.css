@@ -2196,15 +2196,22 @@ img {
      display: flex;
      justify-content: center;
  }
- .Rating .icon-star-o{
+ .Rating .icon-star{
      font-size: xx-large;
      margin: 0.5% ;
-     color: #3d8eff;
+     color: white;
      cursor: pointer;
      transition: 500ms;
+     text-shadow: -1px 1px 0 #000, 
+                          1px 1px 0 #000, 
+                         1px -1px 0 #000,
+                        -1px -1px 0 #000; 
  }
- .Rating .icon-star-o:hover{
-     transform: translateY(-5px) rotateZ(40deg);
+ .Rating .icon-star:hover{
+     transform:  rotateZ(30deg) scale(1.1);
+     /* text-shadow: 8px 8px 8px grey; */
+     color: lightseagreen;
+
  }
  #skip{
      cursor: pointer;

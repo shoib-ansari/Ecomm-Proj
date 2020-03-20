@@ -67,7 +67,7 @@ class Product(models.Model):
     Size = models.CharField(max_length=250,blank=True)
     color = models.CharField(max_length=500,blank=True)
     Total_stock = models.IntegerField(null=True,blank=True)
-    brand = models.CharField(null=True,max_length=200)
+    brand = models.CharField(null=True,max_length=200,blank=True)
     tags = models.ManyToManyField(Tags,related_name='products',blank=True)
     # Keywords = models.TextField(max_length=2000,blank=True)
     Return_allowed = models.BooleanField(default=True)
@@ -102,6 +102,9 @@ class Reviews(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     review = models.CharField(max_length=10000,blank=True)
     rating = models.IntegerField(blank=True,null=True)
+
+    def __str__(self):
+        return self.user.username
 # ----------------------------------------------------------------------------------------------------
 
 class Reviewimages(models.Model):
@@ -133,11 +136,10 @@ class HomePageCategories(models.Model):
 
 # ----------------------------------------------------------------------------------------------------
 
-class Category_set(models.Model):
-    title = models.CharField(max_length=400)
+
 class Group_products(models.Model):
     Image = models.ImageField(upload_to="HomePage_Categories",blank=True)
-    heading = models.CharField(max_length=400,default='Try out',blank=True)
+    heading = models.CharField(max_length=400,default='NEW GROUP',blank=True)
 
     def __str__(self):
         return self.heading
@@ -149,6 +151,12 @@ class Product_Group(models.Model):
 # ----------------------------------------------------------------------------------------------------
 
 
+class Category_set(models.Model):
+    title = models.CharField(max_length=400)
+    group = models.ManyToManyField(Group_products,related_name='group',blank=True)
+
+    def __str__(self):
+        return self.title
 
 
 

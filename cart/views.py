@@ -7,6 +7,7 @@ from offers.models import Promocodes
 from orderprocessing.models import Checkout
 from django.db.models import Sum
 from django.db.models import Count , Q
+from useraccounts.views import getnavitems , add_to_suggestions
 
 # Create your views here.
 
@@ -36,6 +37,7 @@ def add_to_cart(request):
     return HttpResponse(cart_count)
 
 def show_cart(request):
+    nav_product_dict = getnavitems(request)
     promobj = Checkout.objects.filter(Q(promocode__isnull=True) and Q(user=request.user)).values('promocode').distinct()
     appliedcode = []
     for i in promobj:
@@ -55,10 +57,6 @@ def show_cart(request):
                 invalid_codes.append(i[0])
     available_codes = Promocodes.objects.all().exclude(id__in=invalid_codes) 
     promo_obj = available_codes
-
-
-
-
     cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
     total = 0
     prod_dict_list = []
@@ -98,9 +96,10 @@ def show_cart(request):
     if cart_total == total:
         cart_total = None
         cashback = None
+    print(nav_product_dict)
     return render(request,'cart.html',{'cart_products':prod_dict_list,"total":total,
     "cart_count":cart_count,"promocodes":promo_obj,"promocode":promocode,
-    "total_after_cb":cart_total,"cashback":cashback})
+    "total_after_cb":cart_total,"cashback":cashback,"products":nav_product_dict})
 
 def update_cart(request):
     cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()

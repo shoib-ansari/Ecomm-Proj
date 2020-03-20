@@ -85,7 +85,7 @@ class ProductAdmin(NestedModelAdmin):
 
     class Media:
         css = {
-        'all': ('/static/css/style.css',)
+        # 'all': ('/static/css/style.css',)
          }
         js = ('/static/js/chained_dropdown.js','https://code.jquery.com/jquery-3.3.1.min.js',)
 
@@ -103,4 +103,6 @@ admin.site.register(Product,ProductAdmin)
 admin.site.register(FeaturedProducts)
 admin.site.register(HomePageCategories)
 admin.site.register(Group_products,Group_productsAdmin)
+admin.site.register(Reviews)
+admin.site.register(Category_set)
 

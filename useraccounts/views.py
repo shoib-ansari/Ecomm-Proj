@@ -98,7 +98,6 @@ def add_to_suggestions(request,query):
 
 def homepage(request):
     import itertools
-    
     main_header = []
     product_dict = getnavitems(request)
     noti_flag = get_noti_status(request)
@@ -109,40 +108,32 @@ def homepage(request):
     main_car_3 = SubCategory.objects.filter(add_to_main_header=True)
     main_car_4 = FinalCategory.objects.filter(add_to_main_header=True)
     main_header = itertools.chain(main_car_1,main_car_2,main_car_3,main_car_4)
-
-
     sub_car_2 = MainCategory.objects.filter(add_to_sub_header=True)
     sub_car_3 = SubCategory.objects.filter(add_to_sub_header=True)
     sub_car_4 = FinalCategory.objects.filter(add_to_sub_header=True)
     sub_header = itertools.chain(main_car_1,main_car_2,main_car_3,main_car_4)
-
-
     featured_obj = FeaturedProducts.objects.all()
-
     home_categories = HomePageCategories.objects.all()
-
     group_id =[]
     group_obj = Product_Group.objects.all().values('group_id').distinct().order_by('-group_id')
     for i in group_obj:
         group_id.append(i['group_id'])
-    print(group_id)
-
     groups = []
     for i in group_id:
         temp_list = []
         temp_list.append(Group_products.objects.get(id=i))
         temp_list.append(Product_Group.objects.filter(group_id=i).values())
-        print(len(temp_list))
         groups.append(temp_list)
-
-
-
     offers = Offer.objects.all()
     suggest_prods = None
     main_cat = MainCategory.objects.all().distinct()
+    categories = Category_set.objects.all().prefetch_related('group')
+    print("---------------------",categories)
+    for i in categories:
+        print(i.group.all())
     return render(request, "index.html",{"products":product_dict,"notification":noti_flag,"suggestions":suggest_prods,
     "main_cat":main_cat,"offers":offers,"main_header":main_header,"sub_header":sub_header,"featured_prods":featured_obj,
-    "categories":home_categories,"groups":groups})
+    "categories":home_categories,"groups":groups,'category_set':categories})
     
 
 def register(request):

@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
 	    items: 1,
 	    loop: true,
 	    smartSpeed: 700,
-			stagePadding: 15,
+		stagePadding: 15,
 	    margin: 20,
 	    autoplay: true,
 	    nav: true,

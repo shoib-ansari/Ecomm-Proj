@@ -13,6 +13,7 @@ from useraccounts.models import SuggestTags
 def get_searched_products(request,s_l):
     sl= s_l.split(",")
     return Product.objects.filter(id__in=sl)
+
 def price_filter(request,prodobj,min_price,max_price):
     return prodobj.filter(Q(Current_Price__gte=int(min_price)) & Q(Current_Price__lte=(max_price)))
 
@@ -105,6 +106,7 @@ def getsubcat(request):
 def showproducts(request):
     brand_list = []
     nav_product_dict = getnavitems(request)
+    main_cat_nav = MainCategory.objects.all().distinct()
     url = request.get_full_path()
     temp = url.split("in")
     sub_cat = temp[1]
@@ -145,7 +147,7 @@ def showproducts(request):
         main_cat = MainCategory.objects.get(id=main_id)
         sub_cat_obj = SubCategory.objects.filter(main_category_id=main_id)
         return render(request,'shop.html',{"products":prodobj,"nav_products":nav_product_dict,"categories":categories,
-        'colors':color_list,'sizes':size_list,"wishlist":wishlist,"brands":brand_list,"main_cat":main_cat})
+        'colors':color_list,'sizes':size_list,"wishlist":wishlist,"brands":brand_list,"main_cat":main_cat,"main_cat_nav":main_cat_nav})
         return HttpResponse(prodobj)
     else:
         # If clicked on SubCategories
@@ -182,10 +184,11 @@ def showproducts(request):
         main_cat = MainCategory.objects.all().distinct()
         return render(request,'shop.html',{"products":product_set,"nav_products":nav_product_dict,"categories":categories,
         'colors':color_list,'sizes':size_list,"sub_cat":sub_cat_obj.name,"wishlist":wishlist,"brands":brand_list,
-        "sub_id":sub_cat_obj.id})
+        "sub_id":sub_cat_obj.id,"main_cat_nav":main_cat_nav})
 
 def show_detailed_product(request):
     nav_product_dict = getnavitems(request)
+    main_cat = MainCategory.objects.all().distinct()
     url = request.get_full_path()
     temp = url.split("?")
     id = int(temp[1])
@@ -205,10 +208,12 @@ def show_detailed_product(request):
     cart_count = 0
     if request.user.is_authenticated:
         cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
+    
+    print("------",nav_product_dict)
     review_obj = Reviews.objects.filter(product=prodobj).select_related('user')
     return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,
     "color_variation":prod_color_set,"sizes":prod_size_dict,"cart_count":cart_count,
-    "related_products":related_products,"reviews":review_obj})
+    "related_products":related_products,"reviews":review_obj,'main_cat':main_cat})
 
 def sort_products(request,prodobj,sort_criteria):
     if sort_criteria == 'lth':
@@ -314,8 +319,11 @@ def search(request):
 def rate(request):
     prod_id = int(request.GET.get('prod_id'))
     curr_rating = int(request.GET.get('rate'))
+    print(request.user.id)
     check_obj_list = Checkout.objects.filter(user=request.user).values_list('id',flat=True)
-    ordered_ids = Ordered_products.objects.filter(id__in=check_obj_list).values_list('product_id',flat=True)
+    print(check_obj_list)
+    ordered_ids = Ordered_products.objects.filter(checkout_id__in=check_obj_list).values_list('product_id',flat=True)
+    print("---------",ordered_ids)
     if prod_id in list(ordered_ids):
         prodobj = Product.objects.get(id=prod_id)
         rating = prodobj.rating

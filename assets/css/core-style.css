@@ -1420,8 +1420,8 @@ img {
 ------------------------ */
 
 .breadcumb_area {
-    padding-top: 100px;
-    padding-bottom: 40px;
+    padding-top: 4vh;
+    padding-bottom: 10px;
 }
 
 .breadcumb_area .breadcrumb {
@@ -1429,16 +1429,19 @@ img {
     background-color: transparent;
     padding: 0;
 }
-
 .breadcumb_area .breadcrumb-item,
 .breadcumb_area .breadcrumb-item > a {
     text-transform: capitalize;
     font-size: 14px;
 }
-
+.qty-minus div , .qty-plus div{
+    font-size: 1.3rem;
+    font-weight: bolder;
+    user-select: none;
+}
 .backToHome {
     font-size: 12px;
-    margin-top: 25px;
+    margin-top: 8px;
 }
 
 /* ------------------------------
@@ -1631,7 +1634,7 @@ img {
 }
 
 .single_product_thumb .carousel-indicators {
-    bottom: -13vh;
+    bottom: -16vh;
     -webkit-box-pack: left;
     -ms-flex-pack: left;
     justify-content: left;
@@ -1676,16 +1679,16 @@ img {
     font-size: 24px;
     margin-bottom: 15px;
 }
-
-.single_product_desc .price {
-    margin-bottom: 15px;
+.related_color_row{
+    display: flex;
+    height: 13vh;
 }
-
-.single_product_desc .available {
-    margin-bottom: 15px;
-    font-size: 12px;
+.related_color_row .col-md-2{
+    width:auto
 }
-
+.related_color_row img{
+    height: 100%;
+}
 .single_product_desc .single_product_ratings i {
     color: #ff9800;
     font-size: 14px;
@@ -1787,6 +1790,21 @@ img {
     width: 150px;
     cursor: pointer;
     border-radius: 0;
+}
+#size_list li{
+    cursor: pointer;
+    user-select: none;
+    font-size: 12px;
+    padding: 0;
+    width: 37px;
+    height: 37px;
+    border: 2px solid #3a3a3a;
+    font-weight: 700;
+    text-align: center;
+    line-height: 33px;
+}
+#size_list li:active ,#size_list li:visited {
+    background-color: #ff084e;
 }
 
 
@@ -2178,15 +2196,22 @@ img {
      display: flex;
      justify-content: center;
  }
- .Rating .icon-star-o{
+ .Rating .icon-star{
      font-size: xx-large;
      margin: 0.5% ;
-     color: #3d8eff;
+     color: white;
      cursor: pointer;
      transition: 500ms;
+     text-shadow: -1px 1px 0 #000, 
+                          1px 1px 0 #000, 
+                         1px -1px 0 #000,
+                        -1px -1px 0 #000; 
  }
- .Rating .icon-star-o:hover{
-     transform: translateY(-5px);
+ .Rating .icon-star:hover{
+     transform:  rotateZ(30deg) scale(1.1);
+     /* text-shadow: 8px 8px 8px grey; */
+     color: lightseagreen;
+
  }
  #skip{
      cursor: pointer;
@@ -2195,3 +2220,6 @@ img {
  #skip:hover{
      transform: translateX(5px);
  }
+ .car_img{
+    height: 60vh !important;
+  }

@@ -51,10 +51,10 @@
                                         {% for i,j in value.items %}
                                         <li class="has-children">
                                             {% with j|first as first_object %}
-                                            <a href="products/sub_productsin{{first_object}}">{{i}}</a>
+                                            <a href="/products/sub_productsin{{first_object}}">{{i}}</a>
                                             <ul class="dropdown">
                                                 {% for k in j %} {% if k.0 %}
-                                                <li><a href="products/sub_productsin{{first_object}}in{{k.0}}">{{k.1}}</a></li>
+                                                <li><a href="/products/sub_productsin{{first_object}}in{{k.0}}">{{k.1}}</a></li>
                                                 {% endif %} {% endfor %}
                                             </ul>
                                             {% endwith %}
@@ -66,8 +66,8 @@
                                 <li class="has-children active">
                                     <big><a><span class="icon-user-o"></span> &nbsp;{{user.username}}</big></a>
                                     <ul class="dropdown">
-                                        <li><a href="userprofile">My Account</a></li>
-                                        <li><a href="orderprocessing/order_history">Order-history</a></li>
+                                        <li><a href="/userprofile">My Account</a></li>
+                                        <li><a href="/orderprocessing/order_history">Order-history</a></li>
                                         {% if notification %}
                                         <li><a href="/notifications" id="not_dot">Notifications</a></li>
                                         {% else %}
@@ -99,6 +99,10 @@
                 </div>
             </div>
         </div>
+
+
+
+        
 
         <!--  ============= CAROUSEL START HERE ============ -->
             <br />
@@ -172,7 +176,47 @@
                     {% endfor %}
                 </div>
                 <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-                <div class="container-fluid mt-5">
+
+
+
+
+                                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES_SET SECTION START   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+                                
+                                <div class="container-fluid mt-5">
+                                    {% for i in category_set %}
+                                    <div class="container" data-aos="fade-up">
+                                        <div class="row">
+                                            <div class="title-section text-center col-12">
+                                                <h2 class="text-uppercase cathead">{{i.title}}</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 block-3 products-wrap sub_car">
+                                                <div class="nonloop-block-3 owl-carousel sub_car1">
+                                                    {% for j in i.group.all %}
+                                                    <div class="product">
+                                                            <a href="{{i|verbose_name}}{{i.id}}">
+                                                                <img src="{{j.Image.url}}" alt="Image" class="img-fluid">
+                                                            </a>
+                                                        <div class="grp_name">
+                                                            {{j.heading}}
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES_SET SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+
+
+
+
+                <div class="container mt-5">
                     <h3 class="row justify-content-center cathead" id="slf_cat">
                         Hand Picked For You
                     </h3>
@@ -268,19 +312,16 @@
                 </div>
 
                 <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS STARTS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
+                <div class="container">
                 <h2>Related products</h2>
+                    
+                </div>
 
 
                 <div class="container ftrp m-auto p-0">
                     <div class="row w-100 justify-content-around m-0">
                         {% for i in featured_prods %}
                         <div class="col-md-3  product_crd ">
-                            <div class="viewsect fit">
-                            </div>
-                            <a href="/products/view_?{{i.product.id}}" class="item">
-                            <button class="vd_btn">VIEW DETAILS</button>
-                            </a>
                                     <img src="{{i.product.image.url}}" alt="Image" class="fit" />
                                     <div class="container-fluid pdesc m-0 pb-4  ">
                                         <div class="row ">
@@ -488,14 +529,14 @@
                 </div>
             </div>
             <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-            <script src="{% static 'js/jquery-ui.js' %}"></script> -->
+            <script src="{% static 'js/jquery-ui.js' %}"></script> 
             <script src="{% static 'js/popper.min.js' %}"></script>
             <script src="{% static 'js/bootstrap.min.js' %}"></script>
             <script src="{% static 'js/owl.carousel.min.js' %}"></script>
             <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
             <script src="{% static 'js/aos.js' %}"></script>
             <script src="{% static 'js/main.js' %}"></script>
-            <h2>Buy for $5.00</h2>
+      
             
 
         </form>
@@ -524,7 +565,7 @@
                     nav: true,
                     responsive: {
                         0: {
-                            items: 2
+                            items: 3
                         },
                         600: {
                             items: 3

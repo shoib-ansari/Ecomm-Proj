@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
 
-  <body>
+  <body style="padding-top: 70px;">
     <div class="site-wrap">
       <div class="site-navbar bg-white py-2">
         <div class="search-wrap">
@@ -160,7 +160,7 @@
           q="{{i.Quantity}}" onclick="update_qty(this,'down')">-</div>
          
         </div>
-        <div class="col-md-2">OP</div>
+        <div class="col-md-2 pttl">OP</div>
         <div class="col-md-1">
           <p onClick="remove_prod(this)" c_id="{{i.id}}" class=" removebtn">
             X

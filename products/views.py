@@ -534,3 +534,39 @@ def get_self_cat_prod(request):
     main_cat = MainCategory.objects.all().distinct()
     return render(request,'shop.html',{"products":product_set,"nav_products":nav_product_dict,
     'colors':color_list,'sizes':size_list,"wishlist":wishlist,"brands":brand_list,"group":grp_id})
+
+def show_cat_setproducts(request):
+    nav_product_dict = getnavitems(request)
+    url = request.get_full_path()
+    url = url.split('?')
+    grp_id = url[1]
+    products = Product_Group.objects.filter(group_id=grp_id).select_related('product')
+    product_set = Product.objects.none()
+    product_list = []
+    for i in products:
+        product_list.append(i.product.id)
+    product_set = Product.objects.filter(id__in=product_list)
+    brand_list = product_set.values_list('brand',flat=True).distinct().exclude(brand__isnull=True)
+    color_list = []
+    id_list = []
+    size_list = []
+    color_id_list = []
+    for i in product_set:
+        id_list.append(i.id)
+        colors = Color_variation.objects.filter(product=i)
+        for i in colors:
+            color_id_list.append(i.id)
+            if i.color not in color_list:
+                color_list.append(i.color)
+    size_set = Size_variation.objects.filter(color__in=color_id_list)
+    for i in size_set:
+        if not i.size in size_list:
+            size_list.append(i.size)
+    wishlist = []
+    if request.user.is_authenticated:
+        wishobj = Wishlist.objects.filter(user=request.user)
+        for i in wishobj:
+            wishlist.append(i.product_id)
+    main_cat = MainCategory.objects.all().distinct()
+    return render(request,'shop.html',{"products":product_set,"nav_products":nav_product_dict,
+    'colors':color_list,'sizes':size_list,"wishlist":wishlist,"brands":brand_list,"group":grp_id}) 

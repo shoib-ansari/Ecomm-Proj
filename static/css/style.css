@@ -318,6 +318,18 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 @media (max-width: 768.4px) {
+    .cpdetail .cpimg,.cpdetail .col-md-2{
+    width: 100% ;
+    max-width: 100% !important;
+  }
+  .cpimg img {
+    height: 100%;
+    width: 70%;
+    margin-left: 15%;
+}
+  .pttl{
+    display: none !important;
+  }
   .single_product_details_area .carousel-inner {
     height: 62vh;
   }
@@ -1219,7 +1231,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 50%;
   display: inline-block;
   margin: 5px;
-  background: #ccc;
+  background: #ececec;;
 }
 
 .block-3 .owl-dots .owl-dot.active > span {
@@ -1898,6 +1910,9 @@ figure.effect-jazz:hover p {
 }
 
 @media (max-width: 450px) {
+  .owl-m{
+    height: 320px !important;
+  }
   #logindiv .modal {
     width: 90%;
     left: 5%;
@@ -2009,18 +2024,28 @@ figure.effect-jazz:hover p {
   color: #0067f8;
   /* transform: scale(1.06); */
 }
-
+.not-dot::after{
+  position: relative;
+  content: ".";
+  top: 5%;
+  max-height: 4%;
+  min-width: 8px;
+  border-radius: 50%;
+  z-index: 8;
+  color: rgb(247, 58, 58);
+  background-color: rgb(247, 58, 58);
+}
 .notific {
   margin: auto;
   border: 1px solid #5682b5 !important;
   border-radius: 67px;
   font-family: sans-serif;
-  transition: all 500ms;
+  transition: all 400ms;
 }
 
 .notific:hover {
-  transform: scale(1.01);
-  box-shadow: 10px 6px 10px 5px grey;
+  transform: translateY(-5px);
+  box-shadow: 0px 0px 10px 0px grey;
   cursor: pointer;
 }
 
@@ -2715,10 +2740,47 @@ input::-webkit-calendar-picker-indicator {
   height: 200px !important;
   transition: 400ms;
 }
-
+.ohbtn{
+  padding: 1.5em 3em 2.5em 3em;
+  position: relative;
+  padding: 1.5em 3em 2.5em 3em;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 58px;
+  background-color: transparent;
+  box-shadow: 0px 0px 12px 0px rgba(172, 172, 172, 0.571);
+  transition: all 400ms;
+}
+.obt{
+  line-height: 12px;
+  font-size: 13px;
+  height: fit-content;
+  padding: 7px 8px;
+  text-transform: none;
+  font-weight: 400;
+  font-family: sans-serif;
+}
+.ohbtn::before{
+  z-index: -1;
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 0%;
+  transition: all 400ms;
+  background-color: rgb(78, 78, 78);
+}
+.ohbtn:hover{
+  color:white !important;
+}
+.ohbtn:hover:before{
+  width: 100%;
+}
 .sub_car img:hover {
-  padding: 3px;
-  box-shadow: 0px 0px 12px 0px rgb(66, 66, 66);
+  padding: 2px;
+  box-shadow: 0px 0px 12px 0px rgb(157, 157, 157);
 }
 .h_cat img {
   height: 60vh;
@@ -3206,6 +3268,14 @@ input[type="password"] {
   }
 }
 @media (max-width: 696.58px) {
+
+  .cpquant{
+    width: 50% !important;
+  }
+  .cpimg img{
+    width: 80%;
+    margin-left: 10%;
+  }
   .product_crd {
     margin: 0px !important;
     max-width: 50% !important;
@@ -3389,4 +3459,29 @@ input[type="password"] {
     white-space: nowrap;
     color: #000;
   }
+}
+.ohprod{
+  box-shadow: 0px 0px 12px 0px rgb(108, 108, 108);
+  height: 300px;
+}
+.ohprod img{
+  height: 80%;
+  max-height: 80%;
+  width: 100%;
+}
+@media screen and (max-width:768px) and (min-width:351px){
+  .cpdetail{
+    width: 50% !important;
+  }
+}
+@media (max-width:350.48px){
+  .cpdetail{
+    width: 100% !important;
+  }
+}
+.cathead {
+  font-size: 26px;
+  font-family: serif;
+  font-weight: 400;
+  text-shadow: 1px 1px 5px #888888;
 }

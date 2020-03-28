@@ -68,40 +68,43 @@ def add_to_suggestions(request,query):
                 sobj.tags =string
             sobj.save()
 
-# def get_suggested_products(request):
-#     if request.user.is_authenticated:
-#         try:
-#             sobj = SuggestTags.objects.get(user=request.user)
-#             if sobj.tags:
-#                 querylist = sobj.tags.split(",")
-#                 product_list = []
-#                 exception_list = ['for','in',]
-#                 querylist = list(set(querylist) - set(exception_list))
-#                 for i in querylist:
-#                     prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
-#                     # prodobj is a set of products
-#                     for j in prodobj:
-#                         product_list.append(j)
-#                 # using frozenset to remove duplicates  
-#                 product_list = {frozenset(item.items()) : item for item in product_list}.values()
-#                 for i in querylist:
-#                     for j in product_list:
-#                         j['counter'] = 0
-#                         j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
-#                 prod_list = sorted(product_list, key = lambda i: i['counter']) 
-#                 prod_list.reverse()
-#                 return prod_list
-#         except SuggestTags.DoesNotExist:
-#             return None
-#     else:
-#         return None
+def get_suggested_products(request):
+    if request.user.is_authenticated:
+        try:
+            sobj = SuggestTags.objects.get(user=request.user)
+            if sobj.tags:
+                querylist = sobj.tags.split(",")
+                product_list = []
+                exception_list = ['for','in',]
+                querylist = list(set(querylist) - set(exception_list))
+                for i in querylist:
+                    prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
+                    # prodobj is a set of products
+                    for j in prodobj:
+                        product_list.append(j)
+                # using frozenset to remove duplicates  
+                product_list = {frozenset(item.items()) : item for item in product_list}.values()
+                for i in querylist:
+                    for j in product_list:
+                        j['counter'] = 0
+                        j['counter'] = j['counter'] + j['Product_Name'].count(i) + j['Keywords'].count(i)
+                prod_list = sorted(product_list, key = lambda i: i['counter']) 
+                prod_list.reverse()
+                return prod_list
+        except SuggestTags.DoesNotExist:
+            return None
+    else:
+        return None
 
 def homepage(request):
     import itertools
     main_header = []
     product_dict = getnavitems(request)
     noti_flag = get_noti_status(request)
-    # suggest_prods = get_suggested_products(request)
+    if request.user.is_authenticated:
+        suggest_prods = get_suggested_products(request)
+    else:
+        suggest_prods = None
     main_car_1 = Offer.objects.filter(add_to_main_header=True)
     print(main_car_1.model.__name__)
     main_car_2 = MainCategory.objects.filter(add_to_main_header=True)
@@ -125,12 +128,8 @@ def homepage(request):
         temp_list.append(Product_Group.objects.filter(group_id=i).values())
         groups.append(temp_list)
     offers = Offer.objects.all()
-    suggest_prods = None
     main_cat = MainCategory.objects.all().distinct()
     categories = Category_set.objects.all().prefetch_related('group')
-    print("---------------------",categories)
-    for i in categories:
-        print(i.group.all())
     return render(request, "index.html",{"products":product_dict,"notification":noti_flag,"suggestions":suggest_prods,
     "main_cat":main_cat,"offers":offers,"main_header":main_header,"sub_header":sub_header,"featured_prods":featured_obj,
     "categories":home_categories,"groups":groups,'category_set':categories})

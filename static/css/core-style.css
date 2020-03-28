@@ -2210,7 +2210,7 @@ img {
  .Rating .icon-star:hover{
      transform:  rotateZ(30deg) scale(1.1);
      /* text-shadow: 8px 8px 8px grey; */
-     color: lightseagreen;
+     color: #ffbb00;
 
  }
  #skip{

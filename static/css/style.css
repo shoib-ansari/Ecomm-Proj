@@ -984,6 +984,13 @@ input[type="number"]::-webkit-outer-spin-button {
     max-width: 31% !important;
     flex: 0 0 31% !important;
   }
+  .car_prod{
+    max-width: 100% !important;
+    flex: 0 0 50% !important;
+  }
+}
+.owl-carousel .product{
+  max-width: 100% !important;
 }
 @media (max-width: 696.98px) {
   .product{
@@ -1895,7 +1902,7 @@ figure.effect-jazz:hover p {
 
 @media (max-width: 800px) {
   #logindiv .modal {
-    width: 80%;
+    width: 80% !important;
     left: 10%;
   }
 }
@@ -1913,9 +1920,13 @@ figure.effect-jazz:hover p {
   .owl-m{
     height: 320px !important;
   }
+  .site-menu-toggle{
+    margin-left: 0px !important;
+    width: 30px;
+  }
   #logindiv .modal {
-    width: 90%;
-    left: 5%;
+    width: 99% !important;
+    left: 0.5%;
   }
   .product_crd{
     border-radius: 0px !important;
@@ -2060,7 +2071,6 @@ figure.effect-jazz:hover p {
   height: 5%;
   width: 20%;
 }
-
 .carousel-control-prev-icon {
   background-image: url("../images/next.png");
   background-size: cover;
@@ -2069,12 +2079,10 @@ figure.effect-jazz:hover p {
   width: 20%;
   transform: scaleX(-1);
 }
-
 .pndd .row {
   display: flex;
   justify-content: center;
 }
-
 .roundcap {
   border-radius: 3px;
   overflow: hidden;
@@ -2264,6 +2272,12 @@ figure.effect-jazz:hover p {
   .product_crd {
     max-height: 350px !important;
   }
+  .rel_car .product_crd{
+    max-height: 280px !important;
+  }
+}
+.owl-prev,.owl-next{
+  display: none;
 }
 
 .message {
@@ -2671,7 +2685,8 @@ figure.effect-jazz:hover p {
 }
 .sizediv,
 .colordiv {
-  height: 40vh;
+  height: fit-content;
+  max-height: 40vh;
   overflow-y: scroll;
 }
 /* width */
@@ -3198,7 +3213,7 @@ input[type="password"] {
   color: rgb(148, 148, 148);
 }
 .product_crd:hover .pdesc {
-  transform: translateY(-40px);
+  transform: translateY(-50px);
 }
 /* .product_crd:hover .vd_btn {
   display: block;
@@ -3484,4 +3499,12 @@ input[type="password"] {
   font-family: serif;
   font-weight: 400;
   text-shadow: 1px 1px 5px #888888;
+}
+@media (max-width: 600px){
+  .rel_car .product img {
+    height: 280px !important;
+}
+.prdesc{
+  display: none;
+}
 }

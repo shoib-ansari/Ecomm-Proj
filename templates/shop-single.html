@@ -269,75 +269,7 @@
                                         to
                                         cart</span>
                                 </form>
-                                <div id="accordion" role="tablist">
-                                    <div class="card">
-                                        <div class="card-header" role="tab" id="headingOne">
-                                            <h6 class="mb-0">
-                                                <a data-toggle="collapse" href="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">Information</a>
-                                            </h6>
-                                        </div>
-
-                                        <div id="collapseOne" class="collapse show" role="tabpanel"
-                                            aria-labelledby="headingOne" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                                                    pharetra
-                                                    tempor so dales. Phasellus sagittis auctor gravida. Integ er
-                                                    bibendum
-                                                    sodales arcu id te mpus. Ut consectetur lacus.</p>
-                                                <p>Approx length 66cm/26" (Based on a UK size 8 sample) Mixed fibres</p>
-                                                <p>The Model wears a UK size 8/ EU size 36/ US size 4 and her height is
-                                                    5'8"
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" role="tab" id="headingTwo">
-                                            <h6 class="mb-0">
-                                                <a class="collapsed" data-toggle="collapse" href="#collapseTwo"
-                                                    aria-expanded="false" aria-controls="collapseTwo">Cart Details</a>
-                                            </h6>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" role="tabpanel"
-                                            aria-labelledby="headingTwo" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo
-                                                    quis
-                                                    in veritatis officia inventore, tempore provident dignissimos nemo,
-                                                    nulla quaerat. Quibusdam non, eos, voluptatem reprehenderit hic nam!
-                                                    Laboriosam, sapiente! Praesentium.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia
-                                                    magnam
-                                                    laborum eaque.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" role="tab" id="headingThree">
-                                            <h6 class="mb-0">
-                                                <a class="collapsed" data-toggle="collapse" href="#collapseThree"
-                                                    aria-expanded="false" aria-controls="collapseThree">shipping &amp;
-                                                    Returns</a>
-                                            </h6>
-                                        </div>
-                                        <div id="collapseThree" class="collapse" role="tabpanel"
-                                            aria-labelledby="headingThree" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quo
-                                                    sint
-                                                    repudiandae suscipit ab soluta delectus voluptate, vero vitae,
-                                                    tempore
-                                                    maxime rerum iste dolorem mollitia perferendis distinctio. Quibusdam
-                                                    laboriosam rerum distinctio. Repudiandae fugit odit, sequi id!</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae qui
-                                                    maxime consequatur laudantium temporibus ad et. A optio inventore
-                                                    deleniti ipsa.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
 
                             </div>
                         </div>
@@ -481,7 +413,7 @@
                 <!-- RATING STARTS HERE -->
                     <div class="row pl-3 headrt border-bottom pb-2" id="{{i.id}}">
                         <div class="row w-100">
-                            <div class="ratingspec">{{i.rating }}</div><span class="icon-star"></span> by &nbsp;</span> <div class="reviewname">{{i.user.first_name}}</div><span class="icon-commenting-o pt-1 mx-1 text-dark"></span>, 
+                            <div class="ratingspec">{{i.rating }}</div><span class="icon-star"></span></span> <div class="reviewname">{{i.user.first_name}}</div>, 
                         </div>
                         <p class="row cmt my-3 reviewtext">{{i.review }}</p>
                     </div>
@@ -492,20 +424,50 @@
             <!-- Related Products -->
             <div class="container-fluid ">
                 <div class="row title-section mt-5">
-                    <h3 style="margin:auto;"> Related Products</h3>
+                    <h3 class="cathead" style="margin:auto;"> Related Products</h3>
                     <div class="col-md-12 block-3 products-wrap">
-                        <div class="nonloop-block-3 owl-carousel">
+                        <div class="nonloop-block-3 owl-carousel rel_car">
                             {% for i in related_products %}
-                            <div class="product">
-                                <a href="/products/view_?{{i.id}}" class="item">
-                                    <img src="{{i.image.url}}" alt="Image" class="img-fluid car_img" />
-                                    <div class="container-fluid pndd">
-                                        <div class="row ">{{i.Product_Name}}</div>
-                                        <!-- <span class="row ">Summer Collection</span> -->
-                                        <strong class="row ">${{i.Current_Price}}</strong>
-                                    </div>
-                                </a>
-                            </div>
+              
+                            <div class=" product product_crd">
+                              <!-- <a href="/products/view_?{{i.id}}" target="_blank" class="item">
+                                <button class="vd_btn">VIEW DETAILS</button>
+                                </a> -->
+                              {% if i.id in wishlist %}
+                              <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
+                                class="fa fa-heart liked"></i>
+                              {% else %}
+                              <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})"
+                                class="fa fa-heart"></i>
+                              {% endif %}
+                              <a href="/products/view_?{{i.id}}" >
+                              <img src="{{i.image.url}}" alt="Image" class="fit"></a>
+                              <div class="container-fluid pdesc m-0 pb-4  ">
+                                                      <div class="row pr-3 justify-content-between">
+                                                          <div class="col-md-7 pname ellp">
+                                                              {{i.Product_Name}}
+                                                          </div>
+                                                          <div class="col-md-5">
+                                                            ₹{{i.Price}} 
+                                                            &nbsp;₹<strike class="text-muted">{{i.Current_Price}}</strike>
+              
+                                                          </div>
+                                                      </div>
+                                                       <a href="/products/view_?{{i.id}}" class="prdesc">
+              
+                                                      <div class="row m-0 pdtxt">
+                                                          Mens Formal jeans and trousers for all sizes and colors
+                                                      </div>
+                                                          <div class="row pdhed m-n dninm">
+                                                              <span class="pname">Sizes - <span class="text-dark" >xl,l,m,xxl</span> </span>
+                                                          </div>
+                                                          <div class="row pdhed dninm">
+                                                            <span class="pname">Colors - <span class="text-dark" >xl,l,m,xxl</span></span>
+                                                        </div>
+                                                        </a>
+              
+                                                  </div>
+                                                </div>
                             {% endfor %}
 
                         </div>
@@ -623,7 +585,7 @@
                     items: 3
                 },
                 1000: {
-                    items: 4
+                    items: 5
                 }
             }
         });

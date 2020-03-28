@@ -202,7 +202,7 @@
                                             <div class="col-md-12 block-3 products-wrap sub_car">
                                                 <div class="nonloop-block-3 owl-carousel sub_car1">
                                                     {% for j in i.group.all %}
-                                                    <div class="product">
+                                                    <div class="product car_prod">
                                                             <a href="/products/cat_Set?{{j.id}}">
                                                                 <img src="{{j.Image.url}}" alt="Image" class="img-fluid">
                                                             </a>
@@ -292,38 +292,47 @@
                 <div class="container ftrp m-auto p-0">
                     <div class="row w-100 justify-content-around m-0">
                         {% for i in featured_prods %}
-                        <div class="col-md-3  product_crd ">
-                                    <img src="{{i.product.image.url}}" alt="Image" class="fit" />
-                                    <div class="container-fluid pdesc m-0 pb-4  ">
-                                        <div class="row ">
-                                            <div class="col-md-9 text-dark">
-                                                Adidas orignal
+                 
+              
+                        <div class="col-md-3 product product_crd">
+                          <!-- <a href="/products/view_?{{i.id}}" target="_blank" class="item">
+                            <button class="vd_btn">VIEW DETAILS</button>
+                            </a> -->
+                          <!-- {% if i.id in wishlist %}
+                          <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
+                            class="fa fa-heart liked"></i>
+                          {% else %}
+                          <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})"
+                            class="fa fa-heart"></i>
+                          {% endif %} -->
+                          <a href="/products/view_?{{i.id}}" >
+                          <img src="{{i.product.image.url}}" alt="Image" class="fit"></a>
+                          <div class="container-fluid pdesc m-0 pb-4  ">
+                                                  <div class="row pr-3 justify-content-between">
+                                                      <div class="col-md-7 pname ellp">
+                                                          {{i.product.Product_Name}}
+                                                      </div>
+                                                      <div class="col-md-5">
+                                                        ₹{{i.product.Price}} 
+                                                        &nbsp;₹<strike class="text-muted">{{i.product.Current_Price}}</strike>
+          
+                                                      </div>
+                                                  </div>
+                                                   <a href="/products/view_?{{i.id}}" >
+          
+                                                  <div class="row m-0 pdtxt">
+                                                      Mens Formal jeans and trousers for all sizes and colors
+                                                  </div>
+                                                      <div class="row pdhed m-n dninm">
+                                                          <span class="pname">Sizes - <span class="text-dark" >xl,l,m,xxl</span> </span>
+                                                      </div>
+                                                      <div class="row pdhed dninm">
+                                                        <span class="pname">Colors - <span class="text-dark" >xl,l,m,xxl</span></span>
+                                                    </div>
+                                                    </a>
+          
+                                              </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                ₹400
-                                            </div>
-                                        </div>
-                                        <div class="row m-0 pdtxt">
-                                            Mens Formal
-                                        </div>
-                                        <div class="container-fluid m-0 pl-2">
-                                            <div class="row pdhed">
-                                                Sizes
-                                            </div>
-                                            <div class="row m-0 pdtxt">
-                                                XS,S,M,L,XXL
-                                            </div>
-                                            <div class="row pdhed">
-                                                Colors
-                                            </div>
-                                            <div class="row m-0 pdtxt">
-                                                XS,S,M,L,XXL
-                                            </div>
-                                        </div>
-
-
-                                    </div>        
-                        </div>
                         {% endfor %}
                     </div>  
                 </div>
@@ -531,7 +540,7 @@
                     }
                 });
                 $('.sub_car1').owlCarousel({
-                    autoplay:true,
+                    autoplay:false,
                     autoplayTimeout:2500,
                     autoplayHoverPause:true,
                     loop: true,

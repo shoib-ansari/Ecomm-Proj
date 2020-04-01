@@ -20,8 +20,8 @@
 </head>
 
 <body>
-  <div class="site-wrap">
-    <div class="site-navbar bg-white py-2">
+  <div class="site-wrap" style="padding-top:65px; background-color: rgba(248, 248, 248, 0.557);">
+    <div class="site-navbar bg-white">
       <div class="search-wrap">
           <div class="container">
               <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
@@ -101,10 +101,12 @@
       </div>
   </div>
 
-    <div class="container-fluid p-0 m-auto pt-3">
-      <div class="row mb-5 m-0">
-        <div class="col-md-3" id="filters">
-
+    <div class="container-fluid p-0 m-auto pt-1">
+      <div class="row mb-5 m-0 px-1 justify-content-between nomarp">
+        <div class="col-md-2 border pt-2" id="filters">
+          <!-- <div class="row cathead justify-content-center">
+            Filters
+          </div> -->
           {% if main_cat or sub_cat %}
 
           <div class="border p-4 mb-4">
@@ -199,75 +201,79 @@
               </div>
             </div>
         </div>
-        <div class="col-md-9 productscntnr">
-          <div class="row align m-0">
-            <div class="col-md-12 mb-1 p-0">
-             
-              <div class="d-flex srtndflt">
-                <div class="dropdown">
-                  <button type="button" class="btn btn-white btn-sm dropdown-toggle px-4 mr-5 mb-2 pr-5"
-                    id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort
-                  </button>
-                  <div class="dropdown-menu mr-4 srtmen" aria-labelledby="dropdownMenuOffset">
-                    <ul style="padding-left: 0px; cursor: pointer;">
-                      <li class="dropdown-item sort-item" id="lth" data-sort="lth">Price(low to high)
-                      <li class="dropdown-item sort-item" id="htl" data-sort="htl">Price(high to low)</li>
-                      <li class="dropdown-item sort-item" id="rating" data-sort="rating">Rating</li>
-                    </ul>
+        <div class="col-md-10 p-0 productscntnr ">
+          <div class=" bg-white">
+            <div class="row align m-0 snfr">
+              <div class="col-md-12 mb-1 p-0">
+                <div class="d-flex srtndflt">
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-white btn-sm dropdown-toggle px-4 mr-5 mb-2 pr-5"
+                      id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Sort
+                    </button>
+                    <div class="dropdown-menu mr-4 srtmen" aria-labelledby="dropdownMenuOffset">
+                      <ul style="padding-left: 0px; cursor: pointer;">
+                        <li class="dropdown-item sort-item" id="lth" data-sort="lth">Price(low to high)
+                        <li class="dropdown-item sort-item" id="htl" data-sort="htl">Price(high to low)</li>
+                        <li class="dropdown-item sort-item" id="rating" data-sort="rating">Rating</li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div class="btn-group">
-                  <button type="button" id="filterbtn"
-                    class="btn btn-white btn-sm dropdown-toggle px-4 m-2">Filters</button>
+                  <div class="btn-group">
+                    <button type="button" id="filterbtn"
+                      class="btn btn-white btn-sm dropdown-toggle px-4 m-2">Filters</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row mb-5 justify-content-start m-0" id="productsect">
-            {% for i in products %}
-            
-            <div class="col-md-3 product product_crd">
-              <!-- <a href="/products/view_?{{i.id}}" target="_blank" class="item">
-                <button class="vd_btn">VIEW DETAILS</button>
-                </a> -->
-              {% if i.id in wishlist %}
-              <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
-                class="fa fa-heart liked"></i>
-              {% else %}
-              <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})"
-                class="fa fa-heart"></i>
-              {% endif %}
-              <a href="/products/view_?{{i.id}}" >
-              <img src="{{i.image.url}}" alt="Image" class="fit"></a>
-              <div class="container-fluid pdesc m-0 pb-4  ">
-                                      <div class="row pr-3 justify-content-between">
-                                          <div class="col-md-7 pname ellp">
-                                              {{i.Product_Name}}
-                                          </div>
-                                          <div class="col-md-5">
-                                            ₹{{i.Price}} 
-                                            &nbsp;₹<strike class="text-muted">{{i.Current_Price}}</strike>
-
-                                          </div>
-                                      </div>
-                                       <a href="/products/view_?{{i.id}}" >
-
-                                      <div class="row m-0 pdtxt">
-                                          Mens Formal jeans and trousers for all sizes and colors
-                                      </div>
-                                          <div class="row pdhed m-n dninm">
-                                              <span class="pname">Sizes - <span class="text-dark" >xl,l,m,xxl</span> </span>
-                                          </div>
-                                          <div class="row pdhed dninm">
-                                            <span class="pname">Colors - <span class="text-dark" >xl,l,m,xxl</span></span>
+            <div class="row mb-5 justify-content-start m-0" id="productsect">
+              {% for i in products %}
+              
+              <div class="col-md-4 col-sm-4 col-6 col-lg-3 p-1 product_crd border">
+                <!-- <a href="/products/view_?{{i.id}}" target="_blank" class="item">
+                  <button class="vd_btn">VIEW DETAILS</button>
+                  </a> -->
+                {% if i.id in wishlist %}
+                <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
+                  class="fa fa-heart liked"></i>
+                {% else %}
+                <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})"
+                  class="fa fa-heart"></i>
+                {% endif %}
+                <a href="/products/view_?{{i.id}}" >
+                <img src="{{i.image.url}}" alt="Image" class="pc_img border p-1"></a>
+                <div class="container-fluid pdesc m-0 pb-4 pl-3">
+                                        <div class="row px-0 justify-content-around">
+                                            <div class="col-md-7 col-6 ellp pname ellp p-0 pl-1">
+                                                {{i.Product_Name}}
+                                            </div>
+                                            <div class="col-md-5 col-6 p-0 pricer text-success">
+                                              ₹{{i.Price}} 
+                                              &nbsp;<strike class="text-muted pricer">₹{{i.Current_Price}}</strike>
+  
+                                            </div>
                                         </div>
-                                        </a>
-
+                                        <div class="row m-0 pdtxt w-100">Mens Formal jeans 
+                                      </div>
+                                         <!-- <a href="/products/view_?{{i.id}}" >
+  
+                                        <div class="row m-0 pdtxt">
+                                            Mens Formal jeans 
+                                        </div>
+                                            <div class="row pdhed m-n dninm">
+                                                <span class="pname">Sizes - <span class="text-dark" >xl,l,m,xxl</span> </span>
+                                            </div>
+                                            <div class="row pdhed dninm">
+                                              <span class="pname">Colors - <span class="text-dark" >xl,l,m,xxl</span></span>
+                                          </div>
+                                          </a> -->
+  
+                                    </div>
                                   </div>
-                                </div>
-            {% endfor %}
+              {% endfor %}
+            </div>
           </div>
+          
          
         </div>
       </div>

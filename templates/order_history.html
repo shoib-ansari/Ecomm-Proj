@@ -121,7 +121,7 @@
       </div>
     </div>
 
-<div class="container-fluid p-3">
+<!-- <div class="container-fluid p-3">
   <div class="row px-3">
       <button class="btn ohbtn col-md-2"><i class="fas fa-history"></i> Order-history</button>
     
@@ -164,14 +164,18 @@
     </div>
   </div>
 
+</div> -->
+
+
+<div class="container cathead mt-3">
+  <div class="row justify-content-center">
+    Order History
+  </div>
 </div>
 
-
-
-
-<div class="container mt-4">
+<div class="container mt-2">
   <div class="row">
-    {% for i in products %}
+    <!-- {% for i in products %}
 
     <div class="col-md-3">
       <div class="ohprod">
@@ -184,8 +188,44 @@
         </div>
       </div>
     </div>
+    {% endfor %} -->
+    {% for i in products %}
 
-
+    <div class=" col-lg-3 col-md-4 col-sm-6 col-12 mt-3">
+      <div class="ohprod">
+        <div class="row justify-content-center py-2 font-weight-bold text-muted">
+          order # 448796
+        </div>
+        <img src="{{i.Image.url}}" class=" px-2 " alt="" srcset="">
+      </div>
+      <div class="row mt-1 px-2 m-0 ohprodesc">
+        <div class="opname m-0 font-weight-bold ">
+          {{i.product}}
+        </div>
+        <div class="paid">
+          ₹{{i.sell_price}}
+        </div>
+        <!-- <div class="row m-0">
+          <strike>₹{{i.price}}</strike>&nbsp;<span class="text-success">₹{{i.sell_price}}</span>
+        </div>   -->
+        <div class="d-flex m-auto text-muted text-center p-0">
+          Size-XL &nbsp; Color-white
+        </div>
+        <div class="notc m-auto dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Have an issue?
+        </div>
+        <div class="dropdown-menu w-100 bg-light ntcmenu">
+          <a class="dropdown-item" href="">Track Order</a>
+          <a class="dropdown-item" href="/products/view_?{{i.product.id}}#ratebtn">Rate</a>
+          {% if i.status == 5 %}
+          <a class="dropdown-item" style="user-select: none;">In Return request</a>
+          {% else %}
+          <a class="dropdown-item" href="/orderprocessing/return_req{{i.id}}">Return</a>
+          {% endif %}
+          <a class="dropdown-item" href="/orderprocessing/get_invoice?{{i.id}}" download>Get invoice</a>
+        </div>
+      </div>
+    </div>
     {% endfor %}
   </div>
 </div>

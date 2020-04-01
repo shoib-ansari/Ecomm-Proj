@@ -20,7 +20,7 @@
 
 <body>
     <div class="site-wrap">
-        <div class="site-navbar bg-white py-2">
+        <div class="site-navbar bg-white">
             <div class="search-wrap">
                 <div class="container">
                     <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
@@ -67,7 +67,7 @@
                                     {% if notificstions %}
                                     <big><a class="not-dot"><span class="icon-user-o"></span> &nbsp;{{user.username}}</big></a>
                                     {% else %}
-                                    <big><a class="not-dot"><span class="icon-user-o"></span> &nbsp;{{user.username}}</big></a>
+                                    <big><a class=""><span class="icon-user-o"></span> &nbsp;{{user.username}}</big></a>
 
                                     {% endif %}
                                     <ul class="dropdown">
@@ -117,7 +117,6 @@
                     {% for i in main_header %} 
                         <div class="fit">
                             {% if i|verbose_name == 'final_cat' %}
-                            <h1>FInal cat</h1>
                             <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}" class="fit">
                             {% elif i|verbose_name == 'Main Categories' %}
                             <a href="products/sub_productsinM_of{{i.id}}">
@@ -142,8 +141,8 @@
                             <h2 class="text-uppercase cathead">The Collections</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 block-3 products-wrap sub_car">
+                    <div class="row p-0">
+                        <div class="col-md-12 block-3 products-wrap sub_car px-1">
                             <div class="nonloop-block-3 owl-carousel sub_car1">
                                 {% for i in sub_header %}
                                 <div class="product">
@@ -294,45 +293,33 @@
                         {% for i in featured_prods %}
                  
               
-                        <div class="col-md-3 product product_crd">
-                          <!-- <a href="/products/view_?{{i.id}}" target="_blank" class="item">
-                            <button class="vd_btn">VIEW DETAILS</button>
-                            </a> -->
-                          <!-- {% if i.id in wishlist %}
-                          <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
-                            class="fa fa-heart liked"></i>
-                          {% else %}
-                          <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})"
-                            class="fa fa-heart"></i>
-                          {% endif %} -->
-                          <a href="/products/view_?{{i.id}}" >
-                          <img src="{{i.product.image.url}}" alt="Image" class="fit"></a>
-                          <div class="container-fluid pdesc m-0 pb-4  ">
-                                                  <div class="row pr-3 justify-content-between">
-                                                      <div class="col-md-7 pname ellp">
-                                                          {{i.product.Product_Name}}
-                                                      </div>
-                                                      <div class="col-md-5">
-                                                        ₹{{i.product.Price}} 
-                                                        &nbsp;₹<strike class="text-muted">{{i.product.Current_Price}}</strike>
-          
-                                                      </div>
-                                                  </div>
-                                                   <a href="/products/view_?{{i.id}}" >
-          
-                                                  <div class="row m-0 pdtxt">
-                                                      Mens Formal jeans and trousers for all sizes and colors
-                                                  </div>
-                                                      <div class="row pdhed m-n dninm">
-                                                          <span class="pname">Sizes - <span class="text-dark" >xl,l,m,xxl</span> </span>
-                                                      </div>
-                                                      <div class="row pdhed dninm">
-                                                        <span class="pname">Colors - <span class="text-dark" >xl,l,m,xxl</span></span>
+                        <div class="col-md-4 col-sm-4 col-6 col-lg-3 p-1 product_crd border mb-2 offset-md-1">
+                            {% if i.id in wishlist %}
+                            <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
+                              class="fa fa-heart liked"></i>
+                            {% else %}
+                            <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})"
+                              class="fa fa-heart"></i>
+                            {% endif %}
+                            <a href="/products/view_?{{i.id}}" >
+                            <img src="{{i.product.image.url}}" alt="Image" class="pc_img border p-1"></a>
+                            <div class="container-fluid pdesc m-0 pb-1 pl-3">
+                                                    <div class="row px-0 justify-content-around">
+                                                        <div class="col-md-7 col-6 ellp pname ellp p-0 pl-1">
+                                                            {{i.product.Product_Name}}
+                                                        </div>
+                                                        <div class="col-md-5 col-6 p-0 pricer text-success font-weight-bold ">
+                                                          ₹{{i.product.Price}} 
+                                                          &nbsp;<strike class="text-muted">₹{{i.product.Current_Price}}</strike>
+              
+                                                        </div>
                                                     </div>
-                                                    </a>
-          
+                                                    <div class="row m-0 pdtxt w-100">Mens Formal jeans 
+                                                  </div>
+                                                     
+              
+                                                </div>
                                               </div>
-                                            </div>
                         {% endfor %}
                     </div>  
                 </div>

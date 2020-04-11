@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse ,JsonResponse
 from django.core import serializers
 from .models import *
-from products.models import Color_variation
+from products.models import *
 from offers.models import Promocodes
 from orderprocessing.models import Checkout
 from django.db.models import Sum
@@ -96,10 +96,11 @@ def show_cart(request):
     if cart_total == total:
         cart_total = None
         cashback = None
-    print(nav_product_dict)
+    main_cat_nav = MainCategory.objects.all().distinct()
+    print(main_cat_nav)
     return render(request,'cart.html',{'cart_products':prod_dict_list,"total":total,
     "cart_count":cart_count,"promocodes":promo_obj,"promocode":promocode,
-    "total_after_cb":cart_total,"cashback":cashback,"products":nav_product_dict})
+    "total_after_cb":cart_total,"cashback":cashback,"nav_products":nav_product_dict,"main_cat_nav":main_cat_nav})
 
 def update_cart(request):
     cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()

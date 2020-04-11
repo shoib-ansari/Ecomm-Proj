@@ -107,17 +107,17 @@
 
 
 
-        
+
 
         <!--  ============= CAROUSEL START HERE ============ -->
-            <br />
-            <div class="owl-carousel owl-m">
+        <br />
+        <div class="owl-carousel owl-m">
             <!-- <________________________ CAROUSEL START __________________________________ -->
-            
-                    {% for i in main_header %} 
-                        <div class="fit">
-                            {% if i|verbose_name == 'final_cat' %}
-                            <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}" class="fit">
+
+            {% for i in main_header %}
+            <div class="fit">
+                {% if i|verbose_name == 'final_cat' %}
+                <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}" class="fit">
                             {% elif i|verbose_name == 'Main Categories' %}
                             <a href="products/sub_productsinM_of{{i.id}}">
                             {% elif i|verbose_name == 'Offers' %}
@@ -126,33 +126,88 @@
                             <a href="/products/sub_productsin{{i.id}}">
                             {% endif %}
                             <img src="/media/{{i.image}}" class="d-block w-100" data-interval="10000">
-                            </a> 
-                        </div>
-                        {% endfor %}
-                    
-                    <!-- ___________________________CAROUSEL ENDS ________________________________ -->
+                            </a>
             </div>
+            {% endfor %}
+
+            <!-- ___________________________CAROUSEL ENDS ________________________________ -->
+        </div>
 
 
-            <div class="site-section mt-4">
-                <div class="container" data-aos="fade-up">
-                    <div class="row">
-                        <div class="title-section text-center col-12">
-                            <h2 class="text-uppercase cathead">The Collections</h2>
-                        </div>
+        <div class="site-section mt-4">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="title-section text-center col-12">
+                        <h2 class="text-uppercase cathead">The Collections</h2>
                     </div>
-                    <div class="row p-0">
-                        <div class="col-md-12 block-3 products-wrap sub_car px-1">
-                            <div class="nonloop-block-3 owl-carousel sub_car1">
-                                {% for i in sub_header %}
-                                <div class="product">
-                                    {% if i|verbose_name == 'final_cat' %}
-                                    <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
+                </div>
+                <div class="row p-0">
+                    <div class="col-md-12 block-3 products-wrap sub_car px-1">
+                        <div class="nonloop-block-3 owl-carousel sub_car1">
+                            {% for i in sub_header %}
+                            <div class="product">
+                                {% if i|verbose_name == 'final_cat' %}
+                                <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
                                         {% else %}
                                         <a href="{{i|verbose_name}}{{i.id}}">
                                         {% endif %}
                                         <img src="/media/{{i.image}}" alt="Image" class="img-fluid">
                                     </a>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION START   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+            <div>
+                {% for i in categories %}
+                <div class="container mt-5 h_cat f_cnt" data-aos="fade-up" data-aos-duration="1500">
+                    <h1 class="row justify-content-center mt-3 w-100 cathead">{{i.heading}}</h1>
+                    <center>{{i.sub_heading}}</center>
+                    <div class="row justify-content-between pt-4 w-100 m-0">
+                        <div class="col-md-6 col-sm-6 mt-2 catimgd">
+                            <a href="{{i.link_one}}" class="fit">
+                                <img src="{{i.Image_one.url}}" alt="Image" class="img-fluid fit" />
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-sm-6 mt-2 catimgd">
+                            <a href="{{i.link_two}}" class="fit">
+                                <img src="{{i.Image_two.url}}" alt="Image" class="img-fluid fit" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+
+
+
+            <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES_SET SECTION START   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+            <div class="container-fluid mt-5">
+                {% for i in category_set %}
+                <div class="container" data-aos="fade-up">
+                    <div class="row">
+                        <div class="title-section text-center col-12">
+                            <h2 class="text-uppercase cathead">{{i.title}}</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 block-3 products-wrap sub_car">
+                            <div class="nonloop-block-3 owl-carousel sub_car1">
+                                {% for j in i.group.all %}
+                                <div class="product car_prod">
+                                    <a href="/products/cat_Set?{{j.id}}">
+                                        <img src="{{j.Image.url}}" alt="Image" class="img-fluid">
+                                    </a>
+                                    <div class="grp_name">
+                                        {{j.heading}}
+                                    </div>
                                 </div>
                                 {% endfor %}
 
@@ -160,524 +215,490 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+            </div>
+            <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES_SET SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
-                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION START   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-                <div>
-                    {% for i in categories %}
-                    <div class="container mt-5 h_cat f_cnt" data-aos="fade-up" data-aos-duration="1500">
-                        <h1 class="row justify-content-center mt-3 w-100 cathead">{{i.heading}}</h1>
-                        <center>{{i.sub_heading}}</center>
-                        <div class="row justify-content-between pt-4 w-100 m-0">
-                            <div class="col-md-6 col-sm-6 mt-2 catimgd">
-                                <a href="{{i.link_one}}" class="fit">
-                                    <img src="{{i.Image_one.url}}" alt="Image" class="img-fluid fit" />
-                                </a>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mt-2 catimgd">
-                                <a href="{{i.link_two}}" class="fit">
-                                    <img src="{{i.Image_two.url}}" alt="Image" class="img-fluid fit" />
-                                </a>
+
+
+
+
+
+            <!-- <<<<<<<<<<<<<<<<<<<<<<<<<  SELF CREATED CATEGORIES SECTION STARTS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+            <!--                <div class="container-fluid pt-5">     -->
+            <!--                    <h1>{{total_groups}}</h1>-->
+            <!--                    <div class="container slf_grp">-->
+            <!--                        <div class="row justify-content-between">-->
+            <!--                            {% for sub_group in groups %}-->
+            <!--                            <div class="col-md-6 col-sm-6 mt-3 catimgd" data-aos="fade-up" data-aos-duration="1500">-->
+            <!--                                <span class="cat_text">{{sub_group.0.heading}}</span>-->
+            <!--                                <a href="/products/self_categoriesin{{sub_group.0.id}}" class="fit">-->
+            <!--                                <img src="{{sub_group.0.Image.url}}" alt="" srcset="" class="img-fluid">-->
+            <!--                                </a>   -->
+            <!--                            </div>-->
+            <!--                            {% endfor %}-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                    </div>-->
+
+            <!-- <<<<<<<<<<<<<<<<<<<<<<<<<  SELF CREATED CATEGORIES SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+
+
+
+
+
+            {% if suggestions %}
+            <div class="site-section">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="title-section text-center col-12">
+                            <h2 class="text-uppercase cathead">Products you may like</h2>
+                        </div>
+                    </div>
+                    <div class="row" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="5000">
+                        <div class="col-md-12 block-3 products-wrap">
+                            <div class="nonloop-block-3 owl-carousel">
+                                {% for i in suggestions %}
+                                <div class="product" data-aos="fade-up" data-aos-duration="1500">
+                                    <a href="/products/view_?{{i.id}}" class="item p-2">
+                                        <img src="/media/{{i.image}}" alt="Image" class="img-fluid car_img" />
+                                        <div class="container-fluid pndd">
+                                            <div class="row ">{{i.Product_Name}}</div>
+                                            <!-- <span class="row ">Summer Collection</span> -->
+                                            <strong class="row ">${{i.Current_Price}}</strong>
+                                        </div>
+                                    </a>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+
+            <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS STARTS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+            <div class="container mt-3">
+                <h2 class="row justify-content-center cathead my-4">RELATED PRODUCTS</h2>
+
+            </div>
+
+
+            <div class="container ftrp m-auto p-0">
+                <div class="row w-100 justify-content-around m-0">
+                    {% for i in featured_prods %}
+
+
+                    <div class="col-md-4 col-sm-4 col-6 col-lg-3 p-2 mb-2">
+                        <div class="product_crd border ">
+                            <a href="/products/view_?{{i.id}}">
+                                <img src="{{i.product.image.url}}" alt="Image" class="pc_img p-1"></a>
+                            <div class="container-fluid pdesc m-0 pb-1 pl-3 px-4">
+                                <div class="row px-0 justify-content-between">
+                                    <div class="col-md-7 col-6 ellp pname ellp p-0 pl-1 ">
+                                        {{i.product.Product_Name}}
+                                    </div>
+                                    <div class="col-md-5 col-6 p-0 pricer text-success font-weight-bold ">
+                                        ₹{{i.product.Price}} &nbsp;
+                                        <strike class="text-muted">₹{{i.product.Current_Price}}</strike>
+
+                                    </div>
+                                </div>
+                                <div class="row m-0 pdtxt w-100">Mens Formal jeans
+                                </div>
+
+
+                            </div>
+                        </div>
+
                     </div>
                     {% endfor %}
                 </div>
-                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+            </div>
+
+
+            <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS ENDS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
 
 
-
-                                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES_SET SECTION START   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-                                
-                                <div class="container-fluid mt-5">
-                                    {% for i in category_set %}
-                                    <div class="container" data-aos="fade-up">
-                                        <div class="row">
-                                            <div class="title-section text-center col-12">
-                                                <h2 class="text-uppercase cathead">{{i.title}}</h2>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12 block-3 products-wrap sub_car">
-                                                <div class="nonloop-block-3 owl-carousel sub_car1">
-                                                    {% for j in i.group.all %}
-                                                    <div class="product car_prod">
-                                                            <a href="/products/cat_Set?{{j.id}}">
-                                                                <img src="{{j.Image.url}}" alt="Image" class="img-fluid">
-                                                            </a>
-                                                        <div class="grp_name">
-                                                            {{j.heading}}
-                                                        </div>
-                                                    </div>
-                                                    {% endfor %}
-                    
-                                                </div>
-                                            </div>
-                                        </div>
+            <footer class="site-footer custom-border-top" id="ftr">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <div class="block-7">
+                                <h3 class="footer-heading mb-4">About Us</h3>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates sed dolorum excepturi iure eaque, aut unde.
+                                </p>
+                            </div>
+                            <div class="block-7">
+                                <form action="#" method="post">
+                                    <label for="email_subscribe" class="footer-heading">Subscribe</label>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email" />
+                                        <input type="submit" class="btn btn-sm btn-primary" value="Send" />
                                     </div>
-                                    {% endfor %}
-                                </div>
-                                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<   CATEGORIES_SET SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
-
-
-
-
-               
-                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<  SELF CREATED CATEGORIES SECTION STARTS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
-<!--                <div class="container-fluid pt-5">     -->
-<!--                    <h1>{{total_groups}}</h1>-->
-<!--                    <div class="container slf_grp">-->
-<!--                        <div class="row justify-content-between">-->
-<!--                            {% for sub_group in groups %}-->
-<!--                            <div class="col-md-6 col-sm-6 mt-3 catimgd" data-aos="fade-up" data-aos-duration="1500">-->
-<!--                                <span class="cat_text">{{sub_group.0.heading}}</span>-->
-<!--                                <a href="/products/self_categoriesin{{sub_group.0.id}}" class="fit">-->
-<!--                                <img src="{{sub_group.0.Image.url}}" alt="" srcset="" class="img-fluid">-->
-<!--                                </a>   -->
-<!--                            </div>-->
-<!--                            {% endfor %}-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    </div>-->
-
-                <!-- <<<<<<<<<<<<<<<<<<<<<<<<<  SELF CREATED CATEGORIES SECTION ENDS   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
-
-
-
-
-
-                {% if suggestions %}
-                <div class="site-section">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="title-section text-center col-12">
-                                <h2 class="text-uppercase cathead">Products you may like</h2>
+                                </form>
                             </div>
                         </div>
-                        <div class="row" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="5000">
-                            <div class="col-md-12 block-3 products-wrap">
-                                <div class="nonloop-block-3 owl-carousel">
-                                    {% for i in suggestions %}
-                                    <div class="product" data-aos="fade-up" data-aos-duration="1500">
-                                        <a href="/products/view_?{{i.id}}" class="item p-2">
-                                            <img src="/media/{{i.image}}" alt="Image" class="img-fluid car_img" />
-                                            <div class="container-fluid pndd">
-                                                <div class="row ">{{i.Product_Name}}</div>
-                                                <!-- <span class="row ">Summer Collection</span> -->
-                                                <strong class="row ">${{i.Current_Price}}</strong>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    {% endfor %}
+                        <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="footer-heading mb-4">Quick Links</h3>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
-               
-
-                <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS STARTS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-                <div class="container mt-3">
-                <h2 class="row justify-content-center cathead">Related products</h2>
-                    
-                </div>
-
-
-                <div class="container ftrp m-auto p-0">
-                    <div class="row w-100 justify-content-around m-0">
-                        {% for i in featured_prods %}
-                 
-              
-                        <div class="col-md-4 col-sm-4 col-6 col-lg-3 p-1 product_crd border mb-2 offset-md-1">
-                            {% if i.id in wishlist %}
-                            <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})"
-                              class="fa fa-heart liked"></i>
-                            {% else %}
-                            <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})"
-                              class="fa fa-heart"></i>
-                            {% endif %}
-                            <a href="/products/view_?{{i.id}}" >
-                            <img src="{{i.product.image.url}}" alt="Image" class="pc_img border p-1"></a>
-                            <div class="container-fluid pdesc m-0 pb-1 pl-3">
-                                                    <div class="row px-0 justify-content-around">
-                                                        <div class="col-md-7 col-6 ellp pname ellp p-0 pl-1">
-                                                            {{i.product.Product_Name}}
-                                                        </div>
-                                                        <div class="col-md-5 col-6 p-0 pricer text-success font-weight-bold ">
-                                                          ₹{{i.product.Price}} 
-                                                          &nbsp;<strike class="text-muted">₹{{i.product.Current_Price}}</strike>
-              
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-0 pdtxt w-100">Mens Formal jeans 
-                                                  </div>
-                                                     
-              
-                                                </div>
-                                              </div>
-                        {% endfor %}
-                    </div>  
-                </div>
-
-
-                <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS ENDS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
-
-
-                <footer class="site-footer custom-border-top" id="ftr">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                                <div class="block-7">
-                                    <h3 class="footer-heading mb-4">About Us</h3>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates sed dolorum excepturi iure eaque, aut unde.
-                                    </p>
-                                </div>
-                                <div class="block-7">
-                                    <form action="#" method="post">
-                                        <label for="email_subscribe" class="footer-heading">Subscribe</label>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email" />
-                                            <input type="submit" class="btn btn-sm btn-primary" value="Send" />
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h3 class="footer-heading mb-4">Quick Links</h3>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4">
-                                        <ul class="list-unstyled">
-                                            <li><a href="#">Sell online</a></li>
-                                            <li><a href="#">Features</a></li>
-                                            <li><a href="#">Shopping cart</a></li>
-                                            <li><a href="#">Store builder</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4">
-                                        <ul class="list-unstyled">
-                                            <li><a href="#">Mobile commerce</a></li>
-                                            <li><a href="#">Dropshipping</a></li>
-                                            <li><a href="#">Website development</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4">
-                                        <ul class="list-unstyled">
-                                            <li><a href="#">Point of sale</a></li>
-                                            <li><a href="#">Hardware</a></li>
-                                            <li><a href="#">Software</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-lg-3">
-                                <div class="block-5 mb-5">
-                                    <h3 class="footer-heading mb-4">Contact Info</h3>
+                                <div class="col-md-6 col-lg-4">
                                     <ul class="list-unstyled">
-                                        <li class="address">
-                                            203 Fake St. Mountain View, San Francisco, California, USA
-                                        </li>
-                                        <li class="phone">
-                                            <a href="tel://23923929210">+2 392 3929 210</a>
-                                        </li>
-                                        <li class="email">emailaddress@domain.com</li>
+                                        <li><a href="#">Sell online</a></li>
+                                        <li><a href="#">Features</a></li>
+                                        <li><a href="#">Shopping cart</a></li>
+                                        <li><a href="#">Store builder</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Mobile commerce</a></li>
+                                        <li><a href="#">Dropshipping</a></li>
+                                        <li><a href="#">Website development</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Point of sale</a></li>
+                                        <li><a href="#">Hardware</a></li>
+                                        <li><a href="#">Software</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </footer>
-            </div>
 
-
-            <div id="logindiv" style="display: none ;">
-                <div class="modal text-dark ">
-                    <div class="close p-3">
-                        X
-                    </div>
-                    <form method="post" id="loginform" action="/login" >
-                        {% csrf_token %}
-                        <div class="heading">
-                            <p class="text-center mb-3 pt-2">Login</p>
-                        </div>
-                        <div class="form-group">
-                            <div id="uname" data-tip="Username not found ">
-                                <input type="text" class="form-control " id="name" name="username"  required>
-                                <label for="name" class="lbl">Name</label>
-
+                        <div class="col-md-6 col-lg-3">
+                            <div class="block-5 mb-5">
+                                <h3 class="footer-heading mb-4">Contact Info</h3>
+                                <ul class="list-unstyled">
+                                    <li class="address">
+                                        203 Fake St. Mountain View, San Francisco, California, USA
+                                    </li>
+                                    <li class="phone">
+                                        <a href="tel://23923929210">+2 392 3929 210</a>
+                                    </li>
+                                    <li class="email">emailaddress@domain.com</li>
+                                </ul>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
 
+
+        <div id="logindiv" style="display: none ;">
+            <div class="modal text-dark ">
+                <div class="close p-3">
+                    X
+                </div>
+                <form method="post" id="loginform" action="/login">
+                    {% csrf_token %}
+                    <div class="heading">
+                        <p class="text-center mb-3 pt-2">Login</p>
+                    </div>
+                    <div class="form-group">
+                        <div id="uname" data-tip="Username not found ">
+                            <input type="text" class="form-control " id="name" name="username" required>
+                            <label for="name" class="lbl">Name</label>
+
+                        </div>
+
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="form-group">
+                        <div id="pwd" data-tip="Incorrect Password ">
+                            <input type="password" name="pwd" class="form-control  " id="pswd" required>
+                            <label for="pwd" class="lbl">Password</label>
                             <span class="focus-border"></span>
                         </div>
-                        <div class="form-group">
-                            <div id="pwd" data-tip="Incorrect Password ">
-                                <input type="password" name="pwd" class="form-control  " id="pswd"  required>
-                                <label for="pwd" class="lbl">Password</label>
-                                <span class="focus-border"></span>
-                            </div>
-                            <div class="row justify-content-end mr-2">
-                                <a href="/forgot_pwd" class="text-primary">
+                        <div class="row justify-content-end mr-2">
+                            <a href="/forgot_pwd" class="text-primary">
                                     Forgot Password ?
                                 </a>
-                            </div>
                         </div>
-                        <br />
-                        <div class="row">
-                            <button type="submit" id="loginbtn" class="btn btn-outline-primary col-md-9" style="margin: auto; border-radius: 50px;">
+                    </div>
+                    <br />
+                    <div class="row">
+                        <button type="submit" id="loginbtn" class="btn btn-outline-primary col-md-9" style="margin: auto; border-radius: 50px;">
                                 <h6 class="pt-1"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                     style="display: none;"></span> &nbsp;login</h6>
                             </button>
-                        </div>
-                        <div class="row justify-content-center ">
-                            <p class="small mt-2">
-                                New to Clothing Mart ?
-                                <span id="registbtn" class="text-primary" style="cursor: pointer;">Register Here</span>
-                            </p>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="row justify-content-center ">
+                        <p class="small mt-2">
+                            New to Clothing Mart ?
+                            <span id="registbtn" class="text-primary" style="cursor: pointer;">Register Here</span>
+                        </p>
+                    </div>
+                </form>
 
-                    <form method="post" id="registform" style="display: none;">
-                        {% csrf_token %}
-                        <div class="heading">
-                            <h4 class="text-center  pt-2">Register</h4>
+                <form method="post" id="registform" style="display: none;">
+                    {% csrf_token %}
+                    <div class="heading">
+                        <h4 class="text-center  pt-2">Register</h4>
+                    </div>
+                    <div class="form-group">
+                        <div id="registername" data-tip="UserName Allready Exist">
+                            <input type="text" class="form-control" id="rname" name="username" aria-describedby="emailHelp" required />
+                            <label for="rname">Username</label>
                         </div>
-                        <div class="form-group">
-                            <div id="registername" data-tip="UserName Allready Exist">
-                                <input type="text" class="form-control" id="rname" name="username" aria-describedby="emailHelp"  required />
-                                <label for="rname">Username</label>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" name="useremail" aria-describedby="emailHelp" required />
+                        <label for="email">email</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="number" aria-describedby="emailHelp" name="contactnum" required />
+                        <label for="number">Mobile</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="pwd" class="form-control" id="rgpwd" required />
+                        <label for="rgpwd">Password</label>
+                    </div>
+                    <div class="form-group">
+                        <div id="confirmpwd" data-tip="Password Not Matched">
+                            <input type="password" name="pwd2" class="form-control" id="confpwd" required />
+                            <label for="confpwd">Confirm Password</label>
                         </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="email" name="useremail" aria-describedby="emailHelp"  required />
-                            <label for="email">email</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" class="form-control" id="number" aria-describedby="emailHelp" name="contactnum" required />
-                            <label for="number">Mobile</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" name="pwd" class="form-control" id="rgpwd"  required />
-                            <label for="rgpwd">Password</label>
-                        </div>
-                        <div class="form-group">
-                            <div id="confirmpwd" data-tip="Password Not Matched">
-                                <input type="password" name="pwd2" class="form-control" id="confpwd"  required />
-                                <label for="confpwd">Confirm Password</label>
-                            </div>
-                        </div>
-                        <!-- <div class="form-group">
+                    </div>
+                    <!-- <div class="form-group">
                             <div id="confirmpwd" data-tip="Password Not Matched">
                                 <input type="password" name="pwd2" class="form-control" id="confpwd" >
                                 <label for="confpwd">Confirm Password</label>
                             </div>
                         </div> -->
-                        <p class="small">
-                            Already a member
-                            <span id="loginfbtn" class="text-primary" style="cursor: pointer;">
+                    <p class="small">
+                        Already a member
+                        <span id="loginfbtn" class="text-primary" style="cursor: pointer;">
                             Login Here</span>
-                        </p>
-                        <br />
-                        <div class="row">
-                            <button type="submit" class="btn btn-primary col-md-9" id="regbtn" style="margin: auto; border-radius: 50px;">
+                    </p>
+                    <br />
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary col-md-9" id="regbtn" style="margin: auto; border-radius: 50px;">
                                 <h6 class="pt-1"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                     style="display: none;"></span> Register</h6>
                             </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-            <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-            <script src="{% static 'js/jquery-ui.js' %}"></script> 
-            <script src="{% static 'js/popper.min.js' %}"></script>
-            <script src="{% static 'js/bootstrap.min.js' %}"></script>
-            <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-            <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-            <script src="{% static 'js/aos.js' %}"></script>
-            <script src="{% static 'js/main.js' %}"></script>
-      
-            
+        </div>
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'js/aos.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+
+
 
         </form>
 
-            <script>
+        <script>
+            $('.owl-m').owlCarousel({
+                loop: false,
+                margin: 20,
+                nav: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 1
+                    },
+                    1000: {
+                        items: 1
+                    }
+                }
+            });
+            $('.sub_car1').owlCarousel({
+                autoplay: false,
+                autoplayTimeout: 2500,
+                autoplayHoverPause: true,
+                loop: true,
+                margin: 15,
+                nav: true,
+                responsive: {
+                    0: {
+                        items: 3
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            });
 
-                $('.owl-m').owlCarousel({
-                    loop: false,
-                    margin: 20,
-                    nav: true,
-                    responsive: {
-                        0: {
-                            items: 1
-                        },
-                        600: {
-                            items: 1
-                        },
-                        1000: {
-                            items: 1
+            $(function() {
+                $(".icon-user-o").click(function() {
+                    $("#logindiv").fadeIn(200);
+                });
+                $("#registbtn").click(function() {
+                    $("#loginform").hide(300);
+                    $("#registform").fadeIn(1000);
+                });
+                $("#loginfbtn").click(function() {
+                    $("#registform").hide(300);
+                    $("#loginform").fadeIn(1000);
+                });
+                $(".close").click(function() {
+                    $("#logindiv").fadeOut(200);
+                });
+                // $("body").not('#loginform,#registform').click(function(){
+                //     $("#logindiv").fadeOut(200);
+                // });
+            });
+        </script>
+
+        <!-- function to call ajax to check login Starts -->
+
+        <script>
+            $("#loginform").submit(function(e) {
+
+                $('#unametip').attr('id', 'uname');
+                $('#pwdtip').attr('id', 'pwd');
+
+                e.preventDefault();
+                var token = '{{csrf_token}}';
+                var usernametemp = document.getElementById("name").value;
+                var passwordtemp = document.getElementById("pswd").value;
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": token
+                    },
+                    type: "POST",
+                    url: "/checkuserlogin",
+                    data: {
+                        usernamedata: usernametemp,
+                        passworddata: passwordtemp
+                    },
+                    beforeSend: function() {
+                        $('.spinner-border').show();
+                    },
+                    success: function(data) {
+                        $('.spinner-border').hide();
+                        if (data == 'Login granted') {
+                            document.location.href = "/"
+                        } else {
+                            if (data == 'Username not availabe') {
+                                $('#uname').attr('id', 'unametip');
+                            } else if (data == 'Incorrect Password') {
+                                $('#pwd').attr('id', 'pwdtip');
+                            }
                         }
                     }
-                });
-                $('.sub_car1').owlCarousel({
-                    autoplay:false,
-                    autoplayTimeout:2500,
-                    autoplayHoverPause:true,
-                    loop: true,
-                    margin:15,
-                    nav: true,
-                    responsive: {
-                        0: {
-                            items: 3
-                        },
-                        600: {
-                            items: 3
-                        },
-                        1000: {
-                            items: 5
-                        }
-                    }
+
                 });
 
-                $(function() {
-                    $(".icon-user-o").click(function() {
-                        $("#logindiv").fadeIn(200);
-                    });
-                    $("#registbtn").click(function() {
-                        $("#loginform").hide(300);
-                        $("#registform").fadeIn(1000);
-                    });
-                    $("#loginfbtn").click(function() {
-                        $("#registform").hide(300);
-                        $("#loginform").fadeIn(1000);
-                    });
-                    $(".close").click(function() {
-                        $("#logindiv").fadeOut(200);
-                    });
-                    // $("body").not('#loginform,#registform').click(function(){
-                    //     $("#logindiv").fadeOut(200);
-                    // });
-                });
-            </script>
+            });
+        </script>
 
-            <!-- function to call ajax to check login Starts -->
+        <!-- function to call ajax to check login Ends-->
 
-            <script>
-                $("#loginform").submit(function(e) {
 
-                    $('#unametip').attr('id', 'uname');
-                    $('#pwdtip').attr('id', 'pwd');
+        <!-- ajax function to check username allready exists starts  -->
 
-                    e.preventDefault();
+
+        <script>
+            $("#registform").submit(function(e) {
+
+                e.preventDefault();
+
+                $('#unametip').attr('id', 'confirmpwd');
+                $('#unametip').attr('id', 'registername');
+
+                var password = document.getElementById("rgpwd").value;
+                var conformpassword = document.getElementById("confpwd").value;
+
+                if (password != conformpassword) {
+                    // alert("password doesnot matched");
+                    $('#confirmpwd').attr('id', 'unametip');
+
+                } else {
                     var token = '{{csrf_token}}';
-                    var usernametemp = document.getElementById("name").value;
-                    var passwordtemp = document.getElementById("pswd").value;
+                    var name = document.getElementById("rname").value;
+                    var contact = document.getElementById("number").value;
+                    var email = document.getElementById("email").value;
+
                     $.ajax({
                         headers: {
                             "X-CSRFToken": token
                         },
                         type: "POST",
-                        url: "/checkuserlogin",
+                        url: "/register",
                         data: {
-                            usernamedata: usernametemp,
-                            passworddata: passwordtemp
+                            namedata: name,
+                            passworddata: password,
+                            emaildata: email,
+                            contactdata: contact
                         },
                         beforeSend: function() {
                             $('.spinner-border').show();
                         },
                         success: function(data) {
                             $('.spinner-border').hide();
-                            if (data == 'Login granted') {
-                                document.location.href = "/"
+                            if (data == "Username allready exists") {
+                                $('#registername').attr('id', 'unametip');
                             } else {
-                                if (data == 'Username not availabe') {
-                                    $('#uname').attr('id', 'unametip');
-                                } else if (data == 'Incorrect Password') {
-                                    $('#pwd').attr('id', 'pwdtip');
-                                }
+                                document.location.href = "/"
                             }
                         }
 
                     });
 
-                });
-            </script>
-
-            <!-- function to call ajax to check login Ends-->
+                }
 
 
-            <!-- ajax function to check username allready exists starts  -->
+            });
+        </script>
 
-
-            <script>
-                $("#registform").submit(function(e) {
-
-                    e.preventDefault();
-
-                    $('#unametip').attr('id', 'confirmpwd');
-                    $('#unametip').attr('id', 'registername');
-
-                    var password = document.getElementById("rgpwd").value;
-                    var conformpassword = document.getElementById("confpwd").value;
-
-                    if (password != conformpassword) {
-                        // alert("password doesnot matched");
-                        $('#confirmpwd').attr('id', 'unametip');
-
-                    } else {
-                        var token = '{{csrf_token}}';
-                        var name = document.getElementById("rname").value;
-                        var contact = document.getElementById("number").value;
-                        var email = document.getElementById("email").value;
-
-                        $.ajax({
-                            headers: {
-                                "X-CSRFToken": token
-                            },
-                            type: "POST",
-                            url: "/register",
-                            data: {
-                                namedata: name,
-                                passworddata: password,
-                                emaildata: email,
-                                contactdata: contact
-                            },
-                            beforeSend: function() {
-                                $('.spinner-border').show();
-                            },
-                            success: function(data) {
-                                $('.spinner-border').hide();
-                                if (data == "Username allready exists") {
-                                    $('#registername').attr('id', 'unametip');
-                                } else {
-                                    document.location.href = "/"
-                                }
-                            }
-
-                        });
-
+        <!-- ajax function to check username allready exists Ends -->
+        <script>
+            $('#prod_search').keyup(function() {
+                $.ajax({
+                    url: '/products/search',
+                    type: 'get',
+                    data: {
+                        'query': $(this).val()
+                    },
+                    beforeSend: function() {
+                        console.log("searching......")
+                    },
+                    success: function(data) {
+                        str = ''
+                        var data_list = document.getElementById('products_list')
+                        for (i = 0; i < data.length; i++) {
+                            // console.log(data[i])
+                            str += '<option value="' + data[i] + '" />';
+                        }
+                        data_list.innerHTML = str;
                     }
-
-
-                });
-            </script>
-
-            <!-- ajax function to check username allready exists Ends -->
-            <script>
-                $('#prod_search').keyup(function() {
+                })
+            })
+            var cal = true;
+            $(window).scroll(function() {
+                var hT = $('#slf_cat').offset().top,
+                    hH = $('#slf_cat').outerHeight(),
+                    wH = $(window).height(),
+                    wS = $(this).scrollTop();
+                console.log(cal)
+                if (cal && wS > (hT + hH - wH)) {
+                    cal = false
                     $.ajax({
-                        url: '/products/search',
+                        url: 'products/get_featured_products',
                         type: 'get',
-                        data: {
-                            'query': $(this).val()
-                        },
                         beforeSend: function() {
                             console.log("searching......")
                         },
@@ -691,48 +712,25 @@
                             data_list.innerHTML = str;
                         }
                     })
-                })
-                var cal=true;
-                $(window).scroll(function() {
-                    var hT = $('#slf_cat').offset().top,
-                        hH = $('#slf_cat').outerHeight(),
-                        wH = $(window).height(),
-                        wS = $(this).scrollTop();
-                        console.log(cal)
-                    if (cal && wS > (hT+hH-wH)){
-                        cal = false
-                        $.ajax({
-                            url:'products/get_featured_products',
-                            type : 'get',
-                        beforeSend: function() {
-                            console.log("searching......")
-                        },
-                        success: function(data) {
-                            str = ''
-                            var data_list = document.getElementById('products_list')
-                            for (i = 0; i < data.length; i++) {
-                                // console.log(data[i])
-                                str += '<option value="' + data[i] + '" />';
-                            }
-                            data_list.innerHTML = str;
-                        }
-                        })
-                    }
-                    });
-    </script>
+                }
+            });
+        </script>
 
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/5e4a9676a89cda5a1886687e/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <!--End of Tawk.to Script-->
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var Tawk_API = Tawk_API || {},
+                Tawk_LoadStart = new Date();
+            (function() {
+                var s1 = document.createElement("script"),
+                    s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/5e4a9676a89cda5a1886687e/default';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+            })();
+        </script>
+        <!--End of Tawk.to Script-->
 </body>
+
 </html>

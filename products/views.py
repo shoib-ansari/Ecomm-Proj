@@ -208,12 +208,11 @@ def show_detailed_product(request):
     cart_count = 0
     if request.user.is_authenticated:
         cart_count = Cart.objects.filter(user=request.user).values('color').distinct().count()
-    
-    print("------",nav_product_dict)
+    main_cat_nav = MainCategory.objects.all().distinct()
     review_obj = Reviews.objects.filter(product=prodobj).select_related('user')
     return render(request,'shop-single.html',{"product":prodobj,"nav_products":nav_product_dict,
     "color_variation":prod_color_set,"sizes":prod_size_dict,"cart_count":cart_count,
-    "related_products":related_products,"reviews":review_obj,'main_cat':main_cat})
+    "related_products":related_products,"reviews":review_obj,'main_cat':main_cat,})
 
 def sort_products(request,prodobj,sort_criteria):
     if sort_criteria == 'lth':

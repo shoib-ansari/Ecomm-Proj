@@ -219,11 +219,21 @@
                                 <!-- <a href="/products/view_?{{i.id}}" target="_blank" class="item">
                                 <button class="vd_btn">VIEW DETAILS</button>
                                 </a> -->
+                              
                                 {% if i.id in wishlist %}
-                                <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})" class="fa fa-heart liked"></i> {% else %}
-                                <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})" class="fa fa-heart"></i> {% endif %}
-                                <a href="/products/view_?{{i.id}}">
-                                    <img src="{{i.image.url}}" alt="Image" class="pc_img p-1"></a>
+                                <i id="wish_obj_{{i.id}}" data-prod_id={{i.id}} onclick="add_to_wish(this,{{i.id}})" class="fa fa-heart liked"></i>
+                                 {% else %}
+                                <i id="wish_obj_{{i.id}}" data-prod_id="{{i.id}}" onclick="add_to_wish(this,{{i.id}})" class="fa fa-heart"></i> 
+                                {% endif %}
+                                <a href="/products/view_?{{i.id}}" class="position-relative">
+                                {% if i.available %}
+                                    <img src="{{i.image.url}}" alt="Image" class="pc_img p-1 ">
+                                {% else %}
+                                    <img src="{{i.image.url}}" alt="Image" class="pc_img p-1 stockout">
+                                    <div class="stockouttxt">Out of Stock</div>
+                                {% endif %}
+                                    
+                                </a>
                                 <div class="container-fluid pdesc m-0 pb-4 pl-3">
                                     <div class="row px-1 justify-content-between">
                                         <div class="col-md-7 col-6 ellp pname ellp p-0 pl-1">
@@ -382,9 +392,7 @@
                 document.getElementById("productsect").appendChild(main_col_div)
                 main_col_div.appendChild(anchor_main)
                     //  new to test only
-                    { %
-                        if request.user.is_authenticated %
-                    }
+                    {% if request.user.is_authenticated %}
                 inner_span.addEventListener("click", function() {
                     add_to_wish(this, prod_id);
                 })
@@ -392,13 +400,12 @@
                     if (parseInt(prod_id) == parseInt(wish[j]['fields']['product'])) {
                         inner_span.classList.add('liked')
                     }
-                } { %
-                    else %
                 }
+                 {% else %}
                 inner_span.addEventListener("click", function() {
                     alert("Login firstly")
-                }, false) { % endif %
-                }
+                }, false)
+                 {% endif %}
             }
         }
         // _______________-------------- CATEGORY FILTER --------------_______________________ //

@@ -316,13 +316,16 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .site-navbar {
-    height: max-content;
+    height: 60px;
     margin-bottom: 0px;
     z-index: 1999;
     position: fixed;
     top: 0;
     width: 100%;
-    background: #387ff1 !important;
+    background: #2193b0;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6dd5ed, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .site-navbar a {
@@ -858,10 +861,13 @@ input[type=number]::-webkit-outer-spin-button {
     /* transition-duration: ; */
 }
 
-@media(max-width:1248px) {
+@media(max-width:1248.24px) {
     .nomarp {
         margin: 0px !important;
         padding: 0px !important
+    }
+    .owl-m{
+        margin-top: -5px !important;
     }
     .site-blocks-cover {
         height: 100%;
@@ -914,6 +920,14 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+@media(max-width:991.24px){
+    .site-navbar{
+        height: 47px;
+    }
+    .owl-m{
+        margin-top: -18px !important;
+    }
+}
 .site-blocks-cover h1 {
     font-size: 50px;
     font-weight: 900;
@@ -1182,7 +1196,10 @@ input[type=number]::-webkit-outer-spin-button {
 .block-3 .owl-stage {
     padding-bottom: 10px;
 }
-
+.sub_car .owl-stage{
+    padding: 20px 0px;
+    overflow: visible;
+} 
 .block-3 .owl-nav .owl-prev,
 .block-3 .owl-nav .owl-next {
     position: absolute;
@@ -1585,7 +1602,6 @@ input[type=number]::-webkit-outer-spin-button {
     border-left: none;
     position: relative;
     padding-left: 0px;
-    padding-bottom: 20px;
 }
 
 .title-section.text-center h2:after {
@@ -1876,7 +1892,7 @@ figure.effect-jazz:hover p {
 
 @media(max-width:1200px) {
     #logindiv .modal {
-        width: 40% !important;
+        width: 40% ;
         left: 35%;
     }
 }
@@ -1889,6 +1905,13 @@ figure.effect-jazz:hover p {
 }
 
 @media(max-width:450px) {
+    #logindiv .modal {
+        width: 90% !important;
+        left: 10%;
+    }
+    #ratenrev{
+        padding: 25px !important;
+    }
     .ohcnt .col-lg-3 {
         margin: 0px !important;
         padding: 0px !important;
@@ -2024,7 +2047,7 @@ figure.effect-jazz:hover p {
 }
 
 .malr:hover {
-    font-size: 1.09em;
+    transform: translateX(5px);
     color: #0067f8;
     /* transform: scale(1.06); */
 }
@@ -2038,8 +2061,7 @@ figure.effect-jazz:hover p {
 }
 
 .notific:hover {
-    transform: scale(1.01);
-    box-shadow: 10px 6px 10px 5px grey;
+    box-shadow: 0px 0px 6px 0px rgb(167, 167, 167);
     cursor: pointer;
 }
 
@@ -2101,7 +2123,6 @@ figure.effect-jazz:hover p {
     font-family: auto;
     font-size: 1.1rem;
 }
-
 .liked {
     cursor: pointer;
     position: absolute;
@@ -2117,12 +2138,12 @@ figure.effect-jazz:hover p {
 .fa-heart {
     font-size: 23px;
     transition: all 400ms;
+    z-index: 4;
 }
 
 .fa-heart:hover {
-    background-color: #8B0000;
     box-shadow: 0px 0px 10px 0px rgba(189, 189, 189, 0.435);
-    transform: translateY(-3px) rotateZ(10deg)!important;
+    transform: translateY(-3px)!important;
 }
 
 
@@ -2149,6 +2170,9 @@ transform: scale(1.2) !important;
     #filters {
         flex: 2 2 20%;
         max-width: 20%;
+    }
+    #filterbtn{
+        display: none;
     }
     .productscntnr {
         flex: 2 2 79.5%;
@@ -2610,12 +2634,6 @@ transform: scale(1.2) !important;
 #logindiv input:focus {
     box-shadow: 5px 5px 5px 5px rgb(8, 54, 54);
 }
-
-#registform input {
-    color: rgb(3, 25, 25);
-    font-weight: 700;
-}
-
 #registform input::placeholder,
 #logindiv input::placeholder {
     font-weight: 600;
@@ -2721,30 +2739,39 @@ input::-webkit-calendar-picker-indicator {
 .carousel-inner img {
     height: 100%;
 }
-
 .sub_car img {
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #207dff;
-    padding: 3%;
+    border: 4px solid #207dff;
+    padding: 0px;
     height: 215px;
-    transition: 300ms;
+    transition: all 300ms;
+    transition-timing-function: ease-in-out;
+    transform-style: preserve-3d;
+    background: #2193b0;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6dd5ed, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .sub_car img:hover {
+    border: 0px solid #207dff;
     padding: 0px;
-    box-shadow: 7px 7px 7px grey;
+    box-shadow: 0px 0px 10px 1px grey;
 }
-
-.h_cat img {
-    height: 60vh;
+.catimgd{
+    height: 350px;
+}
+.catimgd img{
+    border-radius: 4px;
+    height: 100%;
     width: 100%;
     transition: all 500ms;
 }
 
-.h_cat img:hover {
-    transform: scale(1.02) rotateZ(1deg);
-    box-shadow: 10px 10px 10px grey;
+.catimgd img:hover {
+    /* transform: scale(1.02) rotateZ(1deg); */
+    box-shadow: 0px 0px 15px 0px rgb(59, 59, 59);
 }
 
 .owl-next {
@@ -2801,8 +2828,8 @@ input::-webkit-calendar-picker-indicator {
 
 /* Base for label styling */
 
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
+[type="checkbox"]:not(:checked):not(.action-select) ,
+[type="checkbox"]:checked:not(.action-select) {
     position: absolute;
     left: -9999px;
 }
@@ -2864,9 +2891,9 @@ label {
     transform: scale(1);
 }
 
-#logindiv label,
-input[type='text'],
-input[type='password'] {
+#logindiv label:not(.vTextField),
+input[type='text']:not(.vTextField),
+input[type='password']:not(.vTextField) {
     font-size: 12pt;
     padding: 8px 0px 0px 10px;
 }
@@ -2880,8 +2907,8 @@ input[type='password'] {
     border: none;
     outline: none;
     border-bottom: 1px solid grey;
-    font-size: 18px;
-    padding: 10px 10px 10px 5px;
+    font-size: 16px;
+    padding: 10px 0px 5px 15px;
     display: block;
     width: 100%;
     border: none;
@@ -2928,14 +2955,13 @@ input[type='password'] {
 }
 
 .owl-m {
-    margin-top: 34px;
+    margin-top: 33px;
     height: 75vh;
 }
 
 .owl-m .owl-nav {
-    /* height: 10% !important;
-   */
-    display: none;
+    height: 10% !important;
+    /* display: none; */
 }
 
 .fit {
@@ -3247,19 +3273,18 @@ input[type='password'] {
 }
 
 .ntcmenu {
-    background: #6a3093;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #a044ff, #6a3093);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #a044ff, #6a3093);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    color: white;
+    background: white;
+    color: rgb(85, 120, 224);
     font-weight: 300;
     max-width: fit-content;
+    border-radius: 0px;
+    max-width: 80% !important;
+    padding: 0px;
 }
 
 .ntcmenu * {
-    color: white;
+    color: rgb(85, 120, 224);
+
     transition: all 400ms;
 }
 
@@ -3272,4 +3297,45 @@ input[type='password'] {
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     padding-left: 0.8rem;
     color: white;
+}
+.stockout{
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+.stockouttxt{
+    color: white;
+    position: absolute;
+    content: "Out of stock";
+    z-index: 7;
+    font-size: 16px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: 347474;
+    padding: 2px 10px;
+    font-weight: 400;
+}
+.osbtn{
+    position: absolute;
+}
+@media(max-width:800px){
+    #logindiv .modal{
+        width: 80%;
+    }
+}
+.peye,.peyer{
+    position: absolute;
+    top: 20%;
+    right: 15px;
+    color: #1f3f5f;
+    cursor: pointer;
+}
+.fa-eye-slash{
+    display: none;
+}
+#logindiv *{
+    user-select: none;
+}
+.btnblock{
+    cursor: not-allowed !important;
 }

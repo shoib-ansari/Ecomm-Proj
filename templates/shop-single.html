@@ -263,11 +263,14 @@
                                         </span>
 
                                     </div>
-
+                                    {% if product.available %}
                                     <span onclick="check_add_cart_status()" class="btn cart-submit d-block"
                                         id="add_cart">Add
                                         to
                                         cart</span>
+                                    {% else %}
+                                    <span class="btn cart-submit d-block btnblock" id="add_cart">Add to cart</span>
+                                    {% endif %}
                                 </form>
                                
 
@@ -364,14 +367,14 @@
             <div class="container-fluid p-5" id="ratenrev">
                 <div class="sshd">
                     Customer Ratings
-                    <h1 class="pl-2">4<span class="icon-star-o ml-1" style="font-size: 1.7rem;"></span><span class="headrt" style="margin-left: 5px !important;">Avg. rating and reviews</span></h1>
+                    <h1 class="">4<span class="icon-star-o ml-1" style="font-size: 1.7rem;"></span><span class="headrt" style="margin-left: 5px !important;">Avg. rating and reviews</span></h1>
                 </div>
                 <div class="row justify-content-start">
                     <button class="rtrbt btn btn-outline-dark " id="newrevbtn">Rate or Write aReview</button>
                 </div>
-                <div class="container-fluid" id="reviewformdiv" style="display: none; overflow: hidden;">
+                <div class="container-fluid p-0" id="reviewformdiv" style="display: none; overflow: hidden;">
                     <div class="container-fluid ratediv ">
-                        <div class="row Rating mt-2">
+                        <div class="row Rating">
                             <span rat="1" class="fas icon-star"></span>
                             <span rat="2" class="fas icon-star"></span>
                             <span rat="3" class="fas icon-star"></span>
@@ -415,7 +418,8 @@
                         <div class="row w-100">
                             <div class="ratingspec">{{i.rating }}</div><span class="icon-star"></span></span> <div class="reviewname">{{i.user.first_name}}</div>, 
                         </div>
-                        <p class="row cmt my-3 reviewtext">{{i.review }}</p>
+                        <br>
+                        <p class="row w-100 pl-2 mt-0 cmt my-3 reviewtext">{{i.review }}</p>
                     </div>
                 <!-- RATING ENDS HERE -->
                 {% endfor %}
@@ -727,7 +731,7 @@
     <!-- script for rating and reviews -->
     <script>
         var p_id = document.getElementById('p_id').value
-        $('.icon-star-o').click(function () {
+        $('.icon-star').click(function () {
             rate = $(this).attr('rat')
             $.ajax({
                 url: '/products/rate',

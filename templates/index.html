@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
     <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" />
@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
+    <script defer src="{% static 'js/all.min.js' %}"></script>
 </head>
 
 <body>
@@ -27,7 +29,7 @@
                     <form action="/products/show_results" method="GET" id="src_frm">
                         <input list="products_list" class="form-control" name="query" placeholder="search Here....." id="prod_search">
                         <datalist id="products_list">
-              <!-- Datalist will append here -->
+                        <!-- Datalist will append here -->
                     </datalist>
                     </form>
                 </div>
@@ -122,7 +124,7 @@
                             <a href="products/sub_productsinM_of{{i.id}}">
                             {% elif i|verbose_name == 'Offers' %}
                             <a href="/offers/offer_products_in{{i.id}}">
-                            {% elif i|verbose_name == '/products/sub_productsin' %}
+                            {% elif i|verbose_name == 'SubCategory' %}
                             <a href="/products/sub_productsin{{i.id}}">
                             {% endif %}
                             <img src="/media/{{i.image}}" class="d-block w-100" data-interval="10000">
@@ -147,10 +149,14 @@
                             {% for i in sub_header %}
                             <div class="product">
                                 {% if i|verbose_name == 'final_cat' %}
-                                <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}">
-                                        {% else %}
-                                        <a href="{{i|verbose_name}}{{i.id}}">
-                                        {% endif %}
+                                <a href="/products/sub_productsin{{i.sub_category_id}}in{{i.id}}" class="fit">
+                                            {% elif i|verbose_name == 'Main Categories' %}
+                                            <a href="products/sub_productsinM_of{{i.id}}">
+                                            {% elif i|verbose_name == 'Offers' %}
+                                            <a href="/offers/offer_products_in{{i.id}}">
+                                            {% elif i|verbose_name == 'SubCategory' %}
+                                            <a href="/products/sub_productsin{{i.id}}">
+                                            {% endif %}
                                         <img src="/media/{{i.image}}" alt="Image" class="img-fluid">
                                     </a>
                             </div>
@@ -282,9 +288,11 @@
 
 
             <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS STARTS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-            <div class="container mt-3">
-                <h2 class="row justify-content-center cathead my-4">RELATED PRODUCTS</h2>
 
+            {% if featured_prods %}
+
+            <div class="container mt-3">
+                <h2 class="row justify-content-center cathead my-4">FEATURED PRODUCTS</h2>
             </div>
 
 
@@ -320,7 +328,7 @@
                 </div>
             </div>
 
-
+            {% endif %}
             <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FEATURED PRODUCTS ENDS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
 
@@ -414,11 +422,14 @@
 
                         <span class="focus-border"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group position-relative">
                         <div id="pwd" data-tip="Incorrect Password ">
-                            <input type="password" name="pwd" class="form-control  " id="pswd" required>
+                            <input type="password" name="pwd" class="form-control" id="pswd" required>
                             <label for="pwd" class="lbl">Password</label>
-                            <span class="focus-border"></span>
+                            <div class="peye">
+                                <i class="fa fa-eye"></i>
+                                <i class="far fa-eye-slash"></i>
+                            </div>
                         </div>
                         <div class="row justify-content-end mr-2">
                             <a href="/forgot_pwd" class="text-primary">
@@ -463,11 +474,19 @@
                     <div class="form-group">
                         <input type="password" name="pwd" class="form-control" id="rgpwd" required />
                         <label for="rgpwd">Password</label>
+                        <div class="peyer">
+                            <i class="fa fa-eye"></i>
+                            <i class="far fa-eye-slash"></i>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div id="confirmpwd" data-tip="Password Not Matched">
                             <input type="password" name="pwd2" class="form-control" id="confpwd" required />
                             <label for="confpwd">Confirm Password</label>
+                            <div class="peyer">
+                                <i class="fa fa-eye"></i>
+                                <i class="far fa-eye-slash"></i>
+                            </div>
                         </div>
                     </div>
                     <!-- <div class="form-group">
@@ -505,6 +524,33 @@
         </form>
 
         <script>
+
+            $(".peye").click(function(){
+                pwdattr = $("#pswd")
+                $(".fa-eye").toggle()
+                $(".fa-eye-slash").toggle()
+                if (pwdattr.attr("type") == "password") {
+                    pwdattr.attr("type", "text");
+                } else {
+                    pwdattr.attr("type", "password");
+                }
+            });
+
+            $(".peyer").click(function(){
+                rgpwdattr = $("#rgpwd")
+                confpwdattr = $("#confpwd")
+                $("#registform .fa-eye").toggle()
+                $("#registform .fa-eye-slash").toggle()
+                if (rgpwdattr.attr("type") == "password") {
+                    rgpwdattr.attr("type", "text");
+                    confpwdattr.attr("type", "text");
+                } else {
+                    rgpwdattr.attr("type", "password");
+                    confpwdattr.attr("type", "password");
+                }
+            });
+
+
             $('.owl-m').owlCarousel({
                 loop: false,
                 margin: 20,
@@ -540,6 +586,8 @@
                     }
                 }
             });
+
+           
 
             $(function() {
                 $(".icon-user-o").click(function() {
@@ -603,6 +651,7 @@
                 });
 
             });
+       
         </script>
 
         <!-- function to call ajax to check login Ends-->

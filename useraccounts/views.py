@@ -332,3 +332,4 @@ def send_recovery_code(request):
         ) 
         string = string + "?" + e_mail
         return HttpResponse(string)
+

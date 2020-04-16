@@ -30,7 +30,8 @@ class SubCategory(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = '/products/sub_productsin'
+        verbose_name = 'SubCategory'
+        
 # ----------------------------------------------------------------------------------------------------
 
 class FinalCategory(models.Model):
@@ -76,7 +77,7 @@ class Product(models.Model):
     rating = models.DecimalField(default=0,decimal_places=1,max_digits=5)
     total_ratings = models.IntegerField(default=0)
     offer = models.ForeignKey(Offer,on_delete=models.CASCADE,default=None,null=True,blank=True)
-
+    available  = models.BooleanField(default=True)
 
     def __str__(self):
         return self.Product_Name
@@ -89,12 +90,16 @@ class Color_variation(models.Model):
     Image_two = models.ImageField(upload_to="Product_Images",blank=True)
     Image_three = models.ImageField(upload_to="Product_Images",blank=True)
     Image_four = models.ImageField(upload_to="Product_Images",blank=True)
+    available  = models.BooleanField(default=True)
+
 # ----------------------------------------------------------------------------------------------------
 
 class Size_variation(models.Model):
     color = models.ForeignKey(Color_variation,on_delete=models.CASCADE)
     size = models.CharField(max_length=1000,blank=True)
     Quantity = models.CharField(max_length=1000)
+    available  = models.BooleanField(default=True)
+
 # ----------------------------------------------------------------------------------------------------
 
 class Reviews(models.Model):

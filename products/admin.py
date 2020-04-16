@@ -85,7 +85,7 @@ class ProductAdmin(NestedModelAdmin):
 
     class Media:
         css = {
-        # 'all': ('/static/css/style.css',)
+        'all': ('/static/css/style.css',)
          }
         js = ('/static/js/chained_dropdown.js','https://code.jquery.com/jquery-3.3.1.min.js',)
 

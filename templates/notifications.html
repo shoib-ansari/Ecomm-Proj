@@ -99,18 +99,18 @@
     <div class="site-section">
       <div class="container">
         <div class="row justify-content-center">
-          <h3 class="text-primary">Notifications <span class="icon-notifications_active"></span></h3>
+          <h4 class="cathead">Notifications <span class="icon-notifications_active"></span></h4>
           <p class="pt-2 pl-3 malr">mark all as read</p>
         </div>
         <div class="row">
           {% for i in notification %}
-          <div class="row noticard  m-2">
+          <div class="row noticard ">
             {% if i.seen_by_user == 0 %}
-            <div class="row notific unseen p-3" id="ncrd_{{i.id}}">
+            <div class="row notific unseen px-3 py-2" id="ncrd_{{i.id}}">
               {% else %}
-              <div class="row notific  p-3">
+              <div class="row notific  px-3 py-2">
                 {% endif %}
-                <h4> <span class="icon-bell-o" style="font-size: large;"></span> Notification title {{i.title}}</h4><span
+                <h5> <span class="icon-bell-o" style="font-size: large;"></span> Notification title {{i.title}}</h5><span
                   class="text-muted pl-3">{{i.date}}</span>
                 <div class="container-fluid">
                   {{i.notification}} &nbsp;<span class="mr" n_id={{i.id}}>Mark read</span>

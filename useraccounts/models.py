@@ -12,11 +12,11 @@ class User(AbstractUser):
     address = models.CharField(max_length=500,null=True)
     postal_add = models.BigIntegerField(null=True)
 
-    def __srt__(self):
+    def __str__(self):
         return self.username
 
 class SuggestTags(models.Model):
-    user = models.ForeignKey(User,on_delete='models.CASCADE')
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     tags = models.TextField(max_length=4000)
 
 class V_code(models.Model):

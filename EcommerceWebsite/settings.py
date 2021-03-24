@@ -44,6 +44,15 @@ INSTALLED_APPS = [
     'offers',
     'orderprocessing',
     'notifications',
+
+
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+
 ]
 
 SITE_ID = 1
@@ -69,8 +78,10 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                  'django.template.context_processors.request',
             ],
                     'libraries':{
             'filters': 'templatetags.filters',

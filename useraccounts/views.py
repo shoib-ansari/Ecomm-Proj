@@ -77,6 +77,7 @@ def get_suggested_products(request):
                 product_list = []
                 exception_list = ['for','in',]
                 querylist = list(set(querylist) - set(exception_list))
+                print("hiiiiiiii---------------------",querylist)
                 for i in querylist:
                     prodobj = Product.objects.filter(Q(Product_Name__icontains=i) & Q(Keywords__icontains=i)).values()
                     # prodobj is a set of products
@@ -280,12 +281,12 @@ def send_recovery_code(request):
         return HttpResponse(string)
 
 
-from jeneprocessor.jenepdf import JenePDF
+# from jeneprocessor.jenepdf import JenePDF
 
-def render_jene(request):
-    pdf_config = JenePDF("test.html", "result.pdf")
-    result = pdf_config.produce_pdf()
-    return result
+# def render_jene(request):
+#     pdf_config = JenePDF("test.html", "result.pdf")
+#     result = pdf_config.produce_pdf()
+#     return result
 
 
 
@@ -333,3 +334,13 @@ def send_recovery_code(request):
         string = string + "?" + e_mail
         return HttpResponse(string)
 
+def testview(request,name):
+    userobj = User.objects.all()
+    for i in userobj:
+        if i.first_name == 'shoib':
+            print("exist")
+
+        else:
+            print("not")
+    print(userobj)
+    return HttpResponse(name,userobj)

@@ -647,40 +647,26 @@
                             }
                         }
                     }
-
                 });
-
             });
-       
         </script>
-
         <!-- function to call ajax to check login Ends-->
-
-
         <!-- ajax function to check username allready exists starts  -->
-
-
         <script>
             $("#registform").submit(function(e) {
-
                 e.preventDefault();
-
                 $('#unametip').attr('id', 'confirmpwd');
                 $('#unametip').attr('id', 'registername');
-
                 var password = document.getElementById("rgpwd").value;
                 var conformpassword = document.getElementById("confpwd").value;
-
                 if (password != conformpassword) {
                     // alert("password doesnot matched");
                     $('#confirmpwd').attr('id', 'unametip');
-
                 } else {
                     var token = '{{csrf_token}}';
                     var name = document.getElementById("rname").value;
                     var contact = document.getElementById("number").value;
                     var email = document.getElementById("email").value;
-
                     $.ajax({
                         headers: {
                             "X-CSRFToken": token
@@ -704,12 +690,8 @@
                                 document.location.href = "/"
                             }
                         }
-
                     });
-
                 }
-
-
             });
         </script>
 
@@ -756,7 +738,7 @@
                             var data_list = document.getElementById('products_list')
                             for (i = 0; i < data.length; i++) {
                                 // console.log(data[i])
-                                str += '<option value="' + data[i] + '" />';
+                                str += '<option value="' + data[i] + '" />'+data[i]+'</option>';
                             }
                             data_list.innerHTML = str;
                         }

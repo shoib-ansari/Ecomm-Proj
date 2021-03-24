@@ -342,6 +342,12 @@ input[type=number]::-webkit-outer-spin-button {
     .owl-m {
         height: 400px !important;
     }
+    #productsect{
+        padding: 0px !important;
+    }
+    .stockouttxt{
+        font-size: 12px !important;
+    }
 }
 
 .site-navbar.position-relative {
@@ -2202,6 +2208,10 @@ transform: scale(1.2) !important;
         max-width: 98%;
         flex: 0 0 100%;
     }
+    .stockouttxt{
+        font-size: 10px !important;
+        padding: 3px 5px !important;
+    }
 }
 
 
@@ -3057,7 +3067,9 @@ input[type='password']:not(.vTextField) {
     font-weight: 300;
     text-overflow: ellipsis;
 }
-
+.bg-white{
+    background-color: #fff;
+}
 #filters {
     background-color: white;
     box-shadow: 0px 0px 14px 0px rgba(171, 171, 171, 0.673);
